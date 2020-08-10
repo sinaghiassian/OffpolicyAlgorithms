@@ -45,8 +45,9 @@ class GridWorld1D(gym.Env):
                 else utils.colorize(str(i), "blue", highlight=False)
                 for i in range(self._states_number)
             ]
-            corridor_map[self._state] = utils.colorize(corridor_map[self._state], "red", highlight=True)
-            corridor_map.append(utils.colorize("T", "green", highlight=True))
+            corridor_map.append(utils.colorize("T", "red", highlight=False))
+            corridor_map[self._state] = utils.colorize(corridor_map[self._state], "green", highlight=True)
+
             outfile.write("|".join(corridor_map) + "\n")
 
 
@@ -57,5 +58,13 @@ if __name__ == "__main__":
     env.render()
     env.step(Action.RIGHT)
     env.render()
-    env.step(Action.RETREAT)
+    env.step(Action.RIGHT)
+    env.render()
+    env.step(Action.RIGHT)
+    env.render()
+    env.step(Action.RIGHT)
+    env.render()
+    env.step(Action.RIGHT)
+    env.render()
+    env.step(Action.RIGHT)
     env.render()
