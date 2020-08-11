@@ -76,8 +76,12 @@ class FourRoomGridWorld(gym.Env):
             outfile.write('\n')
 
     def _next(self, action, x, y):
-        move = lambda x, y, next_x, next_y: (x, y) if self._grid[next_x, next_y] == BlockType.Wall.value else (
-            next_x, next_y)
+
+        def move(current_x, current_y, next_x, next_y):
+            if self._grid[next_x, next_y] == BlockType.Wall.value:
+                return current_x, current_y
+            return next_x, next_y
+
         switcher = {
             Action.DOWN: lambda x, y: move(x, y, x - 1, y),
             Action.RIGHT: lambda x, y: move(x, y, x, y + 1),
