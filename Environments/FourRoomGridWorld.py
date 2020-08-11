@@ -49,8 +49,14 @@ class FourRoomGridWorld(gym.Env):
             BlockType.Hallway.value: utils.colorize(self._fill_char, "green", highlight=True),
         }
 
-    def reset(self, random_agent_start=False):
-        self._state = (np.random.choice(self._normal_tiles[0]), np.random.choice(self._normal_tiles[1]))
+    def reset(self, random_agent_start=True, **kwargs):
+        if random_agent_start:
+            rnd = np.random.choice(len(self._normal_tiles[0]))
+            self._state = (self._normal_tiles[0][rnd], self._normal_tiles[1][rnd])
+        else:
+            assert 'x' in kwargs, 'x is required'
+            assert 'y' in kwargs, 'y is required'
+            self._state = (kwargs['x'], kwargs['y'])
         return self._state
 
     def step(self, action: Action):
@@ -70,7 +76,8 @@ class FourRoomGridWorld(gym.Env):
             outfile.write('\n')
 
     def _next(self, action, x, y):
-        move = lambda x, y, next_x, next_y: (x, y) if self._grid[next_x, next_y] == BlockType.Wall.value else (next_x, next_y)
+        move = lambda x, y, next_x, next_y: (x, y) if self._grid[next_x, next_y] == BlockType.Wall.value else (
+            next_x, next_y)
         switcher = {
             Action.DOWN: lambda x, y: move(x, y, x - 1, y),
             Action.RIGHT: lambda x, y: move(x, y, x, y + 1),
@@ -84,15 +91,15 @@ class FourRoomGridWorld(gym.Env):
 if __name__ == "__main__":
     env = FourRoomGridWorld()
     env.render()
-    # env.step(Action.RIGHT)
-    # env.render()
-    # env.step(Action.RIGHT)
-    # env.render()
-    # env.step(Action.RIGHT)
-    # env.render()
-    # env.step(Action.RIGHT)
-    # env.render()
-    # env.step(Action.RIGHT)
-    # env.render()
-    # env.step(Action.RIGHT)
-    # env.render()
+    env.step(Action.RIGHT)
+    env.render()
+    env.step(Action.RIGHT)
+    env.render()
+    env.step(Action.RIGHT)
+    env.render()
+    env.step(Action.RIGHT)
+    env.render()
+    env.step(Action.RIGHT)
+    env.render()
+    env.step(Action.RIGHT)
+    env.render()
