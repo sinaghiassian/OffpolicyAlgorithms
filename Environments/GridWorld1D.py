@@ -48,7 +48,7 @@ class GridWorld1D(gym.Env):
             corridor_map.append(utils.colorize("T", "red", highlight=False))
             corridor_map[self._state] = utils.colorize(corridor_map[self._state], "green", highlight=True)
 
-            outfile.write("|".join(corridor_map) + "\n")
+            outfile.write(f'{"|".join(corridor_map)}\n')
 
 
 if __name__ == "__main__":
