@@ -2,6 +2,17 @@ import os
 import json
 import numpy as np
 
+default_params = {
+    'agent': 'GridWorld1D',
+    'problem': 'FiveStateChainProb',
+    'feature_kind': 'dependent',
+    'environment': 'FiveStateChainEnv',
+    'meta_parameters': {
+        'alpha': [.5 ** i for i in range(4, 16)],
+        "run": 30
+    }
+}
+
 
 def find_all_experiment_configuration(experiments_path: str):
     if experiments_path.endswith('.json'):
@@ -18,17 +29,6 @@ class JobBuilder:
         with open(self._path) as f:
             self._params = json.load(f)
 
-        self._default_params = {
-            'agent': 'GridWorld1D',
-            'problem': 'FiveStateChainProb',
-            'feature_kind': 'dependent',
-            'environment': 'FiveStateChainEnv',
-            'meta_parameters': {
-                'alpha': [.5 ** i for i in range(4, 16)],
-                "run": 30
-            }
-        }
-
         self._batch_params = {
             'ALPHA': ' '.join([f'{num:.10f}' for num in self.alpha]),
             'RUN': f'0..{self.run}',
@@ -42,19 +42,19 @@ class JobBuilder:
 
     @property
     def agent(self):
-        return self._params.get('agent', self._default_params['agent'])
+        return self._params.get('agent', default_params['agent'])
 
     @property
     def problem(self):
-        return self._params.get('problem', self._default_params['problem'])
+        return self._params.get('problem', default_params['problem'])
 
     @property
     def environment(self):
-        return self._params.get('environment', self._default_params['environment'])
+        return self._params.get('environment', default_params['environment'])
 
     @property
     def feature_kind(self):
-        return self._params.get('feature_kind', self._default_params['feature_kind'])
+        return self._params.get('feature_kind', default_params['feature_kind'])
 
     @property
     def save_path(self):
@@ -63,12 +63,12 @@ class JobBuilder:
     @property
     def alpha(self):
         parameters = self._params.get('meta_parameters', {})
-        return np.asarray(parameters.get('alpha', self._default_params['meta_parameters']['alpha']))
+        return np.asarray(parameters.get('alpha', default_params['meta_parameters']['alpha']))
 
     @property
     def run(self):
         parameters = self._params.get('meta_parameters', {})
-        return np.asarray(parameters.get('run', self._default_params['meta_parameters']['run']))
+        return np.asarray(parameters.get('run', default_params['meta_parameters']['run']))
 
     def to_shell(self):
         with open('Job/SubmitJobsTemplates.SL', 'r') as f:
