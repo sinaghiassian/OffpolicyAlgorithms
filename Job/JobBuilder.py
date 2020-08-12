@@ -3,10 +3,10 @@ import json
 import numpy as np
 
 default_params = {
-    'agent': 'GridWorld1D',
-    'problem': 'FiveStateChainProb',
+    'agent': 'TD',
+    'problem': 'GridWorld1D',
     'feature_kind': 'dependent',
-    'environment': 'FiveStateChainEnv',
+    'environment': 'GridWorld1D',
     'meta_parameters': {
         'alpha': [.5 ** i for i in range(4, 16)],
         "run": 30

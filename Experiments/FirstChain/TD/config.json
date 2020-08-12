@@ -1,6 +1,6 @@
 {
   "agent": "TD",
-  "environment": "FiveStateChainEnv",
+  "environment": "GridWorld1D",
   "problem": "FiveStateChainProb",
   "feature_kind": "dependent",
   "meta_parameters": {

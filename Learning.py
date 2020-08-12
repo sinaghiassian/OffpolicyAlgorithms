@@ -1,7 +1,8 @@
 import argparse
 import numpy as np
 from Job.JobBuilder import *
-from Environments import *
+import Environments
+import importlib
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -17,8 +18,10 @@ if __name__ == '__main__':
 
     np.random.seed(args.run_number)
 
-    # root_path = os.getcwd()
-    # for file in os.listdir(f'{root_path}\\Experiments')
-    #     if file.endswith('.py'):
-    # env = getattr(globals(), 'GridWorld1D')
-    # print(env)
+    module_env = importlib.import_module(f'Environments.{args.environment}')
+    env = getattr(module_env, args.environment)()
+
+    module_alg = importlib.import_module(f'Algorithms.{args.algorithm}.{args.algorithm}')
+    #algorithm = getattr(module_alg, args.algorithm)({'alpha': args.alpha, 'GAMMA': prob.get_gamma(), 'feature_size': feature_size})
+
+    #print(algorithm)
