@@ -1,7 +1,5 @@
 import argparse
-import numpy as np
 from Job.JobBuilder import *
-import Environments
 import importlib
 
 if __name__ == '__main__':
@@ -22,6 +20,5 @@ if __name__ == '__main__':
     env = getattr(module_env, args.environment)()
 
     module_alg = importlib.import_module(f'Algorithms.{args.algorithm}.{args.algorithm}')
-    #algorithm = getattr(module_alg, args.algorithm)({'alpha': args.alpha, 'GAMMA': prob.get_gamma(), 'feature_size': feature_size})
 
-    #print(algorithm)
+
