@@ -11,7 +11,7 @@ class Action(Enum):
     RETREAT = 1
 
 
-class GridWorld1D(gym.Env):
+class Chain(gym.Env):
     def __init__(self,
                  states_number: int = 8,
                  start_state_number: int = 4,
@@ -52,7 +52,7 @@ class GridWorld1D(gym.Env):
 
 
 if __name__ == "__main__":
-    env = GridWorld1D()
+    env = Chain()
     env.render()
     env.step(Action.RIGHT)
     env.render()
