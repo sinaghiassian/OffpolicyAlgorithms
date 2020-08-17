@@ -1,5 +1,8 @@
-import argparse
+import numpy as np
 import os
+import argparse
+
+
 from Problems.ChainProb import ChainProb
 
 
