@@ -1,8 +1,7 @@
 {
   "agent": "TD",
-  "environment": "GridWorld1D",
-  "problem": "FiveStateChainProb",
-  "feature_kind": "dependent",
+  "environment": "Chain",
+  "problem": "EightStateOffPolicyRandomFeat",
   "meta_parameters": {
     "alpha": [
       0.0625,
@@ -18,6 +17,6 @@
       0.000061035,
       0.00003051757
     ],
-    "run": 40
+    "run": 30
   }
 }
