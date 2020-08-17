@@ -2,9 +2,9 @@ import numpy as np
 import os
 import argparse
 
-
-from Problems.ChainProb import ChainProb
-
+from Registry.AlgRegistry import TD
+from Registry.EnvRegistry import Chain
+from Registry.ProbRegistry import ChainProb
 
 
 if __name__ == '__main__':
