@@ -6,6 +6,8 @@ from Registry.AlgRegistry import TD
 from Registry.EnvRegistry import Chain
 from Registry.ProbRegistry import ChainProb
 
+from Job.JobBuilder import default_params
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

@@ -4,11 +4,10 @@ import numpy as np
 
 default_params = {
     'agent': 'TD',
-    'problem': 'GridWorld1D',
-    'feature_kind': 'dependent',
-    'environment': 'GridWorld1D',
+    'problem': 'ChainProb',
+    'environment': 'Chain',
     'meta_parameters': {
-        'alpha': [.5 ** i for i in range(4, 16)],
+        'alpha': [.5 ** i for i in range(4, 10)],
         "run": 30
     }
 }
@@ -34,7 +33,6 @@ class JobBuilder:
             'RUN': f'0..{self.run}',
             'ALGORITHM': self.agent,
             'ENVIRONMENT': self.environment,
-            'FEATUREKIND': self.feature_kind,
             'PROBLEM': self.problem,
             'SAVEPATH': self.save_path,
 
@@ -51,10 +49,6 @@ class JobBuilder:
     @property
     def environment(self):
         return self._params.get('environment', default_params['environment'])
-
-    @property
-    def feature_kind(self):
-        return self._params.get('feature_kind', default_params['feature_kind'])
 
     @property
     def save_path(self):
