@@ -1,1 +1,1 @@
-from Problems.ChainProb import ChainProb
+from Problems.EightStateOffPolicyRandomFeat import EightStateOffPolicyRandomFeat

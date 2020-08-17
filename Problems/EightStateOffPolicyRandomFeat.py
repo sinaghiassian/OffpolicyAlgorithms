@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class ChainProb():
+class EightStateOffPolicyRandomFeat():
     def __init__(self, n=8):
         self.N = n
         self.num_features = 6
