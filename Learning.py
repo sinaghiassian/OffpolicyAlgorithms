@@ -1,6 +1,8 @@
 import argparse
-from Job.JobBuilder import *
-import importlib
+import os
+from Problems.ChainProb import ChainProb
+
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -15,10 +17,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     np.random.seed(args.run_number)
-
-    module_env = importlib.import_module(f'Environments.{args.environment}')
-    env = getattr(module_env, args.environment)()
-
-    module_alg = importlib.import_module(f'Algorithms.{args.algorithm}.{args.algorithm}')
 
 
