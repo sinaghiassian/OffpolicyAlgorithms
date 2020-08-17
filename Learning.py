@@ -4,7 +4,7 @@ import argparse
 
 from Registry.AlgRegistry import TD
 from Registry.EnvRegistry import Chain
-from Registry.ProbRegistry import ChainProb
+from Registry.ProbRegistry import EightStateOffPolicyRandomFeat
 
 from Job.JobBuilder import default_params
 
@@ -15,12 +15,17 @@ if __name__ == '__main__':
     parser.add_argument('--algorithm', '-alg', type=str, default=default_params['agent'])
     parser.add_argument('--problem', '-p', type=str, default=default_params['problem'])
     parser.add_argument('--run_number', '-r', type=int, default=default_params['meta_parameters']['run'])
-    parser.add_argument('--feature_kind', '-f', type=str, default=default_params['feature_kind'])
     parser.add_argument('--environment', '-e', type=str, default=default_params['environment'])
     parser.add_argument('--save_path', '-sp', type=str, default='Experiments/')
-
     args = parser.parse_args()
-
     np.random.seed(args.run_number)
 
+    environment_dict = {'Chain': Chain}
+    env = environment_dict[args.environment]()
+
+    prob_dict = {'EightStateOffPolicyRandomFeat': EightStateOffPolicyRandomFeat}
+    prob = prob_dict[args.problem]()
+
+    alg_dict = {'TD': TD}
+    agent = alg_dict[args.algorithm]()
 
