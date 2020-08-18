@@ -28,14 +28,14 @@ class EightStateOffPolicyRandomFeat:
         return self.GAMMA
 
     @property
-    def get_behavior_dist(self):  # TODO: This is just a placeholder for now.
-        self.behavior_dist = np.array([0, 0, 0])
+    def get_behavior_dist(self):
+        self.behavior_dist = np.load('Resource/d_mu.npy')
         return self.behavior_dist
 
     @property
-    def get_state_value(self):  # TODO: This is just a placeholder for now.
-        self.state_values = np.array([0, 0, 0])
-        return self.behavior_dist
+    def get_state_value(self):
+        self.state_values = np.load('Resource/state_values.npy')
+        return self.state_values
 
     @property
     def get_feat_rep(self, run):
