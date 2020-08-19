@@ -35,3 +35,7 @@ if __name__ == '__main__':
     }
     agent = alg_dict[args.algorithm]()
 
+    RMSVE = np.zeros(prob.num_steps)
+    s = env.reset()
+    x = prob.get_feat_rep(args.run_number)
+
