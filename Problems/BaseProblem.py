@@ -14,6 +14,14 @@ class BaseProblem:
     def create_feature_rep(self):
         return NotImplementedError
 
+    @abstractmethod
+    def select_target_action(self, s):
+        return NotImplementedError
+
+    @abstractmethod
+    def select_behavior_action(self, s):
+        return NotImplementedError
+
     @property
     def get_num_steps(self):
         return self.num_steps
@@ -29,11 +37,3 @@ class BaseProblem:
     @property
     def get_state_value(self):
         return self.state_values
-
-    @abstractmethod
-    def select_behavior_action(self, s):
-        return NotImplementedError
-
-    @abstractmethod
-    def select_target_action(self, s):
-        return NotImplementedError
