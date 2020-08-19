@@ -1,7 +1,9 @@
 import numpy as np
 
+from Problems.BaseProblem import BaseProblem
 
-class EightStateOffPolicyRandomFeat:
+
+class EightStateOffPolicyRandomFeat(BaseProblem):
     def __init__(self, n=8):
         self.N = n
         self.num_features = 6
@@ -36,10 +38,3 @@ class EightStateOffPolicyRandomFeat:
     def get_state_value(self):
         self.state_values = np.load('Resource/state_values.npy')
         return self.state_values
-
-    @property
-    def get_feat_rep(self, run):
-        return np.load('feature_rep.npy')[:, :, run]  # Todo: Clean this up.
-        # self.create_feature_rep()
-        # return self.feature_rep
-
