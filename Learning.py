@@ -9,6 +9,12 @@ from Registry.ProbRegistry import EightStateOffPolicyRandomFeat
 from Job.JobBuilder import default_params
 
 
+def compute_rmsve(w):
+    est_value = np.dot(feature_rep, w)
+    error = (est_value - state_values) * (est_value - state_values)
+    RMSVE[step] = np.sqrt(np.sum(d_mu * error))
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--alpha', '-a', type=float, default=default_params['meta_parameters']['alpha'])
@@ -36,6 +42,9 @@ if __name__ == '__main__':
     agent = alg_dict[args.algorithm]()
 
     RMSVE = np.zeros(prob.num_steps)
+    feature_rep = prob.get_feat_rep(args.run_number)
     s = env.reset()
-    x = prob.get_feat_rep(args.run_number)
+    for step in range(prob.num_steps):
+        x = feature_rep[s, :]
+        compute_rmsve(agent.w)
 
