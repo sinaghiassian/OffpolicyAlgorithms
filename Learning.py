@@ -36,7 +36,8 @@ if __name__ == '__main__':
     alg_dict = {'TD': TD}
     alg_params = {
         'TD': {
-            'alpha': args.alpha, 'lmbda': args.lmbda, 'num_features': prob.num_features, 'GAMMA': prob.GAMMA
+            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': prob.num_features, 'GAMMA': prob.GAMMA
         }
     }
     agent = alg_dict[args.algorithm]()
