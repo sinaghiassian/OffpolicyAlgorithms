@@ -13,3 +13,9 @@ class BaseLearner:
 
     def learn(self, *args):
         raise NotImplementedError
+
+    def choose_behavior_action(self):
+        raise NotImplementedError
+
+    def choose_target_action(self):
+        raise NotImplementedError
