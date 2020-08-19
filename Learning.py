@@ -12,6 +12,7 @@ from Job.JobBuilder import default_params
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--alpha', '-a', type=float, default=default_params['meta_parameters']['alpha'])
+    parser.add_argument('-lmbda', '-l', type=float, default=default_params['lmbda'])
     parser.add_argument('--algorithm', '-alg', type=str, default=default_params['agent'])
     parser.add_argument('--problem', '-p', type=str, default=default_params['problem'])
     parser.add_argument('--run_number', '-r', type=int, default=default_params['meta_parameters']['run'])
@@ -27,5 +28,10 @@ if __name__ == '__main__':
     prob = prob_dict[args.problem]()
 
     alg_dict = {'TD': TD}
+    alg_params = {
+        'TD': {
+            'alpha': args.alpha, 'lmbda': args.lmbda, 'num_features': prob.num_features, 'GAMMA': prob.GAMMA
+        }
+    }
     agent = alg_dict[args.algorithm]()
-    
+
