@@ -1,8 +1,8 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 import numpy as np
 
 
-class BaseProblem:
+class BaseProblem(ABC):
     def __init__(self):
         self.num_steps = 5000
         self.num_features = None

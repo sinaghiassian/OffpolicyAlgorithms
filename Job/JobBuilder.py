@@ -2,6 +2,8 @@ import os
 import json
 import numpy as np
 
+from utils import ImmutableDict
+
 default_params = {
     'agent': 'TD',
     'problem': 'ChainProb',
@@ -29,7 +31,8 @@ class JobBuilder:
         with open(self._path) as f:
             self._params = json.load(f)
 
-        self._batch_params = {
+        self._batch_params = ImmutableDict()
+        {
             'ALPHA': ' '.join([f'{num:.10f}' for num in self.alpha]),
             'RUN': f'0..{self.run}',
             'ALGORITHM': self.agent,

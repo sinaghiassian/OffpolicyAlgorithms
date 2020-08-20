@@ -1,9 +1,11 @@
+from abc import ABC
+
 import numpy as np
 
 from Problems.BaseProblem import BaseProblem
 
 
-class BaseAgent:
+class BaseAgent(ABC):
     def __init__(self, problem: BaseProblem, **kwargs):
         self.problem = problem
         self.w = np.zeros(kwargs['num_features'])
