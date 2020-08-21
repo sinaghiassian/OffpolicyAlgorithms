@@ -22,14 +22,6 @@ class EightStateOffPolicyRandomFeat(BaseProblem):
             self.feature_rep[i, :] = random_arr
 
     @property
-    def get_num_steps(self):
-        return self.num_steps
-
-    @property
-    def get_gamma(self):
-        return self.GAMMA
-
-    @property
     def get_behavior_dist(self):
         self.behavior_dist = np.load('Resource/d_mu.npy')
         return self.behavior_dist

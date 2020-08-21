@@ -12,15 +12,15 @@ class BaseProblem(ABC):
 
     @abstractmethod
     def create_feature_rep(self):
-        return NotImplementedError
+        raise NotImplementedError
 
     @abstractmethod
     def select_target_action(self, s):
-        return NotImplementedError
+        raise NotImplementedError
 
     @abstractmethod
     def select_behavior_action(self, s):
-        return NotImplementedError
+        raise NotImplementedError
 
     @property
     def get_num_steps(self):
