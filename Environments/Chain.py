@@ -6,11 +6,6 @@ from enum import Enum
 from gym import utils
 
 
-class Action(Enum):
-    RIGHT = 0
-    RETREAT = 1
-
-
 class Chain(gym.Env):
     def __init__(self,
                  states_number: int = 8,
@@ -22,12 +17,14 @@ class Chain(gym.Env):
         self._start_state_number = start_state_number
         self._state = self.reset()
         self._terminal = self._states_number + 1
+        self.RIGHT_ACTION = 0
+        self.RETREAT_ACTION = 1
 
     def reset(self):
         return np.random.randint(0, self._start_state_number)
 
-    def step(self, action: Action):
-        if action == Action.RETREAT:
+    def step(self, action):
+        if action == self.RETREAT_ACTION:
             return self.reset(), 0, False, {}
 
         next_state = self._state + 1
@@ -49,22 +46,3 @@ class Chain(gym.Env):
             corridor_map[self._state] = utils.colorize(corridor_map[self._state], "green", highlight=True)
 
             outfile.write(f'{"|".join(corridor_map)}\n')
-
-
-if __name__ == "__main__":
-    env = Chain()
-    env.render()
-    env.step(Action.RIGHT)
-    env.render()
-    env.step(Action.RIGHT)
-    env.render()
-    env.step(Action.RIGHT)
-    env.render()
-    env.step(Action.RIGHT)
-    env.render()
-    env.step(Action.RIGHT)
-    env.render()
-    env.step(Action.RIGHT)
-    env.render()
-    env.step(Action.RIGHT)
-    env.render()
