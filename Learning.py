@@ -9,6 +9,12 @@ from Registry.ProbRegistry import EightStateOffPolicyRandomFeat
 from Job.JobBuilder import default_params
 
 
+def compute_rmsve(w):
+    est_value = np.dot(feature_rep, w)
+    error = (est_value - state_values) * (est_value - state_values)
+    RMSVE[step] = np.sqrt(np.sum(d_mu * error))
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--alpha', '-a', type=float, default=default_params['meta_parameters']['alpha'])
@@ -25,7 +31,7 @@ if __name__ == '__main__':
     env = environment_dict[args.environment]()
 
     prob_dict = {'EightStateOffPolicyRandomFeat': EightStateOffPolicyRandomFeat}
-    prob = prob_dict[args.problem](args.run_number)
+    prob = prob_dict[args.problem]()
 
     alg_dict = {'TD': TD}
     alg_params = {
@@ -37,13 +43,9 @@ if __name__ == '__main__':
     agent = alg_dict[args.algorithm]()
 
     RMSVE = np.zeros(prob.num_steps)
+    feature_rep = prob.get_feat_rep(args.run_number)
     s = env.reset()
     for step in range(prob.num_steps):
-        RMSVE[step] = agent.compute_rmsve()
-        a = agent.choose_behavior_action(s)
-        s_p, r, is_terminal, _ = env.step(a)
-        agent.learn(s, s_p, r)
-        if is_terminal:
-            env.reset()
-            continue
-        s = s_p
+        x = feature_rep[s, :]
+        compute_rmsve(agent.w)
+

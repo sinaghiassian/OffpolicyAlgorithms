@@ -12,24 +12,17 @@ class BaseAgent(ABC):
         self.gamma = kwargs['gamma']
         self.alpha = kwargs['alpha']
         self.lmbda = kwargs['lmbda']
-        self.state_values = self.problem.get_state_value
-        self.d_mu = self.problem.get_behavior_dist
+        self.feature_rep = np.load('feature_rep.npy')[:, :, kwargs['run']]
         self.state = -1
 
-    def compute_rmsve(self):
-        est_value = np.dot(self.problem.feature_rep, self.w)
-        error = (est_value - self.state_values)
-        error_squared = error * error
-        return np.sqrt(np.sum(self.d_mu * error_squared))
-
-    def compute_step_size(self):
+    def compute_step_size(self, transition):
         return self.alpha
 
     def choose_behavior_action(self):
-        return self.problem.select_behavior_action(self.state)
+        return self.problem.select_behavior_action(self.feature_rep[self.state, :])
 
     def choose_target_action(self):
-        return self.problem.select_target_action(self.state)
+        return self.problem.select_target_action(self.feature_rep[self.state, :])
 
     def learn(self, *args):
         raise NotImplementedError

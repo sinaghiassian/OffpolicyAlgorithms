@@ -3,18 +3,12 @@ import numpy as np
 
 
 class BaseProblem(ABC):
-    def __init__(self, run_number):
-        self.run_number = run_number
+    def __init__(self):
         self.num_steps = 5000
-        self.feature_rep = np.load('feature_rep.npy')
-        self.num_features = self.feature_rep.shape[1]
+        self.num_features = None
         self.GAMMA = None
         self.behavior_dist = None
         self.state_values = None
-
-    @abstractmethod
-    def get_state_feature_rep(self, state):
-        raise NotImplementedError
 
     @abstractmethod
     def create_feature_rep(self):
