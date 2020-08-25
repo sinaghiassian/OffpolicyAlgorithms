@@ -9,9 +9,10 @@ default_params = {
     'problem': 'EightStateOffPolicyRandomFeat',
     'environment': 'Chain',
     'meta_parameters': {
-        'alpha': [.5 ** i for i in range(4, 10)],
+        # 'alpha': [.5 ** i for i in range(4, 10)],
+        'alpha': 0.01,
         'lmbda': 0.0,
-        "run": 30
+        "run": 5
     }
 }
 
