@@ -13,7 +13,7 @@ class Chain(gym.Env):
         self._states_number = states_number
         self._start_state_number = start_state_number
         self._state = self.reset()
-        self._terminal = self._states_number + 1
+        self._terminal = self._states_number
         self.RIGHT_ACTION = 0
         self.RETREAT_ACTION = 1
 
@@ -22,7 +22,7 @@ class Chain(gym.Env):
 
     def step(self, action):
         if action == self.RETREAT_ACTION:
-            return self.reset(), 1, False, {}
+            return self.reset(), 0, True, {}
 
         next_state = self._state + 1
         if next_state == self._terminal:
