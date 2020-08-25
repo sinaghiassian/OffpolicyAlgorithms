@@ -5,10 +5,11 @@ from Problems.BaseProblem import BaseProblem
 
 
 class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
-    def __init__(self, n=8):
-        super(BaseProblem).__init__()
+    def __init__(self, run_number, n=8):
+        BaseProblem.__init__(self, run_number)
+        Chain.__init__(self)
         self.N = n
-        self.num_features = 6
+        self.num_features = self.feature_rep.shape[1]
         self.num_steps = 5000
         self.GAMMA = 0.9
         self.behavior_dist = np.zeros(self.N + 1)
@@ -23,7 +24,7 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
             self.feature_rep[i, :] = random_arr
 
     def get_state_feature_rep(self, state):
-        return self.feature_rep[state, :, self.run_number]
+        return self.feature_rep[state, :]
 
     @property
     def get_behavior_dist(self):

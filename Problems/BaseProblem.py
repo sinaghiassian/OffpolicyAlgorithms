@@ -2,11 +2,11 @@ from abc import abstractmethod, ABC
 import numpy as np
 
 
-class BaseProblem(ABC):
+class BaseProblem:
     def __init__(self, run_number):
         self.run_number = run_number
         self.num_steps = 5000
-        self.feature_rep = np.load('feature_rep.npy')
+        self.feature_rep = np.load('Resource/feature_rep.npy')[:, :, run_number]
         self.num_features = self.feature_rep.shape[1]
         self.GAMMA = None
         self.behavior_dist = None

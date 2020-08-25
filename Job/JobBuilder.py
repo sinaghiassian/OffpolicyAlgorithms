@@ -6,7 +6,7 @@ from utils import ImmutableDict
 
 default_params = {
     'agent': 'TD',
-    'problem': 'ChainProb',
+    'problem': 'EightStateOffPolicyRandomFeat',
     'environment': 'Chain',
     'meta_parameters': {
         'alpha': [.5 ** i for i in range(4, 10)],

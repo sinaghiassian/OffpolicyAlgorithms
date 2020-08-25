@@ -7,10 +7,7 @@ from gym import utils
 
 
 class Chain(gym.Env):
-    def __init__(self,
-                 states_number: int = 8,
-                 start_state_number: int = 4,
-                 **kwargs):
+    def __init__(self, states_number: int = 8, start_state_number: int = 4, **kwargs):
         assert start_state_number < states_number, "start states numbers should be less than state number"
 
         self._states_number = states_number
