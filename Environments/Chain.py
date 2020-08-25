@@ -18,15 +18,16 @@ class Chain(gym.Env):
         self.RETREAT_ACTION = 1
 
     def reset(self):
-        return np.random.randint(0, self._start_state_number)
+        self._state = np.random.randint(0, self._start_state_number)
+        return self._state
 
     def step(self, action):
         if action == self.RETREAT_ACTION:
-            return self.reset(), 0, True, {}
+            return self._terminal, 0, True, {}
 
         next_state = self._state + 1
         if next_state == self._terminal:
-            return next_state, 1, True, {}
+            return self._terminal, 1, True, {}
 
         self._state = next_state
         return self._state, 0, False, {}

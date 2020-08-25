@@ -39,16 +39,13 @@ if __name__ == '__main__':
     RMSVE = np.zeros(prob.num_steps)
     agent.state = env.reset()
     for step in range(prob.num_steps):
-        print(step)
-        if step == 7:
-            print('sina')
         RMSVE[step] = agent.compute_rmsve()
         a = agent.choose_behavior_action()
         agent.next_state, r, is_terminal, _ = env.step(a)
-        # print(agent.next_state)
-        if is_terminal:
-            env.reset()
-            continue
         agent.learn(agent.state, agent.next_state, r)
+        if is_terminal:
+            agent.state = env.reset()
+            is_terminal = False
+            continue
         agent.state = agent.next_state
     print(RMSVE)
