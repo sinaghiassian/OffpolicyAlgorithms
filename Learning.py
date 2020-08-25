@@ -40,8 +40,8 @@ if __name__ == '__main__':
     agent.state = env.reset()
     for step in range(prob.num_steps):
         RMSVE[step] = agent.compute_rmsve()
-        a = agent.choose_behavior_action()
-        agent.next_state, r, is_terminal, _ = env.step(a)
+        agent.action = agent.choose_behavior_action()
+        agent.next_state, r, is_terminal, _ = env.step(agent.action)
         agent.learn(agent.state, agent.next_state, r)
         if is_terminal:
             agent.state = env.reset()

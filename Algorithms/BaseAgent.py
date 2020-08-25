@@ -16,6 +16,7 @@ class BaseAgent:
         self.d_mu = self.problem.get_behavior_dist
         self.state = -1
         self.next_state = -1
+        self.action = -1
 
     def compute_rmsve(self):
         est_value = np.dot(self.problem.feature_rep, self.w)
