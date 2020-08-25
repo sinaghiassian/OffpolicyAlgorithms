@@ -44,3 +44,20 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
 
     def select_target_action(self, s):
         return self.RIGHT_ACTION
+
+    def get_pi(self, s, a):
+        if a == self.RIGHT_ACTION:
+            return 1
+        else:
+            return 0
+
+    def get_mu(self, s, a):
+        if s < self.N / 2:
+            if a == self.RIGHT_ACTION:
+                return 1
+            else:
+                return 0
+        elif s >= self.N / 2:
+            return 0.5
+        else:
+            raise AssertionError

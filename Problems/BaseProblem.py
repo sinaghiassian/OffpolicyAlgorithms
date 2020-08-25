@@ -28,6 +28,14 @@ class BaseProblem:
     def select_behavior_action(self, s):
         raise NotImplementedError
 
+    @abstractmethod
+    def get_pi(self, s, a):
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_mu(self, s, a):
+        raise NotImplementedError
+
     @property
     def get_num_steps(self):
         return self.num_steps
