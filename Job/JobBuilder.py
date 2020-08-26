@@ -12,7 +12,7 @@ default_params = {
         # 'alpha': [.5 ** i for i in range(4, 10)],
         'alpha': 0.01,
         'lmbda': 0.0,
-        "run": 5
+        "run": 0
     }
 }
 
