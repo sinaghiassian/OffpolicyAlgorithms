@@ -10,7 +10,7 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
         Chain.__init__(self)
         self.N = n
         self.num_features = self.feature_rep.shape[1]
-        self.num_steps = 5000
+        self.num_steps = 100
         self.GAMMA = 0.9
         self.behavior_dist = np.zeros(self.N + 1)
         self.state_values = np.zeros(self.N + 1)
