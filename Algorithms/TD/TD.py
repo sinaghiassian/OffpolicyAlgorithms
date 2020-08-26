@@ -10,4 +10,5 @@ class TD(BaseAgent):
         x_p = self.problem.get_state_feature_rep(s_p)
         x = self.problem.get_state_feature_rep(s)
         delta = rho * (r + self.gamma * np.dot(self.w, x_p) - np.dot(self.w, x))
-        self.w += self.compute_step_size() * delta * x
+        alpha = self.compute_step_size()
+        self.w += alpha * delta * x
