@@ -24,7 +24,7 @@ four_room_map = [
 
 
 class FourRoomGridWorld(gym.Env):
-    def __init__(self, stochasticity_fraction=2.0 / 3.0):
+    def __init__(self, stochasticity_fraction=0.0):
         self._grid = np.flip(np.array(four_room_map, dtype=np.uint8), axis=0)[1:-1, 1:-1]
         self._max_row, self._max_col = self._grid.shape
         self._normal_tiles = np.where(self._grid == BLOCK_NORMAL)
