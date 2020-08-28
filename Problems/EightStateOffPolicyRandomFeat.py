@@ -9,11 +9,15 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
         BaseProblem.__init__(self, run_number)
         Chain.__init__(self)
         self.N = n
+        self.feature_rep = self.load_feature_rep()
         self.num_features = self.feature_rep.shape[1]
         self.num_steps = 100
         self.GAMMA = 0.9
-        self.behavior_dist = np.zeros(self.N + 1)
-        self.state_values = np.zeros(self.N + 1)
+        self.behavior_dist = self.load_behavior_dist()
+        self.state_values = self.load_state_value()
+
+    def load_feature_rep(self):
+        return np.load(f'Resources/{self.__class__.__name__}/feature_rep.npy')[:, :, self.run_number]
 
     def create_feature_rep(self):
         num_ones = 3
@@ -26,14 +30,12 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
     def get_state_feature_rep(self, state):
         return self.feature_rep[state, :]
 
-    @property
-    def get_behavior_dist(self):
-        self.behavior_dist = np.load('Resource/d_mu.npy')
+    def load_behavior_dist(self):
+        self.behavior_dist = np.load(f'Resources/{self.__class__.__name__}/d_mu.npy')
         return self.behavior_dist
 
-    @property
-    def get_state_value(self):
-        self.state_values = np.load('Resource/state_values.npy')
+    def load_state_value(self):
+        self.state_values = np.load(f'Resources/{self.__class__.__name__}/state_values.npy')
         return self.state_values
 
     def select_behavior_action(self, s):
