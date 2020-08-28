@@ -3,14 +3,18 @@ import numpy as np
 
 
 class BaseProblem:
-    def __init__(self, run_number):
+    def __init__(self, run_number=0):
         self.run_number = run_number
         self.num_steps = 5000
-        self.feature_rep = np.load('Resource/feature_rep.npy')[:, :, run_number]
-        self.num_features = self.feature_rep.shape[1]
+        self.feature_rep = None
+        self.num_features = None
         self.GAMMA = None
         self.behavior_dist = None
         self.state_values = None
+
+    @abstractmethod
+    def load_feature_rep(self):
+        raise NotImplementedError
 
     @abstractmethod
     def get_state_feature_rep(self, state):
@@ -44,10 +48,10 @@ class BaseProblem:
     def get_gamma(self):
         return self.GAMMA
 
-    @property
-    def get_behavior_dist(self):
+    @abstractmethod
+    def load_behavior_dist(self):
         return self.behavior_dist
 
-    @property
-    def get_state_value(self):
+    @abstractmethod
+    def load_state_value(self):
         return self.state_values
