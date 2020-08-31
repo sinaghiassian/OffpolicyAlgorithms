@@ -16,6 +16,14 @@ class FourRoomGridWorldPolicy(BasePolicy, FourRoomGridWorld):
                     ['x == 5 and y == 1', [self.ACTION_DOWN]],
                     ['4 == y and 2 <= x <= 4', [self.ACTION_DOWN]],
                     ['4 == y and x == 0', [self.ACTION_UP]]
+                ],
+                1: [
+                    ['2 <= y <= 4 and 0 <= x <= 3', [self.ACTION_LEFT, self.ACTION_UP]],
+                    ['y == 0 and 0 <= x <= 3', [self.ACTION_RIGHT, self.ACTION_UP]],
+                    ['y == 1 and 0 <= x <= 4', [self.ACTION_UP]],
+                    ['x == 1 and y == 5', [self.ACTION_LEFT]],
+                    ['2 <= y <= 4 and x == 4', [self.ACTION_LEFT]],
+                    ['y == 0 and x == 4', [self.ACTION_RIGHT]],
                 ]
             })
 
@@ -58,7 +66,7 @@ if __name__ == "__main__":
     env.render()
     is_terminal = False
     for step in range(40):
-        a = policy.get_action(0, state)
+        a = policy.get_action(1, state)
         next_state, r, is_terminal, info = env.step(a)
         x, y, is_rand, selected_action = info.values()
         print(
