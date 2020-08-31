@@ -5,6 +5,7 @@ import random
 
 from Environments.FourRoomGridWorld import FourRoomGridWorld
 from Problems.BaseProblem import BaseProblem
+from utils import ImmutableDict
 
 
 class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
@@ -17,6 +18,69 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         self.GAMMA = 0.9
         self.behavior_dist = self.load_behavior_dist()
         self.state_values = self.load_state_values()
+
+        self.optimal_policies = ImmutableDict(
+            {
+                0: [
+                    ['0 <= x <= 3 and 2 <= y <= 4', [self.ACTION_DOWN, self.ACTION_RIGHT]],
+                    ['3 >= x >= 0 == y', [self.ACTION_UP, self.ACTION_RIGHT]],
+                    ['0 <= x <= 4 and y == 1', [self.ACTION_RIGHT]],
+                    ['x == 5 and y == 1', [self.ACTION_DOWN]],
+                    ['4 == x and 2 <= y <= 4', [self.ACTION_DOWN]],
+                    ['4 == x and y == 0', [self.ACTION_UP]]
+                ],
+                1: [
+                    ['2 <= x <= 4 and 0 <= y <= 3', [self.ACTION_LEFT, self.ACTION_UP]],
+                    ['x == 0 and 0 <= y <= 3', [self.ACTION_RIGHT, self.ACTION_UP]],
+                    ['x == 1 and 0 <= y <= 4', [self.ACTION_UP]],
+                    ['y == 1 and x == 5', [self.ACTION_LEFT]],
+                    ['2 <= x <= 4 and y == 4', [self.ACTION_LEFT]],
+                    ['x == 0 and y == 4', [self.ACTION_RIGHT]],
+                ],
+                2: [
+                    ['2 <= x <= 4 and 7 <= y <= 10', [self.ACTION_LEFT, self.ACTION_DOWN]],
+                    ['x == 0 and 7 <= y <= 10', [self.ACTION_RIGHT, self.ACTION_DOWN]],
+                    ['x == 1 and 6 <= y <= 10', [self.ACTION_DOWN]],
+                    ['x == 5 and y == 8', [self.ACTION_LEFT]],
+                    ['2 <= x <= 4 and y == 6', [self.ACTION_LEFT]],
+                    ['x == 0 and y == 6', [self.ACTION_RIGHT]],
+                ]
+            }
+        )
+        self.default_actions = ImmutableDict(
+            {
+                0: self.ACTION_RIGHT,
+                1: self.ACTION_UP,
+                2: self.ACTION_DOWN
+            }
+        )
+        self.num_policies = len(self.optimal_policies)
+
+    def get_probability(self, policy_number, s, a):
+        x, y = s
+        probability = 0.0
+        for condition, possible_actions in self.optimal_policies[policy_number]:
+            if eval(condition.replace('x', str(x)).replace('y', str(y))):
+                if a in possible_actions:
+                    probability = 1.0 / len(possible_actions)
+        return probability
+
+    def get_action(self, policy_number, s):
+        x, y = s
+        a = self.default_actions[policy_number]
+        for condition, possible_actions in self.optimal_policies[policy_number]:
+            if eval(condition.replace('x', str(x)).replace('y', str(y))):
+                if a in possible_actions:
+                    a = random.choice(possible_actions)
+        return a
+
+    def get_policy_number(self, s):
+        x, y = s
+        active_policies = []
+        for policy_number, (condition, _) in self.optimal_policies.items():
+            if eval(condition.replace('x', str(x)).replace('y', str(y))):
+                active_policies.append(policy_number)
+        return active_policies
 
     def load_feature_rep(self):
         return np.load(f'Resources/{self.__class__.__name__}/feature_rep.npy')[:, :]
@@ -33,22 +97,33 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
     def select_behavior_action(self, s):
         return np.random.randint(0, self.num_actions)
 
-    def choose_pi0_action(self, s):  # TODO: Check Sample.py in previous code version.
-        x, y = s
-        if 0 <= x <= 3 and 2 <= y <= 4:
-            return random.choice([self.ACTION_DOWN, self.ACTION_RIGHT]), 0.5
-        elif 3 >= x >= 0 == y:
-            return random.choice([self.ACTION_UP, self.ACTION_RIGHT]), 0.5
-        elif 0 <= x <= 4 and y == 1:
-            return self.ACTION_RIGHT, 1.0
-        elif x == 4 and y == 0:
-            return self.ACTION_UP, 1.0
-        elif s == self.hallways[1]:
-            return self.ACTION_DOWN, 1.0
 
-    def get_pi0_probability(self, s, a):
-        x, y = s
-        if 0 <= x <= 3 and 2 <= y <= 4 and a in [self.ACTION_DOWN, self.ACTION_RIGHT]:
-            return 0.5
-        elif s == self.hallways[1] and a == self.ACTION_DOWN:
-            return 1.0
+if __name__ == "__main__":
+    actions = {
+        0: 'up',
+        1: 'down',
+        2: 'right',
+        3: 'left',
+    }
+    env = FourRoomGridWorld()
+    policy = LearnEightPoliciesTileCodingFeat()
+    state = env.reset()
+    env.render()
+    is_terminal = False
+    for step in range(40):
+        a = policy.get_action(0, state)
+        next_state, r, is_terminal, info = env.step(a)
+        x, y, is_rand, selected_action = info.values()
+        print(
+            f'sept:{step}, '
+            f'state:({state[0]},{state[1]}), '
+            f'action: {actions[a]}, '
+            f'environment_action: {actions[selected_action]}, '
+            f'next_state:({next_state[0]},{next_state[1]}), '
+            f'stochasticity:{is_rand}, '
+            f'terminal:{is_terminal}'
+        )
+        state = next_state
+        env.render()
+        if is_terminal:
+            break
