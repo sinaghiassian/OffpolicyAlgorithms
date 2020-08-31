@@ -1,5 +1,3 @@
-from abc import abstractmethod, ABC
-
 import numpy as np
 import random
 
@@ -110,7 +108,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
                     probability = 1.0 / len(possible_actions)
         return probability
 
-    def get_action(self, policy_number, s):
+    def select_target_action(self, s, policy_number=0):
         x, y = s
         a = self.default_actions[policy_number]
         for condition, possible_actions in self.optimal_policies[policy_number]:
@@ -130,14 +128,17 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
     def load_feature_rep(self):
         return np.load(f'Resources/{self.__class__.__name__}/feature_rep.npy')[:, :]
 
+    def get_state_feature_rep(self, s):
+        return self.feature_rep[s, :]
+
+    def create_feature_rep(self):
+        raise NotImplementedError
+
     def load_behavior_dist(self):
         return np.load(f'Resources/{self.__class__.__name__}/d_mu.npy')
 
     def load_state_values(self):
         return np.load(f'Resources/{self.__class__.__name__}/state_values.npy')
-
-    def get_state_feature_rep(self, s):
-        return self.feature_rep[s, :]
 
     def select_behavior_action(self, s):
         return np.random.randint(0, self.num_actions)
