@@ -119,7 +119,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
                     a = random.choice(possible_actions)
         return a
 
-    def get_policy_number(self, s):
+    def get_active_policies(self, s):
         x, y = s
         active_policies = []
         for policy_number, (condition, _) in self.optimal_policies.items():
@@ -141,6 +141,15 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
 
     def select_behavior_action(self, s):
         return np.random.randint(0, self.num_actions)
+
+    def get_mu(self, s, a):
+        return np.ones(self.num_policies) * (1.0 / self.num_actions)
+
+    def get_pi(self, s, a):
+        pi_vec = np.zeros(self.num_policies)
+        for i in self.get_active_policies(s):
+            pi_vec[i] = self.get_probability(i, s, a)
+        return pi_vec
 
 
 if __name__ == "__main__":
