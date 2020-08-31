@@ -1,5 +1,4 @@
-from abc import abstractmethod, ABC
-import numpy as np
+from abc import abstractmethod
 
 
 class BaseProblem:
@@ -26,7 +25,7 @@ class BaseProblem:
         raise NotImplementedError
 
     @abstractmethod
-    def select_target_action(self, s):
+    def select_target_action(self, s, policy_number=0):
         raise NotImplementedError
 
     @abstractmethod
@@ -40,14 +39,6 @@ class BaseProblem:
     @abstractmethod
     def get_mu(self, s, a):
         raise NotImplementedError
-
-    @property
-    def get_num_steps(self):
-        return self.num_steps
-
-    @property
-    def get_gamma(self):
-        return self.GAMMA
 
     @abstractmethod
     def load_behavior_dist(self):
