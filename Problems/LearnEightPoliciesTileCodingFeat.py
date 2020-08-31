@@ -44,6 +44,46 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
                     ['x == 5 and y == 8', [self.ACTION_LEFT]],
                     ['2 <= x <= 4 and y == 6', [self.ACTION_LEFT]],
                     ['x == 0 and y == 6', [self.ACTION_RIGHT]],
+                ],
+                3: [
+                    ['0 <= x <= 3 and 6 <= y <= 7', [self.ACTION_UP, self.ACTION_RIGHT]],
+                    ['0 <= x <= 3 and 9 <= y <= 10', [self.ACTION_DOWN, self.ACTION_RIGHT]],
+                    ['0 <= x <= 4 and y == 8', [self.ACTION_RIGHT]],
+                    ['x == self.hallways[1, 0] and y == self.hallways1, 1])', [self.ACTION_UP]],
+                    ['x == 4 and 6 <= y <= 7', [self.ACTION_UP]],
+                    ['x == 4 and 9 <= y <= 10', [self.ACTION_DOWN]]
+                ],
+                4: [
+                    ['10 >= x >= 7 >= y and y >= 5', [self.ACTION_LEFT, self.ACTION_UP]],
+                    ['7 <= x <= 10 and 9 <= y <= 10', [self.ACTION_LEFT, self.ACTION_DOWN]],
+                    ['6 <= x <= 10 and y == 8', [self.ACTION_LEFT]],
+                    ['x == self.hallways[3, 0] and y == self.hallways[3, 1]', [self.ACTION_UP]],
+                    ['x == 6 and 5 <= y <= 7', [self.ACTION_UP]],
+                    ['x == 6 and 9 <= y <= 10', [self.ACTION_DOWN]]
+                ],
+                5: [
+                    ['6 <= x <= 7 and 6 <= y <= 1', [self.ACTION_RIGHT, self.ACTION_DOWN]],
+                    ['9 <= x <= 10 and 6 <= y <= 10', [self.ACTION_DOWN, self.ACTION_LEFT]],
+                    ['x == 8 and 5 <= y <= 10', [self.ACTION_DOWN]],
+                    ['x == self.hallways[2, 0] and y == self.hallways[2, 1]', [self.ACTION_RIGHT]],
+                    ['6 <= x <= 7 and y == 5', [self.ACTION_RIGHT]],
+                    ['9 <= x <= 10 and y == 5', [self.ACTION_LEFT]]
+                ],
+                6: [
+                    ['6 <= x <= 7 and 0 <= y <= 2', [self.ACTION_UP, self.ACTION_RIGHT]],
+                    ['9 <= x <= 10 and 0 <= y <= 2', [self.ACTION_UP, self.ACTION_LEFT]],
+                    ['x == 8 and 0 <= y <= 3', [self.ACTION_UP]],
+                    ['x == self.hallways[0, 0] and y == self.hallways[0, 1]', [self.ACTION_RIGHT]],
+                    ['6 <= x <= 7 and y == 3', [self.ACTION_RIGHT]],
+                    ['9 <= x <= 10 and y == 3', [self.ACTION_LEFT]]
+                ],
+                7: [
+                    ['7 <= x <= 10 and 2 <= y <= 3', [self.ACTION_DOWN, self.ACTION_LEFT]],
+                    ['7 <= x <= 10 and y == 0', [self.ACTION_UP, self.ACTION_LEFT]],
+                    ['6 <= x <= 10 and y == 1', [self.ACTION_LEFT]],
+                    ['x == self.hallways[3, 0] and y == self.hallways[3, 1]', [self.ACTION_DOWN]],
+                    ['x == 6 and 2 <= y <= 3', [self.ACTION_DOWN]],
+                    ['x == 6 and y == 0', [self.ACTION_UP]]
                 ]
             }
         )
@@ -51,7 +91,12 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
             {
                 0: self.ACTION_RIGHT,
                 1: self.ACTION_UP,
-                2: self.ACTION_DOWN
+                2: self.ACTION_DOWN,
+                3: self.ACTION_RIGHT,
+                4: self.ACTION_LEFT,
+                5: self.ACTION_DOWN,
+                6: self.ACTION_UP,
+                7: self.ACTION_LEFT
             }
         )
         self.num_policies = len(self.optimal_policies)
