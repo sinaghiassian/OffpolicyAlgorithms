@@ -14,7 +14,7 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
         self.num_steps = 100
         self.GAMMA = 0.9
         self.behavior_dist = self.load_behavior_dist()
-        self.state_values = self.load_state_value()
+        self.state_values = self.load_state_values()
 
     def load_feature_rep(self):
         return np.load(f'Resources/{self.__class__.__name__}/feature_rep.npy')[:, :, self.run_number]
@@ -27,14 +27,14 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
             np.random.shuffle(random_arr)
             self.feature_rep[i, :] = random_arr
 
-    def get_state_feature_rep(self, state):
-        return self.feature_rep[state, :]
+    def get_state_feature_rep(self, s):
+        return self.feature_rep[s, :]
 
     def load_behavior_dist(self):
         self.behavior_dist = np.load(f'Resources/{self.__class__.__name__}/d_mu.npy')
         return self.behavior_dist
 
-    def load_state_value(self):
+    def load_state_values(self):
         self.state_values = np.load(f'Resources/{self.__class__.__name__}/state_values.npy')
         return self.state_values
 
