@@ -38,6 +38,12 @@ class FourRoomGridWorld(gym.Env):
         self.ACTION_UP, self.ACTION_DOWN, self.ACTION_RIGHT, self.ACTION_LEFT = 0, 1, 2, 3
         self.num_actions = 4
         self._stochasticity_fraction = stochasticity_fraction
+        self.hallways = {
+            0: (5, 1),
+            1: (1, 5),
+            2: (5, 8),
+            3: (8, 4)
+        }
 
     def reset(self):
         # if random_agent_start:
