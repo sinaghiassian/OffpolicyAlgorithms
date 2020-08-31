@@ -25,7 +25,7 @@ four_room_map = [
 
 class FourRoomGridWorld(gym.Env):
     def __init__(self, stochasticity_fraction=0.0):
-        self._grid = np.flip(np.array(four_room_map, dtype=np.uint8), axis=0)[1:-1, 1:-1]
+        self._grid = np.transpose(np.flip(np.array(four_room_map, dtype=np.uint8), axis=0)[1:-1, 1:-1])
         self._max_row, self._max_col = self._grid.shape
         self._normal_tiles = np.where(self._grid == BLOCK_NORMAL)
         self._state = None
@@ -71,7 +71,7 @@ class FourRoomGridWorld(gym.Env):
         if mode == 'human':
             outfile = StringIO() if mode == 'ansi' else sys.stdout
             img = [[self._color[b] for b in line] for line in four_room_map]
-            img[self._max_row - self._state[0]][self._state[1] + 1] = utils.colorize(self._fill_char, "red",
+            img[self._max_row - self._state[1]][self._state[0] + 1] = utils.colorize(self._fill_char, "red",
                                                                                      highlight=True)
             for line in img:
                 outfile.write(f'{"".join(line)}\n')
@@ -89,10 +89,10 @@ class FourRoomGridWorld(gym.Env):
             return next_x, next_y
 
         switcher = {
-            self.ACTION_DOWN: lambda x, y: move(x, y, x - 1, y),
-            self.ACTION_RIGHT: lambda x, y: move(x, y, x, y + 1),
-            self.ACTION_UP: lambda x, y: move(x, y, x + 1, y),
-            self.ACTION_LEFT: lambda x, y: move(x, y, x, y - 1),
+            self.ACTION_DOWN: lambda x, y: move(x, y, x, y - 1),
+            self.ACTION_RIGHT: lambda x, y: move(x, y, x + 1, y),
+            self.ACTION_UP: lambda x, y: move(x, y, x, y + 1),
+            self.ACTION_LEFT: lambda x, y: move(x, y, x - 1, y),
         }
         move_func = switcher.get(action)
         return move_func(x, y)
