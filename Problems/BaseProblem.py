@@ -11,6 +11,7 @@ class BaseProblem:
         self.GAMMA = None
         self.behavior_dist = None
         self.state_values = None
+        self.num_policies = None
 
     @abstractmethod
     def load_feature_rep(self):
