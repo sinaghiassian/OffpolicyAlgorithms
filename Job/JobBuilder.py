@@ -32,16 +32,16 @@ class JobBuilder:
         with open(self._path) as f:
             self._params = json.load(f)
 
-        self._batch_params = ImmutableDict()
-        {
-            'ALPHA': ' '.join([f'{num:.10f}' for num in self.alpha]),
-            'RUN': f'0..{self.run}',
-            'ALGORITHM': self.agent,
-            'ENVIRONMENT': self.environment,
-            'PROBLEM': self.problem,
-            'SAVEPATH': self.save_path,
+        self._batch_params = ImmutableDict(
+            {
+                'ALPHA': ' '.join([f'{num:.10f}' for num in self.alpha]),
+                'RUN': f'0..{self.run}',
+                'ALGORITHM': self.agent,
+                'ENVIRONMENT': self.environment,
+                'PROBLEM': self.problem,
+                'SAVEPATH': self.save_path,
 
-        }
+            })
 
     @property
     def agent(self):
