@@ -14,7 +14,7 @@ class ImmutableDict(dict):
     def __delitem__(self, key):
         self.immutable()
 
-    def setdefault(self, k, default):
+    def set_default(self, k, default):
         self.immutable()
 
     def update(self, __m, **kwargs):
