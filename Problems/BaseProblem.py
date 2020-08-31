@@ -17,7 +17,7 @@ class BaseProblem:
         raise NotImplementedError
 
     @abstractmethod
-    def get_state_feature_rep(self, state):
+    def get_state_feature_rep(self, s):
         raise NotImplementedError
 
     @abstractmethod
@@ -53,5 +53,5 @@ class BaseProblem:
         return self.behavior_dist
 
     @abstractmethod
-    def load_state_value(self):
+    def load_state_values(self):
         return self.state_values
