@@ -44,7 +44,7 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
         else:
             return np.random.choice([self.RIGHT_ACTION, self.RETREAT_ACTION])
 
-    def select_target_action(self, s, policy_number=0):
+    def select_target_action(self, s, policy_id=0):
         return self.RIGHT_ACTION
 
     def get_pi(self, s, a):

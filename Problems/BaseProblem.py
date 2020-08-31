@@ -25,7 +25,7 @@ class BaseProblem:
         raise NotImplementedError
 
     @abstractmethod
-    def select_target_action(self, s, policy_number=0):
+    def select_target_action(self, s, policy_id=0):
         raise NotImplementedError
 
     @abstractmethod

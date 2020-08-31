@@ -108,10 +108,10 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
                     probability = 1.0 / len(possible_actions)
         return probability
 
-    def select_target_action(self, s, policy_number=0):
+    def select_target_action(self, s, policy_id=0):
         x, y = s
-        a = self.default_actions[policy_number]
-        for condition, possible_actions in self.optimal_policies[policy_number]:
+        a = self.default_actions[policy_id]
+        for condition, possible_actions in self.optimal_policies[policy_id]:
             if eval(condition.replace('x', str(x)).replace('y', str(y))):
                 if a in possible_actions:
                     a = random.choice(possible_actions)
