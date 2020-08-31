@@ -55,7 +55,7 @@ class FourRoomGridWorld(gym.Env):
 
     def step(self, action):
         is_stochastic_selected = False
-        if self._stochasticity_fraction <= np.random.uniform():
+        if self._stochasticity_fraction >= np.random.uniform():
             action_probability = [1 / (self.num_actions - 1) if i != action else 0 for i in range(self.num_actions)]
             action = np.random.choice(self.num_actions, 1, p=action_probability)[0]
             is_stochastic_selected = True
