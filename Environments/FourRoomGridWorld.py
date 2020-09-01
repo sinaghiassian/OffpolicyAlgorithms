@@ -64,12 +64,12 @@ class FourRoomGridWorld(gym.Env):
         reward = 0
         self._state = (next_x, next_y)
         return self._state, reward, is_done, {
-            'x': self._state[0], 'y': self._state[1], 'is_stochastic_selected': is_stochastic_selected,
+            'x': self._state[1], 'y': self._state[0], 'is_stochastic_selected': is_stochastic_selected,
             'selected_action': action}
 
     def render(self, mode='human'):
         if mode == 'human':
-            outfile = StringIO() if mode == 'ansi' else sys.stdout
+            outfile = sys.stdout
             img = [[self._color[b] for b in line] for line in four_room_map]
             img[self._max_row - self._state[1]][self._state[0] + 1] = utils.colorize(self._fill_char, "red",
                                                                                      highlight=True)
