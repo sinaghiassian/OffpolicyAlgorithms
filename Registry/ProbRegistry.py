@@ -1,1 +1,2 @@
 from Problems.EightStateOffPolicyRandomFeat import EightStateOffPolicyRandomFeat
+from Problems.LearnEightPoliciesTileCodingFeat import LearnEightPoliciesTileCodingFeat
