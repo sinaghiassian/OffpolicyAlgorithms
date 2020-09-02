@@ -11,6 +11,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         BaseProblem.__init__(self)
         FourRoomGridWorld.__init__(self)
         self.feature_rep = self.load_feature_rep()
+        self.stacked_feature_rep = self.stack_feature_rep()
         self.num_features = self.feature_rep.shape[1]
         self.num_steps = 5000
         self.GAMMA = 0.9
@@ -99,6 +100,9 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         )
         self.num_policies = len(self.optimal_policies)
 
+    def get_state_index(self, x, y):
+        return int(y * np.sqrt(self.feature_rep.shape[0]) + x)
+
     def _eval(self, condition, x, y):
         return eval(condition, {'x': x, 'y': y, 'hall': self.hallways})
 
@@ -122,13 +126,17 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
     def get_active_policies(self, s):
         x, y = s
         active_policies = []
-        for policy_number, (condition, _) in self.optimal_policies.items():
-            if self._eval(condition, x, y):
-                active_policies.append(policy_number)
-        return active_policies
+        active_policy_vec = np.zeros(self.num_policies)
+        for policy_number, policy_values in self.optimal_policies.items():
+            for (condition, _) in policy_values:
+                if self._eval(condition, x, y):
+                    active_policies.append(policy_number)
+        for i in active_policies:
+            active_policy_vec[i] = 1.0
+        return active_policy_vec
 
     def load_feature_rep(self):
-        return np.load(f'Resources/{self.__class__.__name__}/feature_rep.npy')[:, :]
+        return np.load(f'Resources/{self.__class__.__name__}/feature_rep.npy')
 
     def get_state_feature_rep(self, s):
         return self.feature_rep[s, :]
