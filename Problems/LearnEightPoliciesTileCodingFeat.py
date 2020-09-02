@@ -7,7 +7,7 @@ from utils import ImmutableDict
 
 
 class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
-    def __init__(self):
+    def __init__(self, **kwargs):
         BaseProblem.__init__(self)
         FourRoomGridWorld.__init__(self)
         self.feature_rep = self.load_feature_rep()
@@ -127,7 +127,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
 
     def get_active_policies(self, s):
         x, y = self.get_xy(s)
-        active_policy_vec = np.zeros(self.num_policies)
+        active_policy_vec = np.zeros(self.num_policies,dtype=np.uint8)
         for policy_number, policy_values in self.optimal_policies.items():
             for (condition, _) in policy_values:
                 if self._eval(condition, x, y):

@@ -3,8 +3,8 @@ import numpy as np
 
 
 class BaseProblem:
-    def __init__(self, run_number=0):
-        self.run_number = run_number
+    def __init__(self, **kwargs):
+        self.run_number = kwargs.get('run_number', 0)
         self.num_steps = 5000
         self.feature_rep = None
         self.stacked_feature_rep = None  # If learning more than one target policy at the same time

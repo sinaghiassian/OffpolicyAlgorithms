@@ -5,10 +5,10 @@ from Problems.BaseProblem import BaseProblem
 
 
 class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
-    def __init__(self, run_number, n=8):
-        BaseProblem.__init__(self, run_number)
+    def __init__(self, **kwargs):
+        BaseProblem.__init__(self, **kwargs)
         Chain.__init__(self)
-        self.N = n
+        self.N = kwargs.get('n', 8)
         self.feature_rep = self.load_feature_rep()
         self.num_features = self.feature_rep.shape[1]
         self.num_steps = 100

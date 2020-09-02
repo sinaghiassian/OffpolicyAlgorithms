@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     prob_dict = {'EightStateOffPolicyRandomFeat': EightStateOffPolicyRandomFeat,
                  'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
-    prob = prob_dict[args.problem](args.run_number)
+    prob = prob_dict[args.problem](run_number=args.run_number)
 
     alg_dict = {'TD': TD}
     alg_params = {
