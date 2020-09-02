@@ -37,10 +37,11 @@ class BaseAgentLearnMultiplePolicies:
     def __init__(self, problem: BaseProblem, **kwargs):
         self.problem = problem
         self.w = np.zeros(self.problem.num_features)
+        self.z = np.zeros(self.problem.num_features)
         if self.problem.num_policies > 1:
             self.w = np.zeros((self.problem.num_policies, self.problem.num_features))
+            self.e = np.zeros((self.problem.num_policies, self.problem.num_features))
         self.gamma = kwargs['GAMMA']
-        self.gamma_vec = np.ones(self.problem.num_policies) * self.gamma
         self.alpha = kwargs['alpha']
         self.lmbda = kwargs['lmbda']
         self.state_values = self.problem.load_state_values()  # This is of size num_policies * 121
