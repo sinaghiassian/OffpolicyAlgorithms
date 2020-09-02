@@ -2,11 +2,10 @@ import numpy as np
 import argparse
 
 from Registry.AlgRegistry import TD
-from Registry.EnvRegistry import Chain
-from Registry.ProbRegistry import EightStateOffPolicyRandomFeat
+from Registry.EnvRegistry import Chain, FourRoomGridWorld
+from Registry.ProbRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
 
 from Job.JobBuilder import default_params
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -20,10 +19,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     np.random.seed(args.run_number)
 
-    environment_dict = {'Chain': Chain}
+    environment_dict = {'FourRoomGridWorld': FourRoomGridWorld, 'Chain': Chain}
     env = environment_dict[args.environment]()
 
-    prob_dict = {'EightStateOffPolicyRandomFeat': EightStateOffPolicyRandomFeat}
+    prob_dict = {'EightStateOffPolicyRandomFeat': EightStateOffPolicyRandomFeat,
+                 'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
     prob = prob_dict[args.problem](args.run_number)
 
     alg_dict = {'TD': TD}
