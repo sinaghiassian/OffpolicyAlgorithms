@@ -4,17 +4,19 @@ import numpy as np
 
 from utils import ImmutableDict
 
-default_params = {
-    'agent': 'TD',
-    'problem': 'EightStateOffPolicyRandomFeat',
-    'environment': 'Chain',
-    'meta_parameters': {
-        # 'alpha': [.5 ** i for i in range(4, 10)],
-        'alpha': 0.01,
-        'lmbda': 0.0,
-        "run": 0
+default_params = ImmutableDict(
+    {
+        'agent': 'TD',
+        'problem': 'LearnEightPoliciesTileCodingFeat',
+        'environment': 'FourRoomGridWorld',
+        'meta_parameters': {
+            # 'alpha': [.5 ** i for i in range(4, 10)],
+            'alpha': 0.01,
+            'lmbda': 0.0,
+            "run": 0
+        }
     }
-}
+)
 
 
 def find_all_experiment_configuration(experiments_path: str):
