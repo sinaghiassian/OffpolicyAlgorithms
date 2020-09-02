@@ -11,7 +11,6 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         BaseProblem.__init__(self)
         FourRoomGridWorld.__init__(self)
         self.feature_rep = self.load_feature_rep()
-        self.stacked_feature_rep = self.stack_feature_rep()
         self.num_features = self.feature_rep.shape[1]
         self.num_steps = 5000
         self.GAMMA = 0.9
@@ -99,6 +98,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
             }
         )
         self.num_policies = len(self.optimal_policies)
+        self.stacked_feature_rep = self.stack_feature_rep()
 
     def get_state_index(self, x, y):
         return int(y * np.sqrt(self.feature_rep.shape[0]) + x)
@@ -107,32 +107,32 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         return eval(condition, {'x': x, 'y': y, 'hall': self.hallways})
 
     def get_probability(self, policy_number, s, a):
-        x, y = s
+        x, y = self.get_xy(s)
         probability = 0.0
         for condition, possible_actions in self.optimal_policies[policy_number]:
             if self._eval(condition, x, y):
                 if a in possible_actions:
                     probability = 1.0 / len(possible_actions)
+                    break
         return probability
 
     def select_target_action(self, s, policy_id=0):
-        x, y = s
+        x, y = self.get_xy(s)
         a = self.default_actions[policy_id]
         for condition, possible_actions in self.optimal_policies[policy_id]:
             if self._eval(condition, x, y):
                 a = random.choice(possible_actions)
+                break
         return a
 
     def get_active_policies(self, s):
-        x, y = s
-        active_policies = []
+        x, y = self.get_xy(s)
         active_policy_vec = np.zeros(self.num_policies)
         for policy_number, policy_values in self.optimal_policies.items():
             for (condition, _) in policy_values:
                 if self._eval(condition, x, y):
-                    active_policies.append(policy_number)
-        for i in active_policies:
-            active_policy_vec[i] = 1.0
+                    active_policy_vec[policy_number] = 1
+                    break
         return active_policy_vec
 
     def load_feature_rep(self):

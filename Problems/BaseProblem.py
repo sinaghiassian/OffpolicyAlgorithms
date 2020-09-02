@@ -22,7 +22,7 @@ class BaseProblem:
         stacked_feature_rep = np.zeros((self.num_policies, *self.feature_rep.shape))
         for i in range(self.feature_rep.shape[0]):
             stacked_x = np.tile(self.feature_rep[i, :], [self.num_policies, 1])
-            stacked_feature_rep[:, :, i] = stacked_x
+            stacked_feature_rep[:, i, :] = stacked_x
         return stacked_feature_rep
 
     @abstractmethod

@@ -29,11 +29,10 @@ class FourRoomGridWorld(gym.Env):
         self._max_row, self._max_col = self._grid.shape
         self._normal_tiles = np.where(self._grid == BLOCK_NORMAL)
         self._state = None
-        self._fill_char = '  '
         self._color = {
-            BLOCK_NORMAL: utils.colorize(self._fill_char, "white", highlight=True),
-            BLOCK_WALL: utils.colorize(self._fill_char, "gray", highlight=True),
-            BLOCK_HALLWAY: utils.colorize(self._fill_char, "green", highlight=True),
+            BLOCK_NORMAL: lambda c: utils.colorize(c, "white", highlight=True),
+            BLOCK_WALL: lambda c: utils.colorize(c, "gray", highlight=True),
+            BLOCK_HALLWAY: lambda c: utils.colorize(c, "green", highlight=True),
         }
         self.ACTION_UP, self.ACTION_DOWN, self.ACTION_RIGHT, self.ACTION_LEFT = 0, 1, 2, 3
         self.num_actions = 4
@@ -50,32 +49,45 @@ class FourRoomGridWorld(gym.Env):
         #     rnd = np.random.choice(len(self._normal_tiles[0]))
         #     self._state = (self._normal_tiles[0][rnd], self._normal_tiles[1][rnd])
         # else:
-        self._state = (0, 0)
-        return self._state
+        self._state = (0, 10)
+        return self.get_state_index(*self._state)
 
     def step(self, action):
+        x, y = self._state
         is_stochastic_selected = False
         if self._stochasticity_fraction >= np.random.uniform():
             action_probability = [1 / (self.num_actions - 1) if i != action else 0 for i in range(self.num_actions)]
             action = np.random.choice(self.num_actions, 1, p=action_probability)[0]
             is_stochastic_selected = True
-        next_x, next_y = self._next(action, *self._state)
-        is_done = self._grid[next_x, next_y] == BLOCK_HALLWAY
+        x_p, y_p = self._next(action, *self._state)
+        is_done = self._grid[x_p, y_p] == BLOCK_HALLWAY
         reward = 0
-        self._state = (next_x, next_y)
-        return self._state, reward, is_done, {
-            'x': self._state[1], 'y': self._state[0], 'is_stochastic_selected': is_stochastic_selected,
+        self._state = (x_p, y_p)
+        return self.get_state_index(*self._state), reward, is_done, {
+            'x': x, 'y': y,
+            'x_p': x_p, 'y_p': y_p,
+            'is_stochastic_selected': is_stochastic_selected,
             'selected_action': action}
 
-    def render(self, mode='human'):
+    def render(self, mode='human', show_state_numbers=False):
         if mode == 'human':
             outfile = sys.stdout
-            img = [[self._color[b] for b in line] for line in four_room_map]
-            img[self._max_row - self._state[1]][self._state[0] + 1] = utils.colorize(self._fill_char, "red",
+            img = [
+                [self._color[b]('  ')
+                 for x, b
+                 in enumerate(line)]
+                for y, line in enumerate(four_room_map)]
+            img[self._max_row - self._state[1]][self._state[0] + 1] = utils.colorize('  ', "red",
                                                                                      highlight=True)
             for line in img:
                 outfile.write(f'{"".join(line)}\n')
             outfile.write('\n')
+
+    def get_xy(self, state):
+        return (state % self._max_row),(state // self._max_col)
+
+    def get_state_index(self, x, y):
+        return y * self._max_col + x
 
     def _next(self, action, x, y):
 

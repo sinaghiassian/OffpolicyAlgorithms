@@ -13,16 +13,16 @@ if __name__ == "__main__":
     state = env.reset()
     env.render()
     is_terminal = False
-    for step in range(40):
-        a = problem.select_target_action(state, policy_id=7)
+    for step in range(10):
+        a = problem.select_target_action(state, policy_id=3)
         next_state, r, is_terminal, info = env.step(a)
-        x, y, is_rand, selected_action = info.values()
+        x, y, x_p, y_p, is_rand, selected_action = info.values()
         print(
             f'sept:{step}, '
-            f'state:({state[0]},{state[1]}), '
+            f'state({state}):({x},{y}), '
             f'action: {actions[a]}, '
             f'environment_action: {actions[selected_action]}, '
-            f'next_state:({next_state[0]},{next_state[1]}), '
+            f'next_state({next_state}):({x_p},{y_p}), '
             f'stochasticity:{is_rand}, '
             f'terminal:{is_terminal}'
         )
