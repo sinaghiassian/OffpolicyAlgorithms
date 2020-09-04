@@ -20,11 +20,11 @@ class TDMultiplePolicy(BaseAgentLearnMultiplePolicies):
         alpha_vec = active_policies_vec * self.compute_step_size()
         x = self.problem.get_state_feature_rep(s)
         x_p = self.problem.get_state_feature_rep(s_p)
-        stacked_x = self.problem.stacked_feature_rep[s]
+        stacked_x = self.problem.stacked_feature_rep[:, :, s]
         pi = self.problem.get_pi(s, self.action)
         mu = self.problem.get_mu(s, self.action)
         rho = pi / mu
         delta = r + np.dot(self.w, x_p) - np.dot(self.w, x)
         gamma_vec = self.problem.get_active_policies(s) * self.gamma
-        self.z = rho[:, None] * (self.lmbda * self.z * gamma_vec + stacked_x)
+        self.z = rho[:, None] * (self.lmbda * self.z * gamma_vec[:, None] + stacked_x)
         self.w = self.w + (alpha_vec * delta)[:, None] * self.z
