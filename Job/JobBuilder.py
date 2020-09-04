@@ -6,7 +6,7 @@ from utils import ImmutableDict
 
 default_params = ImmutableDict(
     {
-        'agent': 'TD',
+        'agent': 'TDMultiplePolicy',
         'problem': 'LearnEightPoliciesTileCodingFeat',
         'environment': 'FourRoomGridWorld',
         'meta_parameters': {

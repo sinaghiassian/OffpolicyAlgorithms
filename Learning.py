@@ -1,7 +1,7 @@
 import numpy as np
 import argparse
 
-from Registry.AlgRegistry import TD
+from Registry.AlgRegistry import TD, TDMultiplePolicy
 from Registry.EnvRegistry import Chain, FourRoomGridWorld
 from Registry.ProbRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
 
@@ -26,9 +26,13 @@ if __name__ == '__main__':
                  'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
     prob = prob_dict[args.problem](run_number=args.run_number)
 
-    alg_dict = {'TD': TD}
+    alg_dict = {'TD': TD, 'TDMultiplePolicy': TDMultiplePolicy}
     alg_params = {
         'TD': {
+            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': prob.num_features, 'GAMMA': prob.GAMMA
+        },
+        'TDMultiplePolicy': {
             'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
             'num_features': prob.num_features, 'GAMMA': prob.GAMMA
         }
