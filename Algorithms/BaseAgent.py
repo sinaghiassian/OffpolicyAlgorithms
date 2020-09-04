@@ -40,7 +40,7 @@ class BaseAgentLearnMultiplePolicies:
         self.z = np.zeros(self.problem.num_features)
         if self.problem.num_policies > 1:
             self.w = np.zeros((self.problem.num_policies, self.problem.num_features))
-            self.e = np.zeros((self.problem.num_policies, self.problem.num_features))
+            self.z = np.zeros((self.problem.num_policies, self.problem.num_features))
         self.gamma = kwargs['GAMMA']
         self.alpha = kwargs['alpha']
         self.lmbda = kwargs['lmbda']
@@ -49,10 +49,10 @@ class BaseAgentLearnMultiplePolicies:
         self.state, self.next_state, self.action = None, None, None
 
     def compute_rmsve(self):
-        est_value = np.dot(self.problem.feature_rep, self.w)  # TODO: Change the feature_rep.npy file. Transpose it.
-        error = est_value - self.state_values  # TODO: Transpose the state_values.npy.
+        est_value = np.dot(self.w, self.problem.feature_rep.T)
+        error = est_value - self.state_values
         error_squared = error * error
-        return np.sqrt(np.sum(self.d_mu * error_squared, 0)) / np.sum(self.d_mu, 0)
+        return np.sqrt(np.sum(self.d_mu * error_squared, 1)) / np.sum(self.d_mu, 1)
 
     def compute_step_size(self):
         return self.alpha
