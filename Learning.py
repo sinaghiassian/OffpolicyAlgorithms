@@ -39,10 +39,10 @@ if __name__ == '__main__':
     }
     agent = alg_dict[args.algorithm](prob, **alg_params[args.algorithm])
 
-    RMSVE = np.zeros(prob.num_steps)
+    RMSVE = np.zeros((prob.num_policies, prob.num_steps))
     agent.state = env.reset()
     for step in range(prob.num_steps):
-        RMSVE[step] = agent.compute_rmsve()
+        RMSVE[:, step] = agent.compute_rmsve()
         agent.action = agent.choose_behavior_action()
         agent.next_state, r, is_terminal, _ = env.step(agent.action)
         agent.learn(agent.state, agent.next_state, r)
