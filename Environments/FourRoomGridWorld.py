@@ -61,9 +61,9 @@ class FourRoomGridWorld(gym.Env):
             is_stochastic_selected = True
         x_p, y_p = self._next(action, *self._state)
         is_done = self._grid[x_p, y_p] == BLOCK_HALLWAY
-        reward = 0
+        reward = 1 if is_done else 0
         self._state = (x_p, y_p)
-        return self.get_state_index(*self._state), reward, is_done, {
+        return self.get_state_index(*self._state), reward, False, {
             'x': x, 'y': y,
             'x_p': x_p, 'y_p': y_p,
             'is_stochastic_selected': is_stochastic_selected,
