@@ -26,6 +26,10 @@ class BaseProblem:
         return stacked_feature_rep
 
     @abstractmethod
+    def get_terminal_policies(self, s):
+        raise NotImplementedError
+
+    @abstractmethod
     def load_feature_rep(self):
         raise NotImplementedError
 
