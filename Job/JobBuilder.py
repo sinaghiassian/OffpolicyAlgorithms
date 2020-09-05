@@ -11,7 +11,7 @@ default_params = ImmutableDict(
         'environment': 'FourRoomGridWorld',
         'meta_parameters': {
             # 'alpha': [.5 ** i for i in range(4, 10)],
-            'alpha': 0.01,
+            'alpha': 0.001,
             'lmbda': 0.0,
             "run": 0
         }

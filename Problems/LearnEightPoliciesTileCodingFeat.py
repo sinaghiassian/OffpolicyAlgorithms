@@ -97,8 +97,28 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
                 7: self.ACTION_LEFT
             }
         )
+        self.policy_terminal_condition = ImmutableDict(
+            {
+                0: 'x == hall[0][0] and y == hall[0][1]',
+                1: 'x == hall[1][0] and y == hall[1][1]',
+                2: 'x == hall[1][0] and y == hall[1][1]',
+                3: 'x == hall[2][0] and y == hall[2][1]',
+                4: 'x == hall[2][0] and y == hall[2][1]',
+                5: 'x == hall[3][0] and y == hall[3][1]',
+                6: 'x == hall[3][0] and y == hall[3][1]',
+                7: 'x == hall[0][0] and y == hall[0][1]'
+            }
+        )
         self.num_policies = len(self.optimal_policies)
         self.stacked_feature_rep = self.stack_feature_rep()
+
+    def get_terminal_policies(self, s):
+        x, y = self.get_xy(s)
+        terminal_policies = np.zeros(self.num_policies)
+        for policy_id, condition in self.policy_terminal_condition.items():
+            if self._eval(condition, x, y):
+                terminal_policies[policy_id] = 1
+        return terminal_policies
 
     def get_state_index(self, x, y):
         return int(y * np.sqrt(self.feature_rep.shape[0]) + x)
@@ -158,6 +178,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
 
     def get_pi(self, s, a):
         pi_vec = np.zeros(self.num_policies)
-        for i in self.get_active_policies(s):
-            pi_vec[i] = self.get_probability(i, s, a)
+        for policy_id, i in enumerate(self.get_active_policies(s)):
+            if i:
+                pi_vec[policy_id] = self.get_probability(policy_id, s, a)
         return pi_vec
