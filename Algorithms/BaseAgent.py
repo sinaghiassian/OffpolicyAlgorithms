@@ -48,6 +48,8 @@ class BaseAgentLearnMultiplePolicies:
         self.d_mu = self.problem.load_behavior_dist()  # same size as state_values
         self.state, self.next_state, self.action = None, None, None
         self.r_vec = np.zeros(self.problem.num_policies)
+        self.gamma_vec_tp = np.zeros(self.problem.num_policies)
+        self.gamma_vec_t = np.zeros(self.problem.num_policies)
 
     def compute_rmsve(self):
         est_value = np.dot(self.w, self.problem.feature_rep.T)
