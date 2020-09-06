@@ -47,11 +47,10 @@ if __name__ == '__main__':
         RMSVE[:, step] = agent.compute_rmsve()
         agent.action = agent.choose_behavior_action()
         agent.next_state, r, is_terminal, info = env.step(agent.action)
-        # print(agent.action, info['x_p'], info['y_p'])
         agent.learn(agent.state, agent.next_state, r)
         if is_terminal:
             agent.state = env.reset()
             is_terminal = False
             continue
         agent.state = agent.next_state
-    # print(np.mean(RMSVE[:, :], axis=0))
+    print(np.mean(RMSVE[:, :], axis=0))
