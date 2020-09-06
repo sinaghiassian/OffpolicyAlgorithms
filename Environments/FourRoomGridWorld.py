@@ -55,10 +55,10 @@ class FourRoomGridWorld(gym.Env):
     def step(self, action):
         x, y = self._state
         is_stochastic_selected = False
-        if self._stochasticity_fraction >= np.random.uniform():
-            action_probability = [1 / (self.num_actions - 1) if i != action else 0 for i in range(self.num_actions)]
-            action = np.random.choice(self.num_actions, 1, p=action_probability)[0]
-            is_stochastic_selected = True
+        # if self._stochasticity_fraction >= np.random.uniform():
+        #     action_probability = [1 / (self.num_actions - 1) if i != action else 0 for i in range(self.num_actions)]
+        #     action = np.random.choice(self.num_actions, 1, p=action_probability)[0]
+        #     is_stochastic_selected = True
         x_p, y_p = self._next(action, *self._state)
         is_done = self._grid[x_p, y_p] == BLOCK_HALLWAY
         reward = 1 if is_done else 0
