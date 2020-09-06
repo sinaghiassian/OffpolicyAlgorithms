@@ -12,7 +12,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         FourRoomGridWorld.__init__(self)
         self.feature_rep = self.load_feature_rep()
         self.num_features = self.feature_rep.shape[1]
-        self.num_steps = 185
+        self.num_steps = 50000
         self.GAMMA = 0.9
         self.behavior_dist = self.load_behavior_dist()
         self.state_values = self.load_state_values()
@@ -60,7 +60,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
                     ['x == 6 and 9 <= y <= 10', [self.ACTION_DOWN]]
                 ],
                 5: [
-                    ['6 <= x <= 7 and 6 <= y <= 1', [self.ACTION_RIGHT, self.ACTION_DOWN]],
+                    ['6 <= x <= 7 and 6 <= y <= 10', [self.ACTION_RIGHT, self.ACTION_DOWN]],
                     ['9 <= x <= 10 and 6 <= y <= 10', [self.ACTION_DOWN, self.ACTION_LEFT]],
                     ['x == 8 and 5 <= y <= 10', [self.ACTION_DOWN]],
                     ['x == hall[2][0] and y == hall[2][1]', [self.ACTION_RIGHT]],
