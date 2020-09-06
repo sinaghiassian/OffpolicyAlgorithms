@@ -31,7 +31,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
                     ['2 <= x <= 4 and 0 <= y <= 3', [self.ACTION_LEFT, self.ACTION_UP]],
                     ['x == 0 and 0 <= y <= 3', [self.ACTION_RIGHT, self.ACTION_UP]],
                     ['x == 1 and 0 <= y <= 4', [self.ACTION_UP]],
-                    ['y == hall[0][0] and x == hall[0][1]', [self.ACTION_LEFT]],
+                    ['x == hall[0][0] and y == hall[0][1]', [self.ACTION_LEFT]],
                     ['2 <= x <= 4 and y == 4', [self.ACTION_LEFT]],
                     ['x == 0 and y == 4', [self.ACTION_RIGHT]],
                 ],
@@ -147,7 +147,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
 
     def get_active_policies(self, s):
         x, y = self.get_xy(s)
-        active_policy_vec = np.zeros(self.num_policies,dtype=np.uint8)
+        active_policy_vec = np.zeros(self.num_policies)
         for policy_number, policy_values in self.optimal_policies.items():
             for (condition, _) in policy_values:
                 if self._eval(condition, x, y):
