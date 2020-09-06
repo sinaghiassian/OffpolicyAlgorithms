@@ -49,7 +49,7 @@ class FourRoomGridWorld(gym.Env):
         #     rnd = np.random.choice(len(self._normal_tiles[0]))
         #     self._state = (self._normal_tiles[0][rnd], self._normal_tiles[1][rnd])
         # else:
-        self._state = (0, 10)
+        self._state = (0, 0)
         return self.get_state_index(*self._state)
 
     def step(self, action):

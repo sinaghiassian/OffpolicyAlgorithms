@@ -1,5 +1,6 @@
 import numpy as np
 import argparse
+import random
 
 from Registry.AlgRegistry import TD, TDMultiplePolicy
 from Registry.EnvRegistry import Chain, FourRoomGridWorld
@@ -18,6 +19,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_path', '-sp', type=str, default='Experiments/')
     args = parser.parse_args()
     np.random.seed(args.run_number)
+    random.seed(a=args.run_number)
 
     environment_dict = {'FourRoomGridWorld': FourRoomGridWorld, 'Chain': Chain}
     env = environment_dict[args.environment]()
@@ -44,11 +46,12 @@ if __name__ == '__main__':
     for step in range(prob.num_steps):
         RMSVE[:, step] = agent.compute_rmsve()
         agent.action = agent.choose_behavior_action()
-        agent.next_state, r, is_terminal, _ = env.step(agent.action)
+        agent.next_state, r, is_terminal, info = env.step(agent.action)
+        print(agent.action, info['x_p'], info['y_p'])
         agent.learn(agent.state, agent.next_state, r)
         if is_terminal:
             agent.state = env.reset()
             is_terminal = False
             continue
         agent.state = agent.next_state
-    print(RMSVE)
+    # print(np.mean(RMSVE[:, :], axis=0))
