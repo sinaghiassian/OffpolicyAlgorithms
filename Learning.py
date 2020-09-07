@@ -2,7 +2,7 @@ import numpy as np
 import argparse
 import random
 
-from Registry.AlgRegistry import TD, TDMultiplePolicy
+from Registry.AlgRegistry import TD
 from Registry.EnvRegistry import Chain, FourRoomGridWorld
 from Registry.ProbRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
 
@@ -28,7 +28,7 @@ if __name__ == '__main__':
                  'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
     prob = prob_dict[args.problem](run_number=args.run_number)
 
-    alg_dict = {'TD': TD, 'TDMultiplePolicy': TDMultiplePolicy}
+    alg_dict = {'TD': TD}
     alg_params = {
         'TD': {
             'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
@@ -45,11 +45,12 @@ if __name__ == '__main__':
     print(prob)
     RMSVE = np.zeros((prob.num_policies, prob.num_steps))
     agent.state = env.reset()
+    is_terminal = False
     for step in range(prob.num_steps):
         RMSVE[:, step] = agent.compute_rmsve()
         agent.action = agent.choose_behavior_action()
         agent.next_state, r, is_terminal, info = env.step(agent.action)
-        agent.learn(agent.state, agent.next_state, r)
+        agent.learn(agent.state, agent.next_state, r, is_terminal)
         if is_terminal:
             agent.state = env.reset()
             is_terminal = False
