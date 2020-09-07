@@ -1,1 +1,1 @@
-from Algorithms.TD.TD import TD, TDMultiplePolicy
+from Algorithms.TD.TD import TD
