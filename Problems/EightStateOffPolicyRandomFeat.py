@@ -11,7 +11,7 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
         self.N = kwargs.get('n', 8)
         self.feature_rep = self.load_feature_rep()
         self.num_features = self.feature_rep.shape[1]
-        self.num_steps = 100
+        self.num_steps = 10000
         self.GAMMA = 0.9
         self.behavior_dist = self.load_behavior_dist()
         self.state_values = self.load_state_values()
