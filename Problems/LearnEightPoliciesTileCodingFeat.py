@@ -12,7 +12,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         FourRoomGridWorld.__init__(self)
         self.feature_rep = self.load_feature_rep()
         self.num_features = self.feature_rep.shape[1]
-        self.num_steps = 50000
+        self.num_steps = 1000
         self.GAMMA = 0.9
         self.behavior_dist = self.load_behavior_dist()
         self.state_values = self.load_state_values()
