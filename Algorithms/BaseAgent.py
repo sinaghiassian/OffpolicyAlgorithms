@@ -15,10 +15,10 @@ class BaseAgent:
         self.state, self.next_state, self.action = None, None, None
 
     def compute_rmsve(self):
-        est_value = np.dot(self.problem.feature_rep, self.w)
-        error = (est_value - self.state_values)
+        est_value = np.dot(self.problem.feature_rep[:-1, :], self.w)
+        error = (est_value - self.state_values[:-1])
         error_squared = error * error
-        return np.sqrt(np.sum(self.d_mu * error_squared))
+        return np.sqrt(np.sum(self.d_mu[:-1] * error_squared))
 
     def compute_step_size(self):
         return self.alpha
