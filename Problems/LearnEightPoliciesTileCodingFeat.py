@@ -7,6 +7,7 @@ from utils import ImmutableDict
 
 
 class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
+    # noinspection PyUnusedLocal
     def __init__(self, **kwargs):
         BaseProblem.__init__(self)
         FourRoomGridWorld.__init__(self)
@@ -117,22 +118,18 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         x, y = self.get_xy(s)
         terminal_policies = np.zeros(self.num_policies)
         for policy_id, condition in self.policy_terminal_condition.items():
-            if self._eval(condition, x, y):
+            if condition(x, y):
                 terminal_policies[policy_id] = 1
         return terminal_policies
 
     def get_state_index(self, x, y):
         return int(y * np.sqrt(self.feature_rep.shape[0]) + x)
 
-    def _eval(self, condition, x, y):
-        return condition(x, y)
-        # return eval(condition, {'x': x, 'y': y, 'hall': self.hallways})
-
     def get_probability(self, policy_number, s, a):
         x, y = self.get_xy(s)
         probability = 0.0
         for condition, possible_actions in self.optimal_policies[policy_number]:
-            if self._eval(condition, x, y):
+            if condition(x, y):
                 if a in possible_actions:
                     probability = 1.0 / len(possible_actions)
                     break
@@ -142,7 +139,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         x, y = self.get_xy(s)
         a = self.default_actions[policy_id]
         for condition, possible_actions in self.optimal_policies[policy_id]:
-            if self._eval(condition, x, y):
+            if condition(x, y):
                 a = random.choice(possible_actions)
                 break
         return a
@@ -154,7 +151,7 @@ class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
         active_policy_vec = np.zeros(self.num_policies)
         for policy_number, policy_values in self.optimal_policies.items():
             for (condition, _) in policy_values:
-                if self._eval(condition, x, y):
+                if condition(x, y):
                     active_policy_vec[policy_number] = 1
                     break
         self._active_policies_cache[s] = active_policy_vec
