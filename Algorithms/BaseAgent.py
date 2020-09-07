@@ -32,6 +32,9 @@ class BaseAgent:
     def learn(self, *args):
         raise NotImplementedError
 
+    def __str__(self):
+        return f'agent:{__name__}'
+
 
 class BaseAgentLearnMultiplePolicies:
     def __init__(self, problem: BaseProblem, **kwargs):
@@ -68,3 +71,6 @@ class BaseAgentLearnMultiplePolicies:
 
     def learn(self, *args):
         raise NotImplementedError
+
+    def __str__(self):
+        return f'agent:{type(self).__name__}'

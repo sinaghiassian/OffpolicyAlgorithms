@@ -64,3 +64,6 @@ class BaseProblem:
     @abstractmethod
     def load_state_values(self):
         return self.state_values
+
+    def __str__(self):
+        return f'problem:{type(self).__name__}'

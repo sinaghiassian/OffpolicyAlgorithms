@@ -41,6 +41,8 @@ if __name__ == '__main__':
     }
     agent = alg_dict[args.algorithm](prob, **alg_params[args.algorithm])
 
+    print(agent)
+    print(prob)
     RMSVE = np.zeros((prob.num_policies, prob.num_steps))
     agent.state = env.reset()
     for step in range(prob.num_steps):
