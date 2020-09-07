@@ -15,6 +15,7 @@ class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
         self.GAMMA = 0.9
         self.behavior_dist = self.load_behavior_dist()
         self.state_values = self.load_state_values()
+        self.num_policies = 1
 
     def load_feature_rep(self):
         return np.load(f'Resources/{self.__class__.__name__}/feature_rep.npy')[:, :, self.run_number]
