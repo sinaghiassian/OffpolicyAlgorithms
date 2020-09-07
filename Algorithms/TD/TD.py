@@ -7,9 +7,8 @@ class TD(BaseAgent):
         pi = self.problem.get_pi(s, self.action)
         mu = self.problem.get_mu(s, self.action)
         rho = pi / mu
-        if is_terminal:
-            x_p = np.zeros(self.problem.num_features)
-        else:
+        x_p = np.zeros(self.problem.num_features)
+        if not is_terminal:
             x_p = self.problem.get_state_feature_rep(s_p)
         x = self.problem.get_state_feature_rep(s)
         delta = rho * (r + self.gamma * np.dot(self.w, x_p) - np.dot(self.w, x))
@@ -24,9 +23,8 @@ class TD(BaseAgent):
             self.r_vec = r * terminal_policies_vec
         alpha_vec = active_policies_vec * self.compute_step_size()
         x = self.problem.get_state_feature_rep(s)
-        if is_terminal:
-            x_p = np.zeros(self.problem.num_features)
-        else:
+        x_p = np.zeros(self.problem.num_features)
+        if not is_terminal:
             x_p = self.problem.get_state_feature_rep(s_p)
         stacked_x = self.problem.stacked_feature_rep[:, :, s]
         pi = self.problem.get_pi(s, self.action)
