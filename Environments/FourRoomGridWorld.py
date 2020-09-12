@@ -4,8 +4,22 @@ import gym
 import numpy as np
 from gym import utils
 
-BLOCK_NORMAL, BLOCK_WALL, BLOCK_HALLWAY = 0, 1, 2
-
+BLOCK_NORMAL, BLOCK_WALL, BLOCK_HALLWAY, BLOCK_AGENT = 0, 1, 2, 3
+RGB_COLORS = {
+    'red': np.array([240, 52, 52]),
+    'green': np.array([77, 181, 33]),
+    'blue': np.array([29, 111, 219]),
+    'purple': np.array([112, 39, 195]),
+    'yellow': np.array([217, 213, 104]),
+    'grey': np.array([192, 195, 196]),
+    'white': np.array([255, 255, 255]),
+    'red_200': np.array([102, 20, 0]),
+    'red_100': np.array([199, 55, 20]),
+    'red_60': np.array([255, 92, 51]),
+    'red_40': np.array([255, 153, 0]),
+    'red_30': np.array([252, 219, 3]),
+    'red_25': np.array([255, 255, 255]),
+}
 four_room_map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
@@ -28,6 +42,9 @@ class FourRoomGridWorld(gym.Env):
         self._grid = np.transpose(np.flip(np.array(four_room_map, dtype=np.uint8), axis=0)[1:-1, 1:-1])
         self._max_row, self._max_col = self._grid.shape
         self._normal_tiles = np.where(self._grid == BLOCK_NORMAL)
+        self._hallways_tiles = np.where(self._grid == BLOCK_HALLWAY)
+        self._walls_tiles = np.where(self._grid == BLOCK_WALL)
+
         self._state = None
         self._color = {
             BLOCK_NORMAL: lambda c: utils.colorize(c, "white", highlight=True),
@@ -82,9 +99,18 @@ class FourRoomGridWorld(gym.Env):
             for line in img:
                 outfile.write(f'{"".join(line)}\n')
             outfile.write('\n')
+        if mode == "rgb":
+            x, y = self._state
+            img = np.zeros((*self._grid.shape, 3), dtype=np.uint8)
+            img[self._normal_tiles] = RGB_COLORS['grey']
+            img[self._hallways_tiles] = RGB_COLORS['green']
+            img[x, y] = RGB_COLORS['red']
+            ext_img = np.zeros((self._max_row + 2, self._max_col + 2, 3), dtype=np.uint8)
+            ext_img[1:-1, 1:-1] = img
+            return np.flip(ext_img, axis=0)
 
     def get_xy(self, state):
-        return (state % self._max_row),(state // self._max_col)
+        return (state % self._max_row), (state // self._max_col)
 
     def get_state_index(self, x, y):
         return y * self._max_col + x
