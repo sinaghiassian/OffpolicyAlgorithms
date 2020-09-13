@@ -3,6 +3,7 @@ import gym
 import numpy as np
 from gym import utils
 import utils as ut
+from Environments.rendering import Render
 
 BLOCK_NORMAL, BLOCK_WALL, BLOCK_HALLWAY, BLOCK_AGENT = 0, 1, 2, 3
 RGB_COLORS = {
@@ -42,7 +43,7 @@ class FourRoomGridWorld(gym.Env):
         self._state = None
         self._color = {
             BLOCK_NORMAL: lambda c: utils.colorize(c, "white", highlight=True),
-            BLOCK_WALL: lambda c: utils.colorize(c, "gray", highlight=True),
+            BLOCK_WALL: lambda c: utils.colorize(c, "grey", highlight=True),
             BLOCK_HALLWAY: lambda c: utils.colorize(c, "green", highlight=True),
         }
         self.ACTION_UP, self.ACTION_DOWN, self.ACTION_RIGHT, self.ACTION_LEFT = 0, 1, 2, 3
@@ -81,7 +82,7 @@ class FourRoomGridWorld(gym.Env):
             'is_stochastic_selected': is_stochastic_selected,
             'selected_action': action}
 
-    def render(self, mode='human', show_state_numbers=False):
+    def render(self, mode='human', show_state_numbers=False, render_cls: Render = None):
         if mode == 'human':
             outfile = sys.stdout
             img = [
@@ -100,9 +101,15 @@ class FourRoomGridWorld(gym.Env):
             img[self._normal_tiles] = RGB_COLORS['grey']
             img[self._hallways_tiles] = RGB_COLORS['green']
             img[x, y] = RGB_COLORS['red']
+
+            if render_cls is not None:
+                assert render_cls is not type(Render), "render_cls should be Render class"
+                img = render_cls.render(img)
+
             ext_img = np.zeros((self._max_row + 2, self._max_col + 2, 3), dtype=np.uint8)
             ext_img[1:-1, 1:-1] = np.transpose(img, (1, 0, 2))
             if mode == "screen":
+
                 from pyglet.window import Window
                 from pyglet.text import Label
                 from pyglet.gl import GLubyte
