@@ -25,7 +25,7 @@ class BaseAgent:
         est_value = np.dot(self.w, self.problem.feature_rep.T)
         error = est_value - self.state_values
         error_squared = error * error
-        return np.sqrt(np.sum(self.d_mu * error_squared.T, 0) / np.sum(self.d_mu, 0))
+        return np.sqrt(np.sum(self.d_mu * error_squared.T, 0) / np.sum(self.d_mu, 0)), error
 
     def compute_step_size(self):
         return self.alpha
