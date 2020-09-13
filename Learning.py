@@ -52,10 +52,10 @@ if __name__ == '__main__':
     RMSVE = np.zeros((prob.num_policies, prob.num_steps))
     agent.state = env.reset()
     is_terminal = False
-    # error_render = ErrorRender(prob.num_policies, prob.num_steps)
+    error_render = ErrorRender(prob.num_policies, prob.num_steps)
     for step in range(prob.num_steps):
         RMSVE[:, step], error = agent.compute_rmsve()
-        # error_render.add_error(error)
+        error_render.add_error(error)
         agent.action = agent.choose_behavior_action()
         agent.next_state, r, is_terminal, info = env.step(agent.action)
         agent.learn(agent.state, agent.next_state, r, is_terminal)
@@ -64,5 +64,5 @@ if __name__ == '__main__':
             is_terminal = False
             continue
         agent.state = agent.next_state
-        # env.render(mode='screen', render_cls=error_render)
+        env.render(mode='screen', render_cls=error_render)
     print(np.mean(RMSVE[:, :], axis=0))

@@ -19,7 +19,7 @@ class ErrorRender(Render):
         x = self._max_error[0]
         d = (e - x) * 300 * e
         d = np.nan_to_num(d).reshape(11, 11).astype(np.uint8)
-        img[:, :, 1] += np.transpose(d)#((np.flip(np.transpose(d), axis=1)))
+        img[:, :, 1] += np.transpose(d)  # ((np.flip(np.transpose(d), axis=1)))
 
         e = self._error[2]
         x = self._max_error[2]

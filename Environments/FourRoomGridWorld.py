@@ -115,7 +115,7 @@ class FourRoomGridWorld(gym.Env):
                 from pyglet.gl import GLubyte
                 from pyglet.image import ImageData
                 from skimage.transform import resize
-                zoom = 20
+                zoom = 10
                 if self._window is None:
                     self._window = Window((self._max_row + 2) * zoom, (self._max_col + 2) * zoom)
                     self._info = Label('Four Room Grid World', font_size=10, x=5, y=5)
