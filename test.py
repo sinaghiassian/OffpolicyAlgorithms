@@ -11,6 +11,8 @@ if __name__ == "__main__":
     render_mode = 'human'
     render_mode = 'rgb'
     render_mode = 'screen'
+
+    frames = []
     actions = {
         0: 'up',
         1: 'down',
@@ -20,9 +22,10 @@ if __name__ == "__main__":
     env = FourRoomGridWorld()
     problem = LearnEightPoliciesTileCodingFeat()
     state = env.reset()
-    env.render(mode=render_mode)
+    frame = env.render(mode=render_mode)
+    frames.append(frame)
     is_terminal = False
-    for step in range(20000):
+    for step in range(20):
         # a = problem.select_target_action(state, policy_id=0)
         a = np.random.randint(0, 4)
         next_state, r, is_terminal, info = env.step(a)
@@ -37,7 +40,8 @@ if __name__ == "__main__":
             f'terminal:{is_terminal}'
         )
         state = next_state
-        env.render(mode=render_mode)
+        frame = env.render(mode=render_mode)
+        frames.append(frame)
         if is_terminal:
             break
-        # utils.generate_gif(frames, 'fourRoomGridWorld.gif')
+        utils.generate_gif(frames, 'fourRoomGridWorld.gif')

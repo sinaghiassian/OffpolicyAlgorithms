@@ -101,16 +101,14 @@ class FourRoomGridWorld(gym.Env):
             img[self._hallways_tiles] = RGB_COLORS['green']
             img[x, y] = RGB_COLORS['red']
             ext_img = np.zeros((self._max_row + 2, self._max_col + 2, 3), dtype=np.uint8)
-            ext_img[1:-1, 1:-1] = img
-            if mode == "rgb":
-                return np.flip(ext_img, axis=0)
+            ext_img[1:-1, 1:-1] = np.transpose(img, (1, 0, 2))
             if mode == "screen":
                 from pyglet.window import Window
                 from pyglet.text import Label
                 from pyglet.gl import GLubyte
                 from pyglet.image import ImageData
                 from skimage.transform import resize
-                zoom = 30
+                zoom = 20
                 if self._window is None:
                     self._window = Window((self._max_row + 2) * zoom, (self._max_col + 2) * zoom)
                     self._info = Label('Four Room Grid World', font_size=10, x=5, y=5)
@@ -124,6 +122,7 @@ class FourRoomGridWorld(gym.Env):
                 texture.blit(0, 0)
                 self._info.draw()
                 self._window.flip()
+            return np.flip(ext_img, axis=0)
 
     def get_xy(self, state):
         return (state % self._max_row), (state // self._max_col)
