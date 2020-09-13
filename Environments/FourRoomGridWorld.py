@@ -1,5 +1,4 @@
 import sys
-from io import StringIO
 import gym
 import numpy as np
 from gym import utils
@@ -12,13 +11,7 @@ RGB_COLORS = {
     'purple': np.array([112, 39, 195]),
     'yellow': np.array([217, 213, 104]),
     'grey': np.array([192, 195, 196]),
-    'white': np.array([255, 255, 255]),
-    'red_200': np.array([102, 20, 0]),
-    'red_100': np.array([199, 55, 20]),
-    'red_60': np.array([255, 92, 51]),
-    'red_40': np.array([255, 153, 0]),
-    'red_30': np.array([252, 219, 3]),
-    'red_25': np.array([255, 255, 255]),
+    'white': np.array([255, 255, 255])
 }
 four_room_map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -60,6 +53,7 @@ class FourRoomGridWorld(gym.Env):
             2: (5, 8),
             3: (8, 4)
         }
+        self._window, self._info = None, None
 
     def reset(self):
         # if random_agent_start:
@@ -99,7 +93,7 @@ class FourRoomGridWorld(gym.Env):
             for line in img:
                 outfile.write(f'{"".join(line)}\n')
             outfile.write('\n')
-        if mode == "rgb":
+        if mode == "rgb" or mode == "screen":
             x, y = self._state
             img = np.zeros((*self._grid.shape, 3), dtype=np.uint8)
             img[self._normal_tiles] = RGB_COLORS['grey']
@@ -107,7 +101,25 @@ class FourRoomGridWorld(gym.Env):
             img[x, y] = RGB_COLORS['red']
             ext_img = np.zeros((self._max_row + 2, self._max_col + 2, 3), dtype=np.uint8)
             ext_img[1:-1, 1:-1] = img
-            return np.flip(ext_img, axis=0)
+            if mode == "rgb":
+                return np.flip(ext_img, axis=0)
+            if mode == "screen":
+                import pyglet
+                from pyglet.gl import GLubyte
+                from skimage.transform import resize
+                if self._window is None:
+                    self._window = pyglet.window.Window(256, 256)
+                    self._info = pyglet.text.Label('Four Room Grid World', font_size=10, x=5, y=5)
+                self._info.text = f'x: {x}, y: {y}'
+                dt = resize(ext_img, (self._window.width, self._window.height, 3), preserve_range=True, order=0).flatten()
+                dt = (GLubyte * dt.size)(*dt.astype('uint8'))
+                texture = pyglet.image.ImageData(self._window.width, self._window.height, 'RGB', dt).get_texture()
+                self._window.clear()
+                self._window.switch_to()
+                self._window.dispatch_events()
+                texture.blit(0, 0)
+                self._info.draw()
+                self._window.flip()
 
     def get_xy(self, state):
         return (state % self._max_row), (state // self._max_col)
