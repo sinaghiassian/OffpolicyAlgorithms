@@ -2,6 +2,7 @@ import sys
 import gym
 import numpy as np
 from gym import utils
+import utils as ut
 
 BLOCK_NORMAL, BLOCK_WALL, BLOCK_HALLWAY, BLOCK_AGENT = 0, 1, 2, 3
 RGB_COLORS = {
@@ -104,16 +105,19 @@ class FourRoomGridWorld(gym.Env):
             if mode == "rgb":
                 return np.flip(ext_img, axis=0)
             if mode == "screen":
-                import pyglet
+                from pyglet.window import Window
+                from pyglet.text import Label
                 from pyglet.gl import GLubyte
+                from pyglet.image import ImageData
                 from skimage.transform import resize
+                zoom = 30
                 if self._window is None:
-                    self._window = pyglet.window.Window(256, 256)
-                    self._info = pyglet.text.Label('Four Room Grid World', font_size=10, x=5, y=5)
+                    self._window = Window((self._max_row + 2) * zoom, (self._max_col + 2) * zoom)
+                    self._info = Label('Four Room Grid World', font_size=10, x=5, y=5)
                 self._info.text = f'x: {x}, y: {y}'
-                dt = resize(ext_img, (self._window.width, self._window.height, 3), preserve_range=True, order=0).flatten()
-                dt = (GLubyte * dt.size)(*dt.astype('uint8'))
-                texture = pyglet.image.ImageData(self._window.width, self._window.height, 'RGB', dt).get_texture()
+                dt = np.kron(ext_img, np.ones((zoom, zoom, 1)))
+                dt = (GLubyte * dt.size)(*dt.flatten().astype('uint8'))
+                texture = ImageData(self._window.width, self._window.height, 'RGB', dt).get_texture()
                 self._window.clear()
                 self._window.switch_to()
                 self._window.dispatch_events()
