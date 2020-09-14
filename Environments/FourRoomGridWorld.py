@@ -98,13 +98,14 @@ class FourRoomGridWorld(gym.Env):
         if mode == "rgb" or mode == "screen":
             x, y = self._state
             img = np.zeros((*self._grid.shape, 3), dtype=np.uint8)
-            img[self._normal_tiles] = RGB_COLORS['grey']
-            img[self._hallways_tiles] = RGB_COLORS['green']
-            img[x, y] = RGB_COLORS['red']
+            img[self._normal_tiles] = RGB_COLORS['white']
 
             if render_cls is not None:
                 assert render_cls is not type(Render), "render_cls should be Render class"
                 img = render_cls.render(img)
+
+            img[self._hallways_tiles] = RGB_COLORS['green']
+            img[x, y] = RGB_COLORS['red']
 
             ext_img = np.zeros((self._max_row + 2, self._max_col + 2, 3), dtype=np.uint8)
             ext_img[1:-1, 1:-1] = np.transpose(img, (1, 0, 2))
@@ -115,7 +116,7 @@ class FourRoomGridWorld(gym.Env):
                 from pyglet.gl import GLubyte
                 from pyglet.image import ImageData
                 from skimage.transform import resize
-                zoom = 10
+                zoom = 20
                 if self._window is None:
                     self._window = Window((self._max_row + 2) * zoom, (self._max_col + 2) * zoom)
                     self._info = Label('Four Room Grid World', font_size=10, x=5, y=5)
