@@ -25,9 +25,11 @@ if __name__ == "__main__":
     frame = env.render(mode=render_mode)
     frames.append(frame)
     is_terminal = False
-    for step in range(20):
+    s_a = [0, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2, 2]
+    for step in range(len(s_a)):
         # a = problem.select_target_action(state, policy_id=0)
-        a = np.random.randint(0, 4)
+        # a = np.random.randint(0, 4)
+        a = s_a[step]
         next_state, r, is_terminal, info = env.step(a)
         x, y, x_p, y_p, is_rand, selected_action = info.values()
         print(

@@ -8,11 +8,13 @@ from Environments.rendering import Render
 BLOCK_NORMAL, BLOCK_WALL, BLOCK_HALLWAY, BLOCK_AGENT = 0, 1, 2, 3
 RGB_COLORS = {
     'red': np.array([240, 52, 52]),
+    'black': np.array([0, 0, 0]),
     'green': np.array([77, 181, 33]),
     'blue': np.array([29, 111, 219]),
     'purple': np.array([112, 39, 195]),
     'yellow': np.array([217, 213, 104]),
     'grey': np.array([192, 195, 196]),
+    'light_grey': np.array([230, 230, 230]),
     'white': np.array([255, 255, 255])
 }
 four_room_map = [
@@ -43,7 +45,7 @@ class FourRoomGridWorld(gym.Env):
         self._state = None
         self._color = {
             BLOCK_NORMAL: lambda c: utils.colorize(c, "white", highlight=True),
-            BLOCK_WALL: lambda c: utils.colorize(c, "grey", highlight=True),
+            BLOCK_WALL: lambda c: utils.colorize(c, "light_grey", highlight=True),
             BLOCK_HALLWAY: lambda c: utils.colorize(c, "green", highlight=True),
         }
         self.ACTION_UP, self.ACTION_DOWN, self.ACTION_RIGHT, self.ACTION_LEFT = 0, 1, 2, 3
@@ -98,12 +100,13 @@ class FourRoomGridWorld(gym.Env):
         if mode == "rgb" or mode == "screen":
             x, y = self._state
             img = np.zeros((*self._grid.shape, 3), dtype=np.uint8)
-            img[self._normal_tiles] = RGB_COLORS['white']
+            img[self._normal_tiles] = RGB_COLORS['light_grey']
 
             if render_cls is not None:
                 assert render_cls is not type(Render), "render_cls should be Render class"
                 img = render_cls.render(img)
 
+            img[self._walls_tiles] = RGB_COLORS['black']
             img[self._hallways_tiles] = RGB_COLORS['green']
             img[x, y] = RGB_COLORS['red']
 
@@ -120,7 +123,7 @@ class FourRoomGridWorld(gym.Env):
                 if self._window is None:
                     self._window = Window((self._max_row + 2) * zoom, (self._max_col + 2) * zoom)
                     self._info = Label('Four Room Grid World', font_size=10, x=5, y=5)
-                self._info.text = f'x: {x}, y: {y}'
+                #self._info.text = f'x: {x}, y: {y}'
                 dt = np.kron(ext_img, np.ones((zoom, zoom, 1)))
                 dt = (GLubyte * dt.size)(*dt.flatten().astype('uint8'))
                 texture = ImageData(self._window.width, self._window.height, 'RGB', dt).get_texture()
@@ -128,7 +131,7 @@ class FourRoomGridWorld(gym.Env):
                 self._window.switch_to()
                 self._window.dispatch_events()
                 texture.blit(0, 0)
-                self._info.draw()
+                #self._info.draw()
                 self._window.flip()
             return np.flip(ext_img, axis=0)
 
