@@ -45,7 +45,7 @@ class FourRoomGridWorld(gym.Env):
         self._state = None
         self._color = {
             BLOCK_NORMAL: lambda c: utils.colorize(c, "white", highlight=True),
-            BLOCK_WALL: lambda c: utils.colorize(c, "light_grey", highlight=True),
+            BLOCK_WALL: lambda c: utils.colorize(c, "gray", highlight=True),
             BLOCK_HALLWAY: lambda c: utils.colorize(c, "green", highlight=True),
         }
         self.ACTION_UP, self.ACTION_DOWN, self.ACTION_RIGHT, self.ACTION_LEFT = 0, 1, 2, 3

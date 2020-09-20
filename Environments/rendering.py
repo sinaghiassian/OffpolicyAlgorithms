@@ -15,12 +15,12 @@ class ErrorRender(Render):
         self._error, self._max_error, self._valid_state = None, None, None
 
     def render(self, img):
-        self.color_policy(img, 0)
-        # self.color_policy(img, 1)
+        # self.color_policy(img, 0)
+        self.color_policy(img, 1)
         # self.color_policy(img, 2)
-        # #self.color_policy(img, 3)
+        self.color_policy(img, 3)
         # self.color_policy(img, 4)
-        # #self.color_policy(img, 5)
+        self.color_policy(img, 5)
         # self.color_policy(img, 6)
         self.color_policy(img, 7)
 
@@ -42,8 +42,6 @@ class ErrorRender(Render):
         d = np.nan_to_num(d).astype(np.uint8).T
         d = np.repeat(d, 3).reshape(11, 11, 3)
         d[:, :, 2] = 230
-        # d = np.transpose(d, (1, 0, 2))
-        # d = np.flip(d, axis=(0,1))
         c = np.where(self._valid_state[policy_number].T == 1)
         img[c] = d[c]
         return img

@@ -48,14 +48,10 @@ if __name__ == '__main__':
     agent.state = env.reset()
     is_terminal = False
     error_render = ErrorRender(prob.num_policies, prob.num_steps)
-
-    s_a = [2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3,3]
-
     for step in range(prob.num_steps):
         RMSVE[:, step], error = agent.compute_rmsve()
         error_render.add_error(error)
         agent.action = agent.choose_behavior_action()
-        agent.action = s_a[step % len(s_a)]
         if step == 0:
             agent.action = 0
         agent.next_state, r, is_terminal, info = env.step(agent.action)
