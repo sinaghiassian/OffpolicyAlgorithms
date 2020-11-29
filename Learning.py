@@ -42,8 +42,6 @@ if __name__ == '__main__':
     }
     agent = alg_dict[args.algorithm](prob, **alg_params[args.algorithm])
 
-    print(agent)
-    print(prob)
     RMSVE = np.zeros((prob.num_policies, prob.num_steps))
     agent.state = env.reset()
     is_terminal = False
@@ -52,8 +50,6 @@ if __name__ == '__main__':
         RMSVE[:, step], error = agent.compute_rmsve()
         error_render.add_error(error)
         agent.action = agent.choose_behavior_action()
-        if step == 0:
-            agent.action = 0
         agent.next_state, r, is_terminal, info = env.step(agent.action)
         agent.learn(agent.state, agent.next_state, r, is_terminal)
         if is_terminal:
