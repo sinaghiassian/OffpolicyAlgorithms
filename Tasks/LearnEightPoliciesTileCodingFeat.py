@@ -2,7 +2,7 @@ import numpy as np
 import random
 
 from Environments.FourRoomGridWorld import FourRoomGridWorld
-from Problems.BaseProblem import BaseProblem
+from Tasks.BaseProblem import BaseProblem
 from utils import ImmutableDict
 
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-from Problems.BaseProblem import BaseProblem
+from Tasks.BaseProblem import BaseProblem
 
 
 class BaseAgent:

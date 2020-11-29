@@ -2,7 +2,7 @@ import time
 
 import utils
 from Environments.FourRoomGridWorld import FourRoomGridWorld
-from Problems.LearnEightPoliciesTileCodingFeat import LearnEightPoliciesTileCodingFeat
+from Tasks.LearnEightPoliciesTileCodingFeat import LearnEightPoliciesTileCodingFeat
 import pyglet
 from skimage.transform import resize
 import numpy as np

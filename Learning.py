@@ -5,7 +5,7 @@ import random
 from Environments.rendering import ErrorRender
 from Registry.AlgRegistry import TD
 from Registry.EnvRegistry import Chain, FourRoomGridWorld
-from Registry.ProbRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
+from Registry.TaskRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
 
 from Job.JobBuilder import default_params
 
@@ -25,28 +25,28 @@ if __name__ == '__main__':
     environment_dict = {'FourRoomGridWorld': FourRoomGridWorld, 'Chain': Chain}
     env = environment_dict[args.environment]()
 
-    prob_dict = {'EightStateOffPolicyRandomFeat': EightStateOffPolicyRandomFeat,
+    task_dict = {'EightStateOffPolicyRandomFeat': EightStateOffPolicyRandomFeat,
                  'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
-    prob = prob_dict[args.problem](run_number=args.run_number)
+    task = task_dict[args.problem](run_number=args.run_number)
 
     alg_dict = {'TD': TD}
     alg_params = {
         'TD': {
             'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': prob.num_features, 'GAMMA': prob.GAMMA
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
         },
         'TDMultiplePolicy': {
             'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': prob.num_features, 'GAMMA': prob.GAMMA
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
         }
     }
-    agent = alg_dict[args.algorithm](prob, **alg_params[args.algorithm])
+    agent = alg_dict[args.algorithm](task, **alg_params[args.algorithm])
 
-    RMSVE = np.zeros((prob.num_policies, prob.num_steps))
+    RMSVE = np.zeros((task.num_policies, task.num_steps))
     agent.state = env.reset()
     is_terminal = False
-    error_render = ErrorRender(prob.num_policies, prob.num_steps)
-    for step in range(prob.num_steps):
+    error_render = ErrorRender(task.num_policies, task.num_steps)
+    for step in range(task.num_steps):
         RMSVE[:, step], error = agent.compute_rmsve()
         error_render.add_error(error)
         agent.action = agent.choose_behavior_action()

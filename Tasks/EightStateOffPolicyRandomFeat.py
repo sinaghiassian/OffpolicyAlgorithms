@@ -1,7 +1,7 @@
 import numpy as np
 
 from Environments.Chain import Chain
-from Problems.BaseProblem import BaseProblem
+from Tasks.BaseProblem import BaseProblem
 
 
 class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
