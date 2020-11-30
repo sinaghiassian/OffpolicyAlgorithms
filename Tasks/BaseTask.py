@@ -2,7 +2,7 @@ from abc import abstractmethod
 import numpy as np
 
 
-class BaseProblem:
+class BaseTask:
     def __init__(self, **kwargs):
         self.run_number = kwargs.get('run_number', 0)
         self.num_steps = 5000
@@ -66,4 +66,4 @@ class BaseProblem:
         return self.state_values
 
     def __str__(self):
-        return f'problem:{type(self).__name__}'
+        return f'task:{type(self).__name__}'

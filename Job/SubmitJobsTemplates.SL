@@ -13,7 +13,7 @@ run=({__RUN__})
 algorithm=(__ALGORITHM__)
 environment=(__ENVIRONMENT__)
 feature_kind=(__FEATUREKIND__)
-problem=(__PROBLEM__)
+task=(__TASK__)
 save_path=(__SAVEPATH__)
 
 module load NiaEnv/2019b
@@ -35,7 +35,7 @@ NCORES=$(($SLURM_NNODES * $SLURM_NTASKS_PER_NODE))
 parallel --env OMP_NUM_THREADS,PATH,LD_LIBRARY_PATH --joblog slurm-$SLURM_JOBID.log \
 -j $NCORES -S $HOSTS --wd $PWD python Learning.py ::: -alg ::: ${algorithm[@]} ::: \
 -a ::: ${alpha[@]} ::: -r ::: ${run[@]} ::: -sp ::: ${save_path[@]} ::: \
--e ::: ${environment[@]} ::: -f ::: ${feature_kind[@]} ::: -p ::: ${problem[@]}
+-e ::: ${environment[@]} ::: -f ::: ${feature_kind[@]} ::: -p ::: ${task[@]}
 
 
 echo "Program test finished with exit code $? at: $(date)"

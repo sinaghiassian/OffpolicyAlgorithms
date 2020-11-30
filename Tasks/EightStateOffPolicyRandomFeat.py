@@ -1,12 +1,12 @@
 import numpy as np
 
 from Environments.Chain import Chain
-from Tasks.BaseProblem import BaseProblem
+from Tasks.BaseTask import BaseTask
 
 
-class EightStateOffPolicyRandomFeat(BaseProblem, Chain):
+class EightStateOffPolicyRandomFeat(BaseTask, Chain):
     def __init__(self, **kwargs):
-        BaseProblem.__init__(self, **kwargs)
+        BaseTask.__init__(self, **kwargs)
         Chain.__init__(self)
         self.N = kwargs.get('n', 8)
         self.feature_rep = self.load_feature_rep()

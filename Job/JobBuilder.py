@@ -7,10 +7,10 @@ from utils import ImmutableDict
 default_params = ImmutableDict(
     {
         # 'agent': 'TD',
-        # 'problem': 'EightStateOffPolicyRandomFeat',
+        # 'task': 'EightStateOffPolicyRandomFeat',
         # 'environment': 'Chain',
         'agent': 'TD',
-        'problem': 'LearnEightPoliciesTileCodingFeat',
+        'task': 'LearnEightPoliciesTileCodingFeat',
         'environment': 'FourRoomGridWorld',
 
         'meta_parameters': {
@@ -44,7 +44,7 @@ class JobBuilder:
                 'RUN': f'0..{self.run}',
                 'ALGORITHM': self.agent,
                 'ENVIRONMENT': self.environment,
-                'PROBLEM': self.problem,
+                'TASK': self.task,
                 'SAVEPATH': self.save_path,
 
             })
@@ -54,8 +54,8 @@ class JobBuilder:
         return self._params.get('agent', default_params['agent'])
 
     @property
-    def problem(self):
-        return self._params.get('problem', default_params['problem'])
+    def task(self):
+        return self._params.get('task', default_params['task'])
 
     @property
     def environment(self):

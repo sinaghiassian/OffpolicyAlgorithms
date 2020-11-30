@@ -2,14 +2,14 @@ import numpy as np
 import random
 
 from Environments.FourRoomGridWorld import FourRoomGridWorld
-from Tasks.BaseProblem import BaseProblem
+from Tasks.BaseTask import BaseTask
 from utils import ImmutableDict
 
 
-class LearnEightPoliciesTileCodingFeat(BaseProblem, FourRoomGridWorld):
+class LearnEightPoliciesTileCodingFeat(BaseTask, FourRoomGridWorld):
     # noinspection PyUnusedLocal
     def __init__(self, **kwargs):
-        BaseProblem.__init__(self)
+        BaseTask.__init__(self)
         FourRoomGridWorld.__init__(self)
         self.feature_rep = self.load_feature_rep()
         self.num_features = self.feature_rep.shape[1]

@@ -1,7 +1,6 @@
 import numpy as np
 import argparse
 import random
-
 from Environments.rendering import ErrorRender
 from Registry.AlgRegistry import TD
 from Registry.EnvRegistry import Chain, FourRoomGridWorld
@@ -14,10 +13,11 @@ if __name__ == '__main__':
     parser.add_argument('--alpha', '-a', type=float, default=default_params['meta_parameters']['alpha'])
     parser.add_argument('-lmbda', '-l', type=float, default=default_params['meta_parameters']['lmbda'])
     parser.add_argument('--algorithm', '-alg', type=str, default=default_params['agent'])
-    parser.add_argument('--problem', '-p', type=str, default=default_params['problem'])
+    parser.add_argument('--task', '-t', type=str, default=default_params['task'])
     parser.add_argument('--run_number', '-r', type=int, default=default_params['meta_parameters']['run'])
     parser.add_argument('--environment', '-e', type=str, default=default_params['environment'])
     parser.add_argument('--save_path', '-sp', type=str, default='Experiments/')
+    parser.add_argument('--render', '-render', type=bool, default=False)
     args = parser.parse_args()
     np.random.seed(args.run_number)
     random.seed(a=args.run_number)
@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     task_dict = {'EightStateOffPolicyRandomFeat': EightStateOffPolicyRandomFeat,
                  'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
-    task = task_dict[args.problem](run_number=args.run_number)
+    task = task_dict[args.task](run_number=args.run_number)
 
     alg_dict = {'TD': TD}
     alg_params = {
@@ -57,5 +57,11 @@ if __name__ == '__main__':
             is_terminal = False
             continue
         agent.state = agent.next_state
-        env.render(mode='screen', render_cls=error_render)
+        if args.render:
+            env.render(mode='screen', render_cls=error_render)
     print(np.mean(RMSVE[:, :], axis=0))
+
+# TODO: Collector: Save and load the data.
+# TODO: Implement new algorithms and check against the old code.
+# TODO: Add Plotting code.
+# TODO: JOB submission. Add Cedar compatibility and AWS/Google compute compatibility.

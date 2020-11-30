@@ -1,7 +1,7 @@
 {
   "agent": "TD",
   "environment": "Chain",
-  "problem": "EightStateOffPolicyRandomFeat",
+  "task": "EightStateOffPolicyRandomFeat",
   "meta_parameters": {
     "alpha": [
       0.0625,

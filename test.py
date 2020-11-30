@@ -20,14 +20,14 @@ if __name__ == "__main__":
         3: 'left',
     }
     env = FourRoomGridWorld()
-    problem = LearnEightPoliciesTileCodingFeat()
+    task = LearnEightPoliciesTileCodingFeat()
     state = env.reset()
     frame = env.render(mode=render_mode)
     frames.append(frame)
     is_terminal = False
     s_a = [0, 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2, 2]
     for step in range(len(s_a)):
-        # a = problem.select_target_action(state, policy_id=0)
+        # a = task.select_target_action(state, policy_id=0)
         # a = np.random.randint(0, 4)
         a = s_a[step]
         next_state, r, is_terminal, info = env.step(a)
