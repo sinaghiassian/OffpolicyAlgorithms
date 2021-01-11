@@ -2,7 +2,6 @@ import sys
 import gym
 import numpy as np
 from gym import utils
-import utils as ut
 from Environments.rendering import Render
 
 BLOCK_NORMAL, BLOCK_WALL, BLOCK_HALLWAY, BLOCK_AGENT = 0, 1, 2, 3
@@ -123,7 +122,7 @@ class FourRoomGridWorld(gym.Env):
                 if self._window is None:
                     self._window = Window((self._max_row + 2) * zoom, (self._max_col + 2) * zoom)
                     self._info = Label('Four Room Grid World', font_size=10, x=5, y=5)
-                #self._info.text = f'x: {x}, y: {y}'
+                # self._info.text = f'x: {x}, y: {y}'
                 dt = np.kron(ext_img, np.ones((zoom, zoom, 1)))
                 dt = (GLubyte * dt.size)(*dt.flatten().astype('uint8'))
                 texture = ImageData(self._window.width, self._window.height, 'RGB', dt).get_texture()
@@ -131,7 +130,7 @@ class FourRoomGridWorld(gym.Env):
                 self._window.switch_to()
                 self._window.dispatch_events()
                 texture.blit(0, 0)
-                #self._info.draw()
+                # self._info.draw()
                 self._window.flip()
             return np.flip(ext_img, axis=0)
 

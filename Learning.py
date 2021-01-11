@@ -5,7 +5,6 @@ from Environments.rendering import ErrorRender
 from Registry.AlgRegistry import TD
 from Registry.EnvRegistry import Chain, FourRoomGridWorld
 from Registry.TaskRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
-
 from Job.JobBuilder import default_params
 
 if __name__ == '__main__':
@@ -18,6 +17,7 @@ if __name__ == '__main__':
     parser.add_argument('--environment', '-e', type=str, default=default_params['environment'])
     parser.add_argument('--save_path', '-sp', type=str, default='Experiments/')
     parser.add_argument('--render', '-render', type=bool, default=False)
+
     args = parser.parse_args()
     np.random.seed(args.run_number)
     random.seed(a=args.run_number)

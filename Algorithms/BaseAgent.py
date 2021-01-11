@@ -7,9 +7,11 @@ class BaseAgent:
     def __init__(self, task: BaseTask, **kwargs):
         self.task = task
         self.w = np.zeros(self.task.num_features)
+        self.v = np.zeros(self.task.num_features)
         self.z = np.zeros(self.task.num_features)
         if self.task.num_policies > 1:
             self.w = np.zeros((self.task.num_policies, self.task.num_features))
+            self.v = np.zeros((self.task.num_policies, self.task.num_features))
             self.z = np.zeros((self.task.num_policies, self.task.num_features))
         self.gamma = kwargs['GAMMA']
         self.alpha = kwargs['alpha']
