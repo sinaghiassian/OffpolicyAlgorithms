@@ -11,9 +11,10 @@ class TD(BaseAgent):
         if not is_terminal:
             x_p = self.task.get_state_feature_rep(s_p)
         x = self.task.get_state_feature_rep(s)
-        delta = rho * (r + self.gamma * np.dot(self.w, x_p) - np.dot(self.w, x))
+        delta = r + self.gamma * np.dot(self.w, x_p) - np.dot(self.w, x)
+        self.z = rho * (self.gamma * self.lmbda * self.z + x)
         alpha = self.compute_step_size()
-        self.w += alpha * delta * x
+        self.w += alpha * delta * self.z
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
         active_policies_vec = self.task.get_active_policies(s)

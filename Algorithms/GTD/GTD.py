@@ -2,7 +2,7 @@ from Algorithms.BaseAgent import BaseAgent
 import numpy as np
 
 
-class TD(BaseAgent):
+class GTD(BaseAgent):
     def learn_single_policy(self, s, s_p, r, is_terminal):
         pi = self.task.get_pi(s, self.action)
         mu = self.task.get_mu(s, self.action)
