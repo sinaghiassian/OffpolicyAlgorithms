@@ -1,19 +1,10 @@
-from Algorithms.BaseAgent import BaseAgent
+from Algorithms.BaseTD import BaseTD
 import numpy as np
 
 
-class TD(BaseAgent):
+class TD(BaseTD):
     def learn_single_policy(self, s, s_p, r, is_terminal):
-        pi = self.task.get_pi(s, self.action)
-        mu = self.task.get_mu(s, self.action)
-        rho = pi / mu
-        x_p = np.zeros(self.task.num_features)
-        if not is_terminal:
-            x_p = self.task.get_state_feature_rep(s_p)
-        x = self.task.get_state_feature_rep(s)
-        delta = r + self.gamma * np.dot(self.w, x_p) - np.dot(self.w, x)
-        self.z = rho * (self.gamma * self.lmbda * self.z + x)
-        alpha = self.compute_step_size()
+        delta, alpha, *_ = super().learn_single_policy(s, s_p, r, is_terminal)
         self.w += alpha * delta * self.z
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):

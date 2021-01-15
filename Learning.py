@@ -64,6 +64,7 @@ if __name__ == '__main__':
         if is_terminal:
             agent.state = env.reset()
             is_terminal = False
+            agent.reset()
             continue
         agent.state = agent.next_state
         # if args.render:
