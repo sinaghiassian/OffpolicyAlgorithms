@@ -17,7 +17,7 @@ default_params = ImmutableDict(
             # 'alpha': [.5 ** i for i in range(4, 10)],
             'alpha': 0.01,
             'alpha_v': 0.01,
-            'lmbda': 0.0,
+            'lmbda': 0.1,
             "run": 0
         }
     }
