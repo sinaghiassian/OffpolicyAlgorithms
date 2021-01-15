@@ -1,4 +1,5 @@
 from Algorithms.BaseGradient import BaseGradient
+import numpy as np
 
 
 class ETDLB(BaseGradient):
@@ -17,6 +18,11 @@ class ETDLB(BaseGradient):
         self.z = rho * (x * m + self.gamma * self.lmbda * self.z)
         self.w += self.compute_step_size() * delta * self.z
         self.old_rho = rho
+
+    def reset(self):
+        self.z = np.zeros(self.task.num_features)
+        self.F = 1
+        self.old_rho = 0
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
         ...

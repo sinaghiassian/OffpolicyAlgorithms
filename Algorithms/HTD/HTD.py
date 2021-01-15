@@ -16,3 +16,7 @@ class HTD(BaseGradient):
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
         ...
+
+    def reset(self):
+        super().reset()
+        self.z_b = np.zeros(self.task.num_features)
