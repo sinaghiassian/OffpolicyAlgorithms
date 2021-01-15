@@ -41,17 +41,28 @@ class BaseTD:
         else:
             self.learn_multiple_policies(s, s_p, r, is_terminal)
 
-    def learn_single_policy(self, s, s_p, r, is_terminal):
-        pi = self.task.get_pi(s, self.action)
-        mu = self.task.get_mu(s, self.action)
-        rho = pi / mu
+    def get_features(self, s, s_p, is_terminal):
         x_p = np.zeros(self.task.num_features)
         if not is_terminal:
             x_p = self.task.get_state_feature_rep(s_p)
         x = self.task.get_state_feature_rep(s)
-        delta = r + self.gamma * np.dot(self.w, x_p) - np.dot(self.w, x)
-        self.z = rho * (self.gamma * self.lmbda * self.z + x)
+        return x, x_p
+
+    def get_isr(self, s):
+        pi = self.task.get_pi(s, self.action)
+        mu = self.task.get_mu(s, self.action)
+        rho = pi / mu
+        return rho
+
+    def get_delta(self, r, x, x_p):
+        return r + self.gamma * np.dot(self.w, x_p) - np.dot(self.w, x)
+
+    def learn_single_policy(self, s, s_p, r, is_terminal):
+        x, x_p = self.get_features(s, s_p, is_terminal)
+        rho = self.get_isr(s)
         alpha = self.compute_step_size()
+        delta = self.get_delta(r, x, x_p)
+        self.z = rho * (self.gamma * self.lmbda * self.z + x)
         return delta, alpha, x, x_p, rho
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
