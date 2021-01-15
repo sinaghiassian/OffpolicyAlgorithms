@@ -2,19 +2,16 @@ import numpy as np
 from Tasks.BaseTask import BaseTask
 
 
-class BaseAgent:
+class BaseTD:
     def __init__(self, task: BaseTask, **kwargs):
         self.task = task
         self.w = np.zeros(self.task.num_features)
-        self.v = np.zeros(self.task.num_features)
         self.z = np.zeros(self.task.num_features)
         if self.task.num_policies > 1:
             self.w = np.zeros((self.task.num_policies, self.task.num_features))
-            self.v = np.zeros((self.task.num_policies, self.task.num_features))
             self.z = np.zeros((self.task.num_policies, self.task.num_features))
         self.gamma = kwargs['GAMMA']
         self.alpha = kwargs['alpha']
-        self.alpha_v = kwargs.get('alpha_v')
         self.lmbda = kwargs['lmbda']
         self.state_values = self.task.load_state_values()  # This is of size num_policies * 121
         self.d_mu = self.task.load_behavior_dist()  # same size as state_values
@@ -45,10 +42,25 @@ class BaseAgent:
             self.learn_multiple_policies(s, s_p, r, is_terminal)
 
     def learn_single_policy(self, s, s_p, r, is_terminal):
-        raise NotImplementedError
+        pi = self.task.get_pi(s, self.action)
+        mu = self.task.get_mu(s, self.action)
+        rho = pi / mu
+        x_p = np.zeros(self.task.num_features)
+        if not is_terminal:
+            x_p = self.task.get_state_feature_rep(s_p)
+        x = self.task.get_state_feature_rep(s)
+        delta = r + self.gamma * np.dot(self.w, x_p) - np.dot(self.w, x)
+        self.z = rho * (self.gamma * self.lmbda * self.z + x)
+        alpha = self.compute_step_size()
+        return delta, alpha, x, x_p, rho
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
         raise NotImplementedError
+
+    def reset(self):
+        self.z = np.zeros(self.task.num_features)
+        if self.task.num_policies > 1:
+            self.z = np.zeros((self.task.num_policies, self.task.num_features))
 
     def __str__(self):
         return f'agent:{type(self).__name__}'
