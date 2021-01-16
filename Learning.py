@@ -1,7 +1,7 @@
 import numpy as np
 import argparse
 import random
-from Registry.AlgRegistry import TD, GTD
+from Registry.AlgRegistry import TD, GTD, GTD2, HTD, ETDLB
 from Registry.EnvRegistry import Chain, FourRoomGridWorld
 from Registry.TaskRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
 from Job.JobBuilder import default_params
@@ -11,6 +11,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--alpha', '-a', type=float, default=default_params['meta_parameters']['alpha'])
     parser.add_argument('--alphav', '-av', type=float, default=default_params['meta_parameters']['alpha_v'])
+    parser.add_argument('--beta', '-b', type=float, default=default_params['meta_parameters']['beta'])
     parser.add_argument('-lmbda', '-l', type=float, default=default_params['meta_parameters']['lmbda'])
     parser.add_argument('--algorithm', '-alg', type=str, default=default_params['agent'])
     parser.add_argument('--task', '-t', type=str, default=default_params['task'])
@@ -30,7 +31,7 @@ if __name__ == '__main__':
                  'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
     task = task_dict[args.task](run_number=args.run_number)
 
-    alg_dict = {'TD': TD, 'GTD': GTD}
+    alg_dict = {'TD': TD, 'GTD': GTD, 'GTD2': GTD2, 'HTD': HTD, 'ETDLB': ETDLB}
     alg_params = {
         'TD': {
             'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
@@ -46,6 +47,30 @@ if __name__ == '__main__':
         },
         'GTDMultiplePolicy': {
             'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'GTD2': {
+            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'GTD2MultiplePolicy': {
+            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'HTD': {
+            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'HTDMultiplePolicy': {
+            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'ETDLB': {
+            'alpha': args.alpha, 'beta': args.beta, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'ETDLBMultiplePolicy': {
+            'alpha': args.alpha, 'beta': args.beta, 'lmbda': args.lmbda, 'run': args.run_number,
             'num_features': task.num_features, 'GAMMA': task.GAMMA
         }
     }

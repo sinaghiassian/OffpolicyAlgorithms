@@ -10,7 +10,7 @@ class HTD(BaseGradient):
     def learn_single_policy(self, s, s_p, r, is_terminal):
         delta, alpha, x, x_p, _ = super().learn_single_policy(s, s_p, r, is_terminal)
         alpha_v = self.compute_second_step_size()
-        self.z_b = self.gamma * self.lmbda * self.z + x
+        self.z_b = self.gamma * self.lmbda * self.z_b + x
         self.w += alpha * ((delta * self.z) + (x - self.gamma * x_p) * np.dot((self.z - self.z_b), self.v))
         self.v += alpha_v * ((delta * self.z) - (x - self.gamma * x_p) * np.dot(self.v, self.z_b))
 

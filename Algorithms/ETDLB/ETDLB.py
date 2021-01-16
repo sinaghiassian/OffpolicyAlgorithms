@@ -1,8 +1,8 @@
-from Algorithms.BaseGradient import BaseGradient
+from Algorithms.BaseTD import BaseTD
 import numpy as np
 
 
-class ETDLB(BaseGradient):
+class ETDLB(BaseTD):
     def __init__(self, task, **kwargs):
         super().__init__(task, **kwargs)
         self.F = 1
