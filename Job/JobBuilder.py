@@ -6,7 +6,7 @@ from utils import ImmutableDict
 
 default_params = ImmutableDict(
     {
-        'agent': 'ETDLB',
+        'agent': 'PGTD2',
         'task': 'EightStateOffPolicyRandomFeat',
         'environment': 'Chain',
         # 'agent': 'TD',

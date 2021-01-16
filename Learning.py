@@ -1,7 +1,7 @@
 import numpy as np
 import argparse
 import random
-from Registry.AlgRegistry import TD, GTD, GTD2, HTD, ETDLB
+from Registry.AlgRegistry import TD, GTD, GTD2, PGTD2, HTD, ETDLB
 from Registry.EnvRegistry import Chain, FourRoomGridWorld
 from Registry.TaskRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
 from Job.JobBuilder import default_params
@@ -31,7 +31,7 @@ if __name__ == '__main__':
                  'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
     task = task_dict[args.task](run_number=args.run_number)
 
-    alg_dict = {'TD': TD, 'GTD': GTD, 'GTD2': GTD2, 'HTD': HTD, 'ETDLB': ETDLB}
+    alg_dict = {'TD': TD, 'GTD': GTD, 'GTD2': GTD2, 'PGTD2': PGTD2, 'HTD': HTD, 'ETDLB': ETDLB}
     alg_params = {
         'TD': {
             'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
@@ -54,6 +54,14 @@ if __name__ == '__main__':
             'num_features': task.num_features, 'GAMMA': task.GAMMA
         },
         'GTD2MultiplePolicy': {
+            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'PGTD2': {
+            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'PGTD2MultiplePolicy': {
             'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
             'num_features': task.num_features, 'GAMMA': task.GAMMA
         },
