@@ -1,9 +1,9 @@
 import numpy as np
 import argparse
 import random
-from Registry.AlgRegistry import TD, GTD, GTD2, PGTD2, HTD, ETDLB, ABTD, Vtrace, TB
-from Registry.EnvRegistry import Chain, FourRoomGridWorld
-from Registry.TaskRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
+from Registry.AlgRegistry import alg_dict
+from Registry.EnvRegistry import environment_dict
+from Registry.TaskRegistry import task_dict
 from Job.JobBuilder import default_params
 # from Environments.rendering import ErrorRender
 
@@ -20,95 +20,16 @@ if __name__ == '__main__':
     parser.add_argument('--environment', '-e', type=str, default=default_params['environment'])
     parser.add_argument('--save_path', '-sp', type=str, default='Experiments/')
     parser.add_argument('--render', '-render', type=bool, default=False)
-
     args = parser.parse_args()
+
     np.random.seed(args.run_number)
     random.seed(a=args.run_number)
 
-    environment_dict = {'FourRoomGridWorld': FourRoomGridWorld, 'Chain': Chain}
     env = environment_dict[args.environment]()
-
-    task_dict = {'EightStateOffPolicyRandomFeat': EightStateOffPolicyRandomFeat,
-                 'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
     task = task_dict[args.task](run_number=args.run_number)
-
-    alg_dict = {'TD': TD, 'GTD': GTD, 'GTD2': GTD2, 'PGTD2': PGTD2, 'HTD': HTD, 'ETDLB': ETDLB,
-                'ABTD': ABTD, 'Vtrace': Vtrace, 'TB': TB}
-    alg_params = {
-        'TD': {
-            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'TDMultiplePolicy': {
-            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'GTD': {
-            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'GTDMultiplePolicy': {
-            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'GTD2': {
-            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'GTD2MultiplePolicy': {
-            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'PGTD2': {
-            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'PGTD2MultiplePolicy': {
-            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'HTD': {
-            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'HTDMultiplePolicy': {
-            'alpha': args.alpha, 'alpha_v': args.alphav, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'ETDLB': {
-            'alpha': args.alpha, 'beta': args.beta, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'ETDLBMultiplePolicy': {
-            'alpha': args.alpha, 'beta': args.beta, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'ABTD': {
-            'alpha': args.alpha, 'zeta': args.zeta, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'ABTDMultiplePolicy': {
-            'alpha': args.alpha, 'zeta': args.zeta, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'Vtrace': {
-            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'VtraceMultiplePolicy': {
-            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'TB': {
-            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        },
-        'TBMultiplePolicy': {
-            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
-            'num_features': task.num_features, 'GAMMA': task.GAMMA
-        }
-    }
-    agent = alg_dict[args.algorithm](task, **alg_params[args.algorithm])
+    params = {'alpha': args.alpha, 'alpha_v': args.alphav, 'beta': args.beta, 'zeta': args.zeta, 'lmbda': args.lmbda,
+              'GAMMA': task.num_features}
+    agent = alg_dict[args.algorithm](task, **params)
 
     RMSVE = np.zeros((task.num_policies, task.num_steps))
     agent.state = env.reset()
