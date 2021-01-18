@@ -10,7 +10,7 @@ class BaseTD:
         if self.task.num_policies > 1:
             self.w = np.zeros((self.task.num_policies, self.task.num_features))
             self.z = np.zeros((self.task.num_policies, self.task.num_features))
-        self.gamma = kwargs['GAMMA']
+        self.gamma = self.task.GAMMA
         self.alpha = kwargs['alpha']
         self.lmbda = kwargs.get('lmbda')
         self.state_values = self.task.load_state_values()  # This is of size num_policies * 121
