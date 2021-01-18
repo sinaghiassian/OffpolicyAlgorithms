@@ -1,7 +1,7 @@
 import numpy as np
 import argparse
 import random
-from Registry.AlgRegistry import TD, GTD, GTD2, PGTD2, HTD, ETDLB
+from Registry.AlgRegistry import TD, GTD, GTD2, PGTD2, HTD, ETDLB, ABTD, Vtrace, TB
 from Registry.EnvRegistry import Chain, FourRoomGridWorld
 from Registry.TaskRegistry import EightStateOffPolicyRandomFeat, LearnEightPoliciesTileCodingFeat
 from Job.JobBuilder import default_params
@@ -12,6 +12,7 @@ if __name__ == '__main__':
     parser.add_argument('--alpha', '-a', type=float, default=default_params['meta_parameters']['alpha'])
     parser.add_argument('--alphav', '-av', type=float, default=default_params['meta_parameters']['alpha_v'])
     parser.add_argument('--beta', '-b', type=float, default=default_params['meta_parameters']['beta'])
+    parser.add_argument('--zeta', '-z', type=float, default=default_params['meta_parameters']['zeta'])
     parser.add_argument('-lmbda', '-l', type=float, default=default_params['meta_parameters']['lmbda'])
     parser.add_argument('--algorithm', '-alg', type=str, default=default_params['agent'])
     parser.add_argument('--task', '-t', type=str, default=default_params['task'])
@@ -31,7 +32,8 @@ if __name__ == '__main__':
                  'LearnEightPoliciesTileCodingFeat': LearnEightPoliciesTileCodingFeat}
     task = task_dict[args.task](run_number=args.run_number)
 
-    alg_dict = {'TD': TD, 'GTD': GTD, 'GTD2': GTD2, 'PGTD2': PGTD2, 'HTD': HTD, 'ETDLB': ETDLB}
+    alg_dict = {'TD': TD, 'GTD': GTD, 'GTD2': GTD2, 'PGTD2': PGTD2, 'HTD': HTD, 'ETDLB': ETDLB,
+                'ABTD': ABTD, 'Vtrace': Vtrace, 'TB': TB}
     alg_params = {
         'TD': {
             'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
@@ -79,6 +81,30 @@ if __name__ == '__main__':
         },
         'ETDLBMultiplePolicy': {
             'alpha': args.alpha, 'beta': args.beta, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'ABTD': {
+            'alpha': args.alpha, 'zeta': args.zeta, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'ABTDMultiplePolicy': {
+            'alpha': args.alpha, 'zeta': args.zeta, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'Vtrace': {
+            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'VtraceMultiplePolicy': {
+            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'TB': {
+            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
+            'num_features': task.num_features, 'GAMMA': task.GAMMA
+        },
+        'TBMultiplePolicy': {
+            'alpha': args.alpha, 'lmbda': args.lmbda, 'run': args.run_number,
             'num_features': task.num_features, 'GAMMA': task.GAMMA
         }
     }

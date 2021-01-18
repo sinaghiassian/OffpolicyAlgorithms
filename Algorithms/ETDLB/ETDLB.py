@@ -20,7 +20,7 @@ class ETDLB(BaseTD):
         self.old_rho = rho
 
     def reset(self):
-        self.z = np.zeros(self.task.num_features)
+        super().reset()
         self.F = 1
         self.old_rho = 0
 

@@ -12,7 +12,7 @@ class BaseTD:
             self.z = np.zeros((self.task.num_policies, self.task.num_features))
         self.gamma = kwargs['GAMMA']
         self.alpha = kwargs['alpha']
-        self.lmbda = kwargs['lmbda']
+        self.lmbda = kwargs.get('lmbda')
         self.state_values = self.task.load_state_values()  # This is of size num_policies * 121
         self.d_mu = self.task.load_behavior_dist()  # same size as state_values
         self.state, self.next_state, self.action = None, None, None
