@@ -13,6 +13,8 @@ class BaseTask:
         self.behavior_dist = None
         self.state_values = None
         self.num_policies = None
+        self.ABTD_si_zero = None
+        self.ABTD_si_max = None
 
     @abstractmethod
     def get_active_policies(self, s):
