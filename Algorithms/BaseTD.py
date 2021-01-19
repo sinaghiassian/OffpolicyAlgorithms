@@ -66,12 +66,25 @@ class BaseTD:
         return delta, alpha, x, x_p, rho
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
-        raise NotImplementedError
+        active_policies_vec = self.task.get_active_policies(s)
+        self.r_vec = np.zeros(self.task.num_policies)
+        if r > 0:
+            terminal_policies_vec = self.task.get_terminal_policies(s_p)
+            self.r_vec = r * terminal_policies_vec
+        alpha_vec = active_policies_vec * self.compute_step_size()
+        x = self.task.get_state_feature_rep(s)
+        x_p = np.zeros(self.task.num_features)
+        if not is_terminal:
+            x_p = self.task.get_state_feature_rep(s_p)
+        pi = self.task.get_pi(s, self.action)
+        mu = self.task.get_mu(s, self.action)
+        rho = pi / mu
+        self.gamma_vec_tp = self.task.get_active_policies(s_p) * self.gamma
+        delta = self.r_vec + self.gamma_vec_tp * np.dot(self.w, x_p) - np.dot(self.w, x)
+        return delta, alpha_vec, x, x_p, rho
 
     def reset(self):
         self.z = np.zeros(self.task.num_features)
-        if self.task.num_policies > 1:
-            self.z = np.zeros((self.task.num_policies, self.task.num_features))
 
     def __str__(self):
         return f'agent:{type(self).__name__}'
