@@ -5,7 +5,7 @@ from Registry.AlgRegistry import alg_dict
 from Registry.EnvRegistry import environment_dict
 from Registry.TaskRegistry import task_dict
 from Job.JobBuilder import default_params
-# from Environments.rendering import ErrorRender
+from Environments.rendering import ErrorRender
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -13,7 +13,7 @@ if __name__ == '__main__':
     parser.add_argument('--alphav', '-av', type=float, default=default_params['meta_parameters']['alpha_v'])
     parser.add_argument('--beta', '-b', type=float, default=default_params['meta_parameters']['beta'])
     parser.add_argument('--zeta', '-z', type=float, default=default_params['meta_parameters']['zeta'])
-    parser.add_argument('-lmbda', '-l', type=float, default=default_params['meta_parameters']['lmbda'])
+    parser.add_argument('--lmbda', '-l', type=float, default=default_params['meta_parameters']['lmbda'])
     parser.add_argument('--algorithm', '-alg', type=str, default=default_params['agent'])
     parser.add_argument('--task', '-t', type=str, default=default_params['task'])
     parser.add_argument('--run_number', '-r', type=int, default=default_params['meta_parameters']['run'])
@@ -28,16 +28,17 @@ if __name__ == '__main__':
     env = environment_dict[args.environment]()
     task = task_dict[args.task](run_number=args.run_number)
     params = {'alpha': args.alpha, 'alpha_v': args.alphav, 'beta': args.beta, 'zeta': args.zeta, 'lmbda': args.lmbda,
-              'GAMMA': task.num_features}
+              'GAMMA': task.GAMMA}
     agent = alg_dict[args.algorithm](task, **params)
 
     RMSVE = np.zeros((task.num_policies, task.num_steps))
     agent.state = env.reset()
     is_terminal = False
-    # error_render = ErrorRender(task.num_policies, task.num_steps)
+    error_render = ErrorRender(task.num_policies, task.num_steps)
     for step in range(task.num_steps):
         RMSVE[:, step], error = agent.compute_rmsve()
-        # error_render.add_error(error)
+        if args.render:
+            error_render.add_error(error)
         agent.action = agent.choose_behavior_action()
         agent.next_state, r, is_terminal, info = env.step(agent.action)
         agent.learn(agent.state, agent.next_state, r, is_terminal)
@@ -47,11 +48,11 @@ if __name__ == '__main__':
             agent.reset()
             continue
         agent.state = agent.next_state
-        # if args.render:
-        #     env.render(mode='screen', render_cls=error_render)
+        if args.render:
+            env.render(mode='screen', render_cls=error_render)
     print(np.mean(RMSVE[:, :], axis=0))
 
 # TODO: Collector: Save and load the data.
-# TODO: Implement new algorithms and check against the old code.
+# TODO: Implement new algorithms for four rooms task and check against the old code.
 # TODO: Add Plotting code.
 # TODO: JOB submission. Add Cedar compatibility and AWS/Google compute compatibility.
