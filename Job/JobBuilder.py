@@ -6,12 +6,12 @@ from utils import ImmutableDict
 
 default_params = ImmutableDict(
     {
-        # 'agent': 'TD',
-        # 'task': 'EightStateOffPolicyRandomFeat',
-        # 'environment': 'Chain',
-        'agent': 'TB',
-        'task': 'LearnEightPoliciesTileCodingFeat',
-        'environment': 'FourRoomGridWorld',
+        'agent': 'TD',
+        'task': 'EightStateOffPolicyRandomFeat',
+        'environment': 'Chain',
+        # 'agent': 'TB',
+        # 'task': 'LearnEightPoliciesTileCodingFeat',
+        # 'environment': 'FourRoomGridWorld',
 
         'meta_parameters': {
             # 'alpha': [.5 ** i for i in range(4, 10)],
