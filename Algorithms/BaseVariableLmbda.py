@@ -1,10 +1,9 @@
-from abc import ABC
 from Algorithms.BaseTD import BaseTD
 from Tasks.BaseTask import BaseTask
 import numpy as np
 
 
-class BaseVariableLmbda(BaseTD, ABC):
+class BaseVariableLmbda(BaseTD):
     def __init__(self, task: BaseTask, **kwargs):
         super().__init__(task, **kwargs)
         self.old_pi, self.old_mu = 0, 1

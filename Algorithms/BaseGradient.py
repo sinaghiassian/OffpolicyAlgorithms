@@ -1,10 +1,9 @@
-from abc import ABC
 import numpy as np
 from Algorithms.BaseTD import BaseTD
 from Tasks.BaseTask import BaseTask
 
 
-class BaseGradient(BaseTD, ABC):
+class BaseGradient(BaseTD):
     def __init__(self, task: BaseTask, **kwargs):
         super().__init__(task, **kwargs)
         self.v = np.zeros(self.task.num_features)
