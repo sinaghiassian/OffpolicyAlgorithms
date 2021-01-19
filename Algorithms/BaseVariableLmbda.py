@@ -7,8 +7,9 @@ import numpy as np
 class BaseVariableLmbda(BaseTD, ABC):
     def __init__(self, task: BaseTask, **kwargs):
         super().__init__(task, **kwargs)
-        self.old_pi = 0
-        self.old_mu = 1
+        self.old_pi, self.old_mu = 0, 1
+        if self.task.num_policies > 1:
+            self.old_pi, self.old_mu = np.zeros(self.task.num_policies), np.ones(self.task.num_policies)
         self.old_rho = self.old_pi / self.old_mu
 
     def learn_single_policy(self, s, s_p, r, is_terminal):
@@ -21,6 +22,5 @@ class BaseVariableLmbda(BaseTD, ABC):
         return delta, alpha, x, x_p, rho, pi, mu
 
     def reset(self):
-        self.old_pi = 0
-        self.old_mu = 1
-        self.old_rho = 0
+        self.old_pi, self.old_mu = 0, 1
+        self.old_rho = self.old_pi / self.old_mu
