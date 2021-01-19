@@ -82,7 +82,7 @@ class BaseTD:
         self.gamma_vec_tp = self.task.get_active_policies(s_p) * self.gamma
         delta = self.r_vec + self.gamma_vec_tp * np.dot(self.w, x_p) - np.dot(self.w, x)
         stacked_x = self.task.stacked_feature_rep[:, :, s]
-        return delta, alpha_vec, x, x_p, rho, stacked_x
+        return delta, alpha_vec, x, x_p, pi, mu, rho, stacked_x
 
     def reset(self):
         self.z = np.zeros(self.task.num_features)

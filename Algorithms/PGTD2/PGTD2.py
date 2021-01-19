@@ -13,7 +13,7 @@ class PGTD2(BaseGradient):
         self.v += alpha_v * (delta_mid * self.z - np.dot(x, v_mid) * x)
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
-        delta, alpha_vec, x, x_p, rho, stacked_x, stacked_x_p, alphav_vec = super().learn_multiple_policies(
+        delta, alpha_vec, x, x_p, *_, rho, stacked_x, stacked_x_p, alphav_vec = super().learn_multiple_policies(
             s, s_p, r, is_terminal)
         self.z = rho[:, None] * (self.lmbda * self.z * self.gamma_vec_t[:, None] + stacked_x)
         v_mid = self.v + alphav_vec[:, None] * (delta[:, None] * self.z - np.sum(x * self.v, 1)[:, None] * stacked_x)

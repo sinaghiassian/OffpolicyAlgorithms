@@ -17,7 +17,7 @@ class HTD(BaseGradient):
         self.v += alpha_v * ((delta * self.z) - (x - self.gamma * x_p) * np.dot(self.v, self.z_b))
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
-        delta, alpha_vec, x, x_p, rho, stacked_x, stacked_x_p, alphav_vec = super().learn_multiple_policies(
+        delta, alpha_vec, x, x_p, *_, rho, stacked_x, stacked_x_p, alphav_vec = super().learn_multiple_policies(
             s, s_p, r, is_terminal)
         self.z = rho[:, None] * (self.lmbda * self.z * self.gamma_vec_t[:, None] + stacked_x)
         self.z_b = self.lmbda * self.z_b * self.gamma_vec_t[:, None] + stacked_x

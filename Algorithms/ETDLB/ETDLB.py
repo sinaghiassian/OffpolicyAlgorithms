@@ -23,7 +23,7 @@ class ETDLB(BaseTD):
         self.old_rho = rho
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
-        delta, alpha_vec, *_, rho = super().learn_multiple_policies(s, s_p, r, is_terminal)
+        delta, alpha_vec, *_, rho, _ = super().learn_multiple_policies(s, s_p, r, is_terminal)
         stacked_x = self.task.stacked_feature_rep[:, :, s]
         beta_vec = self.beta * self.gamma_vec_t / self.gamma
         self.F = beta_vec * self.old_rho * self.F + np.ones(self.task.num_policies)

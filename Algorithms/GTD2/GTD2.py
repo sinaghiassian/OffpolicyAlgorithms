@@ -11,7 +11,7 @@ class GTD2(BaseGradient):
 
     # noinspection DuplicatedCode
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
-        delta, alpha_vec, x, x_p, rho, stacked_x, stacked_x_p, alphav_vec = super().learn_multiple_policies(
+        delta, alpha_vec, x, x_p, *_, rho, stacked_x, stacked_x_p, alphav_vec = super().learn_multiple_policies(
             s, s_p, r, is_terminal)
         self.z = rho[:, None] * (self.lmbda * self.z * self.gamma_vec_t[:, None] + stacked_x)
         phi_prime_multiplier = (1 - self.lmbda) * self.gamma_vec_tp * np.sum(self.z * self.v, 1)
