@@ -9,6 +9,7 @@ class GTD(BaseGradient):
         self.w += alpha * (delta * self.z - self.gamma * (1 - self.lmbda) * np.dot(self.z, self.v) * x_p)
         self.v += alpha_v * (delta * self.z - np.dot(x, self.v) * x)
 
+    # noinspection DuplicatedCode
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
         delta, alpha_vec, x, x_p, rho, stacked_x, stacked_x_p, alphav_vec = super().learn_multiple_policies(
             s, s_p, r, is_terminal)
