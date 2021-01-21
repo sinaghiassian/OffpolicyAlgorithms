@@ -12,5 +12,5 @@ class LSETD(BaseLS):
         self.F = self.beta * self.old_rho * self.F + 1
         m = self.lmbda + (1 - self.lmbda) * self.F
         rho = self.get_isr(s)
-        self.z = rho * (self.gamma * self.lmbda * self.z + self.get_features(s, s_p, is_terminal)[0])
+        self.z = rho * (self.gamma * self.lmbda * self.z + self.get_features(s, s_p, is_terminal)[0] * m)
         super(LSETD, self).learn_single_policy(s, s_p, r, is_terminal)
