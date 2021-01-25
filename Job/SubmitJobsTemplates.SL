@@ -37,10 +37,9 @@ NCORES=$(($SLURM_NNODES * $SLURM_NTASKS_PER_NODE))
 
 
 parallel --env OMP_NUM_THREADS,PATH,LD_LIBRARY_PATH --joblog slurm-$SLURM_JOBID.log \
--j $NCORES -S $HOSTS --wd $PWD python Learning.py ::: -alg ::: ${algorithm[@]} ::: \
--a ::: ${alpha[@]} ::: -r ::: ${run[@]} ::: -sp ::: ${save_path[@]} ::: \
--e ::: ${environment[@]} ::: -p ::: ${task[@]} ::: -et ::: ${eta[@]} ::: \
--l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -b ::: ${beta[@]}
+-j $NCORES -S $HOSTS --wd $PWD python Learning.py ::: -sp ::: ${save_path[@]} ::: -alg ::: ${algorithm[@]} ::: \
+-a ::: ${alpha[@]} ::: -r ::: ${run[@]} ::: -e ::: ${environment[@]} ::: -p ::: ${task[@]} ::: \
+-et ::: ${eta[@]} ::: -l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -b ::: ${beta[@]}
 
 
 echo "Program test finished with exit code $? at: $(date)"

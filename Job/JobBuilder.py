@@ -25,8 +25,9 @@ default_params = ImmutableDict(
 
 
 class JobBuilder:
-    def __init__(self, json_path: str):
+    def __init__(self, json_path, server_name):
         self._path = json_path
+        self.server_name = server_name
         with open(self._path) as f:
             self._params = json.load(f)
 
@@ -97,13 +98,30 @@ class JobBuilder:
                 text = text.replace(f'__{k}__', v)
         return text
 
+    def create_dat_file(self):
+        with open('Cedar_Create_Config_Template.sh', 'wt') as f:
+            text = f.read()
+            for k, v in self._batch_params.items():
+                text = text.replace(f'__{k}__', v)
+        return text
+
     def run_batch(self):
-        # print('==============')
-        # print(self.to_shell())
-        with open('SubmitJobs.SL', 'wt') as f:
-            f.write(self.to_shell())
-        os.system('sbatch SubmitJobs.SL')
-        os.remove('SubmitJobs.SL')
+        if self.server_name == 'Niagara':
+            print('Running on Niagara...')
+            # print(self.to_shell())
+            with open('SubmitJobs.SL', 'wt') as f:
+                f.write(self.to_shell())
+            os.system('sbatch SubmitJobs.SL')
+            os.remove('SubmitJobs.SL')
+        elif self.server_name == 'Cedar':
+            print('Running on Cedar...')
+            with open('CREATE_CONFIG.sh', 'wt') as f:
+                f.write(self.create_dat_file())
+            os.system('CREATE_CONFIG.sh')
+            # os.remove('CREATE_CONFIG.sh')
+        else:
+            print('Error! Please input the server name as follows: Learning.py -s "<Niagara> or <Cedar> ')
+            exit()
 
     def __call__(self):
         return self.run_batch()

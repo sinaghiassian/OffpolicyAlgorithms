@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import argparse
 import random
@@ -18,9 +19,12 @@ if __name__ == '__main__':
     parser.add_argument('--task', '-t', type=str, default=default_params['task'])
     parser.add_argument('--run_number', '-r', type=int, default=default_params['meta_parameters']['run'])
     parser.add_argument('--environment', '-e', type=str, default=default_params['environment'])
-    parser.add_argument('--save_path', '-sp', type=str, default='Experiments/')
+    parser.add_argument('--save_path', '-sp', type=str, default='Results')
     parser.add_argument('--render', '-render', type=bool, default=False)
     args = parser.parse_args()
+
+    if not os.path.exists(args.save_path):
+        os.makedirs(args.save_path)
 
     np.random.seed(args.run_number)
     random.seed(a=args.run_number)
