@@ -1,17 +1,16 @@
 #!/bin/bash
 #SBATCH --account=def-sutton
-#SBATCH --time=11:58:59
+#SBATCH --time=00:15:58
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=768mb
-#SBATCH --array=1-2
+#SBATCH --mem=8G
+#SBATCH --array=1-__NUM_OF_JOBS__
 
-module load scipy-stack/2019a
-`sed -n "${SLURM_ARRAY_TASK_ID}p" <exports.dat`
-echo ${SLURM_ARRAY_TASK_ID} $runNo $alpha $zeta
-
-echo "Current working directory is `pwd`"
-echo "Running on hostname `hostname`"
-
-echo "Starting run at: `date`"
-python ../Learning.py ${algName} ${runNo} ${alpha} ${zeta}
-echo "Program test finished with exit code $? at: `date`"
+$(sed -n "${SLURM_ARRAY_TASK_ID}p" <exports.dat)
+echo ${SLURM_ARRAY_TASK_ID} $ALPHA $LMBDA $ETA $BETA $ZETA $RUN
+echo "Current working directory is $(pwd)"
+echo "Running on hostname $(hostname)"
+echo
+echo "Starting run at: $(date)"
+python Learning.py \
+-a $ALPHA -l $LMBDA -et $ETA -b $BETA -z $ZETA -alg ALGORITHM -t $TASK -r $RUN -e $ENVIRONMENT -sp $SAVE_PATH
+echo "Program test finished with exit code $? at: $(date)"

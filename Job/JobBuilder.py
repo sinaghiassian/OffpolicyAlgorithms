@@ -2,6 +2,7 @@ import os
 import json
 import numpy as np
 from utils import ImmutableDict
+import time
 
 default_params = ImmutableDict(
     {
@@ -14,10 +15,10 @@ default_params = ImmutableDict(
 
         'meta_parameters': {
             'alpha': 0.01,
-            'eta': 0.01,
-            'beta': 0.1,
-            'zeta': 0.1,
-            'lmbda': 0.1,
+            'eta': 0.0,
+            'beta': 0.0,
+            'zeta': 0.0,
+            'lmbda': 0.0,
             "run": 0
         }
     }
@@ -26,6 +27,7 @@ default_params = ImmutableDict(
 
 class JobBuilder:
     def __init__(self, json_path, server_name):
+        self.possible_server_names = ['NIAGARA', 'Niagara', 'niagara', 'CEDAR', 'Cedar', 'cedar']
         self._path = json_path
         self.server_name = server_name
         with open(self._path) as f:
@@ -91,37 +93,48 @@ class JobBuilder:
     def save_path(self):
         return os.path.dirname(self._path).replace("/Experiments/", "/Results/")
 
-    def to_shell(self):
-        with open('Job/SubmitJobsTemplates.SL', 'r') as f:
+    def create_dat_file(self):
+        with open('Job/Cedar_Create_Config_Template.sh', 'r') as f:
             text = f.read()
             for k, v in self._batch_params.items():
                 text = text.replace(f'__{k}__', v)
         return text
 
-    def create_dat_file(self):
-        with open('Cedar_Create_Config_Template.sh', 'wt') as f:
-            text = f.read()
-            for k, v in self._batch_params.items():
-                text = text.replace(f'__{k}__', v)
-        return text
+    def to_shell(self):
+        if self.server_name == 'Niagara' or self.server_name == 'niagara' or self.server_name == 'NIAGARA':
+            with open('Job/SubmitJobsTemplates.SL', 'r') as f:
+                text = f.read()
+                for k, v in self._batch_params.items():
+                    text = text.replace(f'__{k}__', v)
+            return text
+        elif self.server_name == 'Cedar' or self.server_name == 'cedar' or self.server_name == 'CEDAR':
+            with open('Job/SubmitJobsTemplatesCedar.SL', 'r') as f:
+                text = f.read()
+                num_of_jobs = sum(1 for line in open('exports.dat'))
+                text = text.replace('__NUM_OF_JOBS__', str(num_of_jobs))
+            return text
 
     def run_batch(self):
-        if self.server_name == 'Niagara':
-            print('Running on Niagara...')
-            # print(self.to_shell())
-            with open('SubmitJobs.SL', 'wt') as f:
-                f.write(self.to_shell())
-            os.system('sbatch SubmitJobs.SL')
-            os.remove('SubmitJobs.SL')
-        elif self.server_name == 'Cedar':
-            print('Running on Cedar...')
-            with open('CREATE_CONFIG.sh', 'wt') as f:
+        if self.server_name not in self.possible_server_names:
+            print('Code for running on this server does not exist. Please use either Cedar or Niagara.')
+            raise NotImplementedError
+        elif self.server_name == 'Niagara' or self.server_name == 'NIAGARA' or self.server_name == 'niagara':
+            print('Submitted the ' + self.agent + 'algorithm jobs on Niagara...')
+        elif self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
+            print('Running the ' + self.agent + 'algorithm jobs on Cedar...')
+            with open('Create_Configs.sh', 'wt') as f:
                 f.write(self.create_dat_file())
-            os.system('CREATE_CONFIG.sh')
-            # os.remove('CREATE_CONFIG.sh')
-        else:
-            print('Error! Please input the server name as follows: Learning.py -s "<Niagara> or <Cedar> ')
-            exit()
+            time.sleep(1)
+            os.system('bash Create_Configs.sh')
+        with open('Submit_Jobs.SL', 'wt') as f:
+            f.write(self.to_shell())
+        time.sleep(1)
+        os.system('sbatch Submit_Jobs.SL')
+        time.sleep(1)
+        os.remove('Submit_Jobs.SL')
+        if self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
+            os.remove('exports.dat')
+            os.remove('Create_Configs.sh')
 
     def __call__(self):
         return self.run_batch()

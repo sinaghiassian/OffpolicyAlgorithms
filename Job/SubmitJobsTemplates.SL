@@ -16,7 +16,6 @@ zeta=(__ZETA__)
 run=({__RUN__})
 algorithm=(__ALGORITHM__)
 environment=(__ENVIRONMENT__)
-feature_kind=(__FEATUREKIND__)
 task=(__TASK__)
 save_path=(__SAVEPATH__)
 
