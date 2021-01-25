@@ -10,10 +10,10 @@ from Environments.rendering import ErrorRender
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--alpha', '-a', type=float, default=default_params['meta_parameters']['alpha'])
-    parser.add_argument('--alphav', '-av', type=float, default=default_params['meta_parameters']['alpha_v'])
+    parser.add_argument('--lmbda', '-l', type=float, default=default_params['meta_parameters']['lmbda'])
+    parser.add_argument('--eta', '-et', type=float, default=default_params['meta_parameters']['eta'])
     parser.add_argument('--beta', '-b', type=float, default=default_params['meta_parameters']['beta'])
     parser.add_argument('--zeta', '-z', type=float, default=default_params['meta_parameters']['zeta'])
-    parser.add_argument('--lmbda', '-l', type=float, default=default_params['meta_parameters']['lmbda'])
     parser.add_argument('--algorithm', '-alg', type=str, default=default_params['agent'])
     parser.add_argument('--task', '-t', type=str, default=default_params['task'])
     parser.add_argument('--run_number', '-r', type=int, default=default_params['meta_parameters']['run'])
@@ -27,8 +27,7 @@ if __name__ == '__main__':
 
     env = environment_dict[args.environment]()
     task = task_dict[args.task](run_number=args.run_number)
-    params = {'alpha': args.alpha, 'alpha_v': args.alphav, 'beta': args.beta, 'zeta': args.zeta, 'lmbda': args.lmbda,
-              'GAMMA': task.GAMMA}
+    params = {'alpha': args.alpha, 'lmbda': args.lmbda, 'eta': args.eta, 'beta': args.beta, 'zeta': args.zeta}
     agent = alg_dict[args.algorithm](task, **params)
 
     RMSVE = np.zeros((task.num_policies, task.num_steps))
@@ -53,6 +52,5 @@ if __name__ == '__main__':
     print(np.mean(RMSVE[:, :], axis=0))
 
 # TODO: Collector: Save and load the data.
-# TODO: Implement new algorithms for four rooms task and check against the old code.
 # TODO: Add Plotting code.
 # TODO: JOB submission. Add Cedar compatibility and AWS/Google compute compatibility.
