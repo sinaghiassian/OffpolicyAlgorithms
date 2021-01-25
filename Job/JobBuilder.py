@@ -1,7 +1,6 @@
 import os
 import json
 import numpy as np
-
 from utils import ImmutableDict
 
 default_params = ImmutableDict(
@@ -23,15 +22,6 @@ default_params = ImmutableDict(
         }
     }
 )
-
-
-def find_all_experiment_configuration(experiments_path: str):
-    if experiments_path.endswith('.json'):
-        yield experiments_path
-    for root, _, files in os.walk(experiments_path):
-        for file in files:
-            if file.endswith('.json'):
-                yield os.path.join(root, file)
 
 
 class JobBuilder:
@@ -57,27 +47,27 @@ class JobBuilder:
     @property
     def alpha(self):
         parameters = self._params.get('meta_parameters')
-        return np.asarray(parameters.get('alpha', default_params['meta_parameters']['alpha']))
+        return np.asarray(parameters.get('alpha', [default_params['meta_parameters']['alpha']]))
 
     @property
     def lmbda(self):
         parameters = self._params.get('meta_parameters')
-        return np.asarray(parameters.get('lmbda', default_params['meta_parameters']['lmbda']))
+        return np.asarray(parameters.get('lmbda', [default_params['meta_parameters']['lmbda']]))
 
     @property
     def eta(self):
         parameters = self._params.get('meta_parameters')
-        return np.asarray(parameters.get('eta', default_params['meta_parameters']['eta']))
+        return np.asarray(parameters.get('eta', [default_params['meta_parameters']['eta']]))
 
     @property
     def beta(self):
         parameters = self._params.get('meta_parameters')
-        return np.asarray(parameters.get('beta', default_params['meta_parameters']['beta']))
+        return np.asarray(parameters.get('beta', [default_params['meta_parameters']['beta']]))
 
     @property
     def zeta(self):
         parameters = self._params.get('meta_parameters')
-        return np.asarray(parameters.get('zeta', default_params['meta_parameters']['zeta']))
+        return np.asarray(parameters.get('zeta', [default_params['meta_parameters']['zeta']]))
 
     @property
     def agent(self):
@@ -108,11 +98,12 @@ class JobBuilder:
         return text
 
     def run_batch(self):
-        print(self.to_shell())
-        with open('RunningSubmitJobs.SL', 'wt') as f:
+        # print('==============')
+        # print(self.to_shell())
+        with open('SubmitJobs.SL', 'wt') as f:
             f.write(self.to_shell())
-        os.system('sbatch RunningSubmitJobs.SL')
-        os.remove('RunningSubmitJobs.SL')
+        os.system('sbatch SubmitJobs.SL')
+        os.remove('SubmitJobs.SL')
 
     def __call__(self):
         return self.run_batch()

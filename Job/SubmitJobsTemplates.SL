@@ -9,11 +9,11 @@
 
 
 alpha=(__ALPHA__)
+lmbda=(__LMBDA__)
+eta=(__ETA__)
+beta=(__BETA__)
+zeta=(__ZETA__)
 run=({__RUN__})
-lmbda=({__LMBDA__})
-eta=({__ETA__})
-beta=({__BETA__})
-zeta=({__ZETA__})
 algorithm=(__ALGORITHM__)
 environment=(__ENVIRONMENT__)
 feature_kind=(__FEATUREKIND__)
@@ -39,8 +39,8 @@ NCORES=$(($SLURM_NNODES * $SLURM_NTASKS_PER_NODE))
 parallel --env OMP_NUM_THREADS,PATH,LD_LIBRARY_PATH --joblog slurm-$SLURM_JOBID.log \
 -j $NCORES -S $HOSTS --wd $PWD python Learning.py ::: -alg ::: ${algorithm[@]} ::: \
 -a ::: ${alpha[@]} ::: -r ::: ${run[@]} ::: -sp ::: ${save_path[@]} ::: \
--e ::: ${environment[@]} ::: -f ::: ${feature_kind[@]} ::: -p ::: ${task[@]} ::: \
--et ::: ${eta[@]} ::: -l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -b ::: ${beta[@]}
+-e ::: ${environment[@]} ::: -p ::: ${task[@]} ::: -et ::: ${eta[@]} ::: \
+-l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -b ::: ${beta[@]}
 
 
 echo "Program test finished with exit code $? at: $(date)"
