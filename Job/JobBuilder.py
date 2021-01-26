@@ -6,20 +6,21 @@ import time
 
 default_params = ImmutableDict(
     {
-        # 'agent': 'GTD',
-        # 'task': 'EightStateOffPolicyRandomFeat',
-        # 'environment': 'Chain',
         'agent': 'GTD',
-        'task': 'LearnEightPoliciesTileCodingFeat',
-        'environment': 'FourRoomGridWorld',
+        'task': 'EightStateOffPolicyRandomFeat',
+        'environment': 'Chain',
+        # 'agent': 'GTD',
+        # 'task': 'LearnEightPoliciesTileCodingFeat',
+        # 'environment': 'FourRoomGridWorld',
 
         'meta_parameters': {
             'alpha': 0.01,
-            'eta': 0.0,
-            'beta': 0.0,
-            'zeta': 0.0,
-            'lmbda': 0.0,
-            "run": 0
+            'eta': 0.01,
+            'beta': 0.1,
+            'zeta': 0.1,
+            'lmbda': 0.1,
+            'num_of_runs': 2,
+            'num_steps': 10000
         }
     }
 )
@@ -42,7 +43,8 @@ class JobBuilder:
                 'ZETA': ' '.join([f'{num:.5f}' for num in self.zeta]),
                 'ALGORITHM': self.agent,
                 'TASK': self.task,
-                'RUN': f'0..{self.run}',
+                'NUMOFRUNS': f'{self.num_of_runs}',
+                'NUMSTEPS': f'{self.num_steps}',
                 'ENVIRONMENT': self.environment,
                 'SAVEPATH': self.save_path,
             })
@@ -81,9 +83,14 @@ class JobBuilder:
         return self._params.get('task', default_params['task'])
 
     @property
-    def run(self):
+    def num_of_runs(self):
         parameters = self._params.get('meta_parameters')
-        return np.asarray(parameters.get('run', default_params['meta_parameters']['run']))
+        return np.asarray(parameters.get('num_of_runs', default_params['meta_parameters']['num_of_runs']))
+
+    @property
+    def num_steps(self):
+        parameters = self._params.get('meta_parameters')
+        return np.asarray(parameters.get('num_steps', default_params['meta_parameters']['num_steps']))
 
     @property
     def environment(self):
@@ -110,7 +117,7 @@ class JobBuilder:
         elif self.server_name == 'Cedar' or self.server_name == 'cedar' or self.server_name == 'CEDAR':
             with open('Job/SubmitJobsTemplatesCedar.SL', 'r') as f:
                 text = f.read()
-                num_of_jobs = sum(1 for line in open('exports.dat'))
+                num_of_jobs = sum(1 for _ in open('exports.dat'))
                 text = text.replace('__NUM_OF_JOBS__', str(num_of_jobs))
             return text
 
