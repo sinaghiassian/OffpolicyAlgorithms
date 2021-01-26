@@ -53,8 +53,7 @@ if __name__ == '__main__':
         agent.state = agent.next_state
         if args.render:
             env.render(mode='screen', render_cls=error_render)
-    print(np.mean(RMSVE[:, :], axis=0))
+    print(np.mean(RMSVE, axis=0))
 
 # TODO: Collector: Save and load the data.
 # TODO: Add Plotting code.
-# TODO: JOB submission. Add Cedar compatibility and AWS/Google compute compatibility.
