@@ -1,5 +1,6 @@
 import numpy as np
 from collections import namedtuple
+import os
 
 Transition = namedtuple('Transition',
                         ('x', 'a', 'xp', 'r'))
@@ -34,6 +35,13 @@ def create_name_for_saving(param_dict):
             split_str = str.split(f'{v:.5f}', '.')
         final_str += '_' + k + split_str[0] + split_str[1]
     return final_str
+
+
+def save_result(path, name, result_array, params):
+    name_to_save = create_name_for_saving(param_dict=params)
+    path_and_name = os.path.join(path, name_to_save)
+    final_name = path_and_name + name
+    np.save(final_name, result_array)
 
 
 def generate_gif(frames, path):
