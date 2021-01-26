@@ -25,6 +25,17 @@ class ImmutableDict(dict):
         self.immutable()
 
 
+def create_name_for_saving(param_dict):
+    final_str = ''
+    for k, v in param_dict.items():
+        if k == 'alpha' or k == 'eta':
+            split_str = str.split(f'{v:.10f}', '.')
+        else:
+            split_str = str.split(f'{v:.5f}', '.')
+        final_str += '_' + k + split_str[0] + split_str[1]
+    return final_str
+
+
 def generate_gif(frames, path):
     import imageio
     from skimage.transform import resize
