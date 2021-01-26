@@ -5,7 +5,7 @@ import numpy as np
 class BaseTask:
     def __init__(self, **kwargs):
         self.run_number = kwargs.get('run_number', 0)
-        self.num_steps = 5000
+        self.num_steps = None
         self.feature_rep = None
         self.stacked_feature_rep = None  # If learning more than one target policy at the same time
         self.num_features = None
@@ -26,6 +26,10 @@ class BaseTask:
             stacked_x = np.tile(self.feature_rep[i, :], [self.num_policies, 1])
             stacked_feature_rep[:, :, i] = stacked_x
         return stacked_feature_rep
+
+    @staticmethod
+    def num_of_policies():
+        raise NotImplementedError
 
     @abstractmethod
     def get_terminal_policies(self, s):
