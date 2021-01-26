@@ -13,7 +13,7 @@ class LearnEightPoliciesTileCodingFeat(BaseTask, FourRoomGridWorld):
         FourRoomGridWorld.__init__(self)
         self.feature_rep = self.load_feature_rep()
         self.num_features = self.feature_rep.shape[1]
-        self.num_steps = 10000
+        self.num_steps = kwargs.get('num_steps', 50000)
         self.GAMMA = 0.9
         self.behavior_dist = self.load_behavior_dist()
         self.state_values = self.load_state_values()
@@ -112,9 +112,13 @@ class LearnEightPoliciesTileCodingFeat(BaseTask, FourRoomGridWorld):
                 7: lambda x, y: x == self.hallways[0][0] and y == self.hallways[0][1]
             }
         )
-        self.num_policies = len(self.optimal_policies)
+        self.num_policies = LearnEightPoliciesTileCodingFeat.num_of_policies()
         self.stacked_feature_rep = self.stack_feature_rep()
         self._active_policies_cache = {}
+
+    @staticmethod
+    def num_of_policies():
+        return 8
 
     def get_terminal_policies(self, s):
         x, y = self.get_xy(s)

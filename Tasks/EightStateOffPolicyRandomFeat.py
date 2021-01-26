@@ -5,19 +5,24 @@ from Tasks.BaseTask import BaseTask
 
 
 class EightStateOffPolicyRandomFeat(BaseTask, Chain):
+
     def __init__(self, **kwargs):
         BaseTask.__init__(self, **kwargs)
         Chain.__init__(self)
         self.N = kwargs.get('n', 8)
         self.feature_rep = self.load_feature_rep()
         self.num_features = self.feature_rep.shape[1]
-        self.num_steps = 10000
+        self.num_steps = kwargs.get('num_steps', 20000)
         self.GAMMA = 0.9
         self.behavior_dist = self.load_behavior_dist()
         self.state_values = self.load_state_values()
-        self.num_policies = 1
+        self.num_policies = EightStateOffPolicyRandomFeat.num_of_policies()
         self.ABTD_si_zero = 1
         self.ABTD_si_max = 2
+
+    @staticmethod
+    def num_of_policies():
+        return 1
 
     def load_feature_rep(self):
         return np.load(f'Resources/{self.__class__.__name__}/feature_rep.npy')[:, :, self.run_number]
