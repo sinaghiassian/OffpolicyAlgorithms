@@ -6,11 +6,11 @@
 #SBATCH --array=1-__NUM_OF_JOBS__
 
 $(sed -n "${SLURM_ARRAY_TASK_ID}p" <exports.dat)
-echo ${SLURM_ARRAY_TASK_ID} $ALPHA $LMBDA $ETA $BETA $ZETA $RUN
+echo ${SLURM_ARRAY_TASK_ID} $ALPHA $LMBDA $ETA $BETA $ZETA $NUMOFRUNS
 echo "Current working directory is $(pwd)"
 echo "Running on hostname $(hostname)"
 echo
 echo "Starting run at: $(date)"
 python Learning.py \
--a $ALPHA -l $LMBDA -et $ETA -b $BETA -z $ZETA -alg ALGORITHM -t $TASK -r $RUN -e $ENVIRONMENT -sp $SAVE_PATH
+-a $ALPHA -l $LMBDA -et $ETA -b $BETA -z $ZETA -alg ALGORITHM -t $TASK -nr $NUMOFRUNS -e $ENVIRONMENT -sp $SAVE_PATH
 echo "Program test finished with exit code $? at: $(date)"
