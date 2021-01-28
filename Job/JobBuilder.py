@@ -13,14 +13,15 @@ default_params = ImmutableDict(
         # 'task': 'LearnEightPoliciesTileCodingFeat',
         # 'environment': 'FourRoomGridWorld',
 
+        'sub_sample': 1,
+        'num_of_runs': 2,
+        'num_steps': 10000,
         'meta_parameters': {
             'alpha': 0.01,
             'eta': 0.01,
             'beta': 0.1,
             'zeta': 0.1,
-            'lmbda': 0.1,
-            'num_of_runs': 2,
-            'num_steps': 10000
+            'lmbda': 0.1
         }
     }
 )
@@ -41,12 +42,13 @@ class JobBuilder:
                 'ETA': ' '.join([f'{num:.5f}' for num in self.eta]),
                 'BETA': ' '.join([f'{num:.5f}' for num in self.beta]),
                 'ZETA': ' '.join([f'{num:.5f}' for num in self.zeta]),
-                'ALGORITHM': self.agent,
-                'TASK': self.task,
                 'NUMOFRUNS': f'{self.num_of_runs}',
                 'NUMSTEPS': f'{self.num_steps}',
+                'SUBSAMPLE': f'{self.sub_sample}',
+                'ALGORITHM': self.agent,
+                'TASK': self.task,
                 'ENVIRONMENT': self.environment,
-                'SAVEPATH': self.save_path,
+                'SAVEPATH': self.save_path
             })
 
     @property
@@ -84,13 +86,15 @@ class JobBuilder:
 
     @property
     def num_of_runs(self):
-        parameters = self._params.get('meta_parameters')
-        return np.asarray(parameters.get('num_of_runs', default_params['meta_parameters']['num_of_runs']))
+        return np.asarray(self._params.get('num_of_runs', default_params['num_of_runs']))
 
     @property
     def num_steps(self):
-        parameters = self._params.get('meta_parameters')
-        return np.asarray(parameters.get('num_steps', default_params['meta_parameters']['num_steps']))
+        return np.asarray(self._params.get('num_steps', default_params['num_steps']))
+
+    @property
+    def sub_sample(self):
+        return np.asarray(self._params.get('sub_sample', default_params['sub_sample']))
 
     @property
     def environment(self):
@@ -138,10 +142,10 @@ class JobBuilder:
         time.sleep(1)
         os.system('sbatch Submit_Jobs.SL')
         time.sleep(1)
-        os.remove('Submit_Jobs.SL')
-        if self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
-            os.remove('exports.dat')
-            os.remove('Create_Configs.sh')
+        # os.remove('Submit_Jobs.SL')
+        # if self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
+            # os.remove('exports.dat')
+            # os.remove('Create_Configs.sh')
 
     def __call__(self):
         return self.run_batch()

@@ -15,6 +15,7 @@ beta=(__BETA__)
 zeta=(__ZETA__)
 num_of_runs=(__NUMOFRUNS__)
 num_steps=(__NUMSTEPS__)
+sub_sample=(__SUBSAMPLE__)
 algorithm=(__ALGORITHM__)
 environment=(__ENVIRONMENT__)
 task=(__TASK__)
@@ -40,7 +41,8 @@ parallel --env OMP_NUM_THREADS,PATH,LD_LIBRARY_PATH --joblog slurm-$SLURM_JOBID.
 -j $NCORES -S $HOSTS --wd $PWD python Learning.py ::: -sp ::: ${save_path[@]} ::: \
 -alg ::: ${algorithm[@]} ::: -a ::: ${alpha[@]} ::: -nr ::: ${num_of_runs[@]} ::: \
 -ns ::: ${num_steps[@]} ::: -e ::: ${environment[@]} ::: -p ::: ${task[@]} ::: -et \
-::: ${eta[@]} ::: -l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -b ::: ${beta[@]}
+::: ${eta[@]} ::: -l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -b ::: ${beta[@]} \
+::: -ss ::: ${sub_sample[@]}
 
 
 echo "Program test finished with exit code $? at: $(date)"
