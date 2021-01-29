@@ -20,7 +20,7 @@ for A in ${alpha[@]}; do
         for Z in ${zeta[@]}; do
           echo export SAVE_PATH=${save_path[0]} ENVIRONMENT=${environment[0]} ALGORITHM=${algorithm[0]} \
           TASK=${task[0]} ALPHA=${A} LMBDA=${L} ETA=${E} BETA=${B} ZETA=${Z} NUMOFRUNS=${num_of_runs[0]} \
-          NUMSTEPS=${num_steps[0]} SUBSAMPLE=${sub_sample[0]} >>exports.dat
+          NUMSTEPS=${num_steps[0]} SUBSAMPLE=${sub_sample[0]} >>exports_${algorithm[0]}.dat
         done
       done
     done
