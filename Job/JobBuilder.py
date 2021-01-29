@@ -142,10 +142,10 @@ class JobBuilder:
         time.sleep(1)
         os.system('sbatch Submit_Jobs.SL')
         time.sleep(1)
-        os.remove('Submit_Jobs.SL')
-        if self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
-            os.remove('exports.dat')
-            os.remove('Create_Configs.sh')
+        # os.remove('Submit_Jobs.SL')
+        # if self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
+        #     os.remove('exports.dat')
+        #     os.remove('Create_Configs.sh')
 
     def __call__(self):
         return self.run_batch()
