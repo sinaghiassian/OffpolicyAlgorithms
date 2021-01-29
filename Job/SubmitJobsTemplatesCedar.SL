@@ -5,6 +5,7 @@
 #SBATCH --mem=3G
 #SBATCH --array=1-__NUM_OF_JOBS__
 
+alg=(__ALG__)
 source ~/bin/activate/RLENV
 $(sed -n "${SLURM_ARRAY_TASK_ID}p" <exports.dat)
 echo ${SLURM_ARRAY_TASK_ID} $ALPHA $LMBDA $ETA $BETA $ZETA $NUMOFRUNS $NUMSTEPS $SUBSAMPLE
