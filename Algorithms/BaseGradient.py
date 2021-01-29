@@ -11,6 +11,10 @@ class BaseGradient(BaseTD):
         if self.task.num_policies > 1:
             self.v = np.zeros((self.task.num_policies, self.task.num_features))
 
+    @staticmethod
+    def related_parameters():
+        return ['alpha', 'lmbda', 'eta']
+
     def compute_second_step_size(self):
         return self.eta * self.compute_step_size()
 
