@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --account=def-sutton
-#SBATCH --time=02:55:58
+#SBATCH --time=00:15:58
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=3G
 #SBATCH --array=1-__NUM_OF_JOBS__
