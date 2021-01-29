@@ -2,6 +2,9 @@
   "agent": "GTD",
   "environment": "Chain",
   "task": "EightStateOffPolicyRandomFeat",
+  "number_of_runs": 2,
+  "number_of_steps": 15000,
+  "sub_sample": 1,
   "meta_parameters": {
     "alpha": [
       0.0625,
@@ -9,7 +12,6 @@
     ],
     "eta": [
       0.01
-    ],
-    "number_of_runs": 2
+    ]
   }
 }
