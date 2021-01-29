@@ -26,7 +26,12 @@ if __name__ == '__main__':
     parser.add_argument('--render', '-render', type=bool, default=False)
     args = parser.parse_args()
 
-    params = {'alpha': args.alpha, 'lmbda': args.lmbda, 'eta': args.eta, 'beta': args.beta, 'zeta': args.zeta}
+    all_params = {'alpha': args.alpha, 'lmbda': args.lmbda, 'eta': args.eta, 'beta': args.beta, 'zeta': args.zeta}
+    params = dict()
+    for k, v in all_params.items():
+        if k in alg_dict[args.algorithm].related_parameters():
+            params[k] = v
+
     if not os.path.exists(args.save_path):
         os.makedirs(args.save_path)
 
@@ -73,3 +78,4 @@ if __name__ == '__main__':
                 np.array([np.mean(auc_mean_over_steps),
                           np.std(auc_mean_over_steps, ddof=1) / np.sqrt(args.num_of_runs)]), params)
 # TODO: Change int(0.01 * args.num_steps) - 1:args.num_steps -1] to int(0.01 * args.num_steps) - 1:]
+# TODO: Change Niagara's time to the time that's really needed for the jobs.
