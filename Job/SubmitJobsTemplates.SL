@@ -13,13 +13,13 @@ lmbda=(__LMBDA__)
 eta=(__ETA__)
 beta=(__BETA__)
 zeta=(__ZETA__)
-num_of_runs=(__NUMOFRUNS__)
-num_steps=(__NUMSTEPS__)
-sub_sample=(__SUBSAMPLE__)
-algorithm=(__ALGORITHM__)
-environment=(__ENVIRONMENT__)
-task=(__TASK__)
-save_path=(__SAVEPATH__)
+num_of_runs=__NUMOFRUNS__
+num_steps=__NUMSTEPS__
+sub_sample=__SUBSAMPLE__
+algorithm=__ALGORITHM__
+environment=__ENVIRONMENT__
+task=__TASK__
+save_path=__SAVEPATH__
 
 source ~/bin/activate/RLENV
 module load NiaEnv/2019b
@@ -38,12 +38,10 @@ HOSTS=$(scontrol show hostnames $SLURM_NODELIST | tr '\n' ,)
 NCORES=$(($SLURM_NNODES * $SLURM_NTASKS_PER_NODE))
 
 
-parallel --env OMP_NUM_THREADS,PATH,LD_LIBRARY_PATH --joblog slurm-$SLURM_JOBID.log \
--j $NCORES -S $HOSTS --wd $PWD python Learning.py ::: -sp ::: ${save_path[@]} ::: \
--alg ::: ${algorithm[@]} ::: -a ::: ${alpha[@]} ::: -nr ::: ${num_of_runs[@]} ::: \
--ns ::: ${num_steps[@]} ::: -e ::: ${environment[@]} ::: -p ::: ${task[@]} ::: -et \
-::: ${eta[@]} ::: -l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -b ::: ${beta[@]} \
-::: -ss ::: ${sub_sample[@]}
+parallel --env OMP_NUM_THREADS,PATH,LD_LIBRARY_PATH --joblog slurm-$SLURM_JOBID.log -j $NCORES -S $HOSTS --wd $PWD \
+python Learning.py ::: -sp ::: ${save_path} ::: -e ::: ${environment} ::: -alg ::: ${algorithm} ::: -t ::: ${task[@]} \
+::: -a ::: ${alpha[@]} ::: -nr ::: ${num_of_runs} ::: -ns ::: ${num_steps} ::: -et ::: ${eta[@]} \
+::: -l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -b ::: ${beta[@]} ::: -ss ::: ${sub_sample}
 
 
 echo "Program test finished with exit code $? at: $(date)"
