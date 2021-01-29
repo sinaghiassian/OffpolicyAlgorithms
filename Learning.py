@@ -62,21 +62,14 @@ if __name__ == '__main__':
         RMSVE[:, :, run] = RMSVE_of_run
     RMSVE_of_runs = np.transpose(np.mean(RMSVE, axis=0))  # Average over all policies.
     save_result(args.save_path, '_RMSVE_mean_over_runs', np.mean(RMSVE_of_runs, axis=0), params)
-    # print('1', np.mean(RMSVE_of_runs, axis=0))
     save_result(args.save_path, '_RMSVE_stderr_over_runs',
                 np.std(RMSVE_of_runs, axis=0, ddof=1) / np.sqrt(args.num_of_runs), params)
-    # print('2', np.std(RMSVE_of_runs, axis=0, ddof=1) / np.sqrt(args.num_of_runs))
-    final_errors_mean_over_steps = np.mean(RMSVE_of_runs[:, args.num_steps - int(0.01 * args.num_steps) - 1:args.num_steps -1], axis=1)
+    final_errors_mean_over_steps = np.mean(RMSVE_of_runs[:, args.num_steps - int(0.01 * args.num_steps) - 1:], axis=1)
     save_result(args.save_path, '_mean_stderr_final',
                 np.array([np.mean(final_errors_mean_over_steps),
                           np.std(final_errors_mean_over_steps, ddof=1) / np.sqrt(args.num_of_runs)]), params)
-    # print('3', np.array([np.mean(final_errors_mean_over_steps),
-    #                      np.std(final_errors_mean_over_steps, ddof=1) / np.sqrt(args.num_of_runs)]))
     auc_mean_over_steps = np.mean(RMSVE_of_runs, axis=1)
-    # print(auc_mean_over_steps)
     save_result(args.save_path, '_mean_stderr_auc',
                 np.array([np.mean(auc_mean_over_steps),
                           np.std(auc_mean_over_steps, ddof=1) / np.sqrt(args.num_of_runs)]), params)
-    # print('4', np.array([np.mean(auc_mean_over_steps),
-    #                      np.std(auc_mean_over_steps, ddof=1) / np.sqrt(args.num_of_runs)]))
 # TODO: Change int(0.01 * args.num_steps) - 1:args.num_steps -1] to int(0.01 * args.num_steps) - 1:]
