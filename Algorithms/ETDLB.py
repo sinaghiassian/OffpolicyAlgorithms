@@ -12,6 +12,10 @@ class ETDLB(BaseTD):
             self.F = np.zeros(self.task.num_policies)
             self.old_rho = np.zeros(self.task.num_policies)
 
+    @staticmethod
+    def related_parameters():
+        return ['alpha', 'lmbda', 'beta']
+
     def learn_single_policy(self, s, s_p, r, is_terminal):
         x, x_p = self.get_features(s, s_p, is_terminal)
         delta = self.get_delta(r, x, x_p)

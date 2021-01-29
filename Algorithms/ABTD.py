@@ -13,6 +13,10 @@ class ABTD(BaseVariableLmbda):
         si_max = self.task.ABTD_si_max
         self.si = 2 * zeta * si_zero + max(0, 2 * zeta - 1) * (si_max - 2 * si_zero)
 
+    @staticmethod
+    def related_parameters():
+        return['alpha', 'zeta']
+
     def learn_single_policy(self, s, s_p, r, is_terminal):
         delta, alpha, x, x_p, rho, pi, mu = super().learn_single_policy(s, s_p, r, is_terminal)
         nu = min(self.si, 1.0 / max(pi, mu))

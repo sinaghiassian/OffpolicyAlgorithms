@@ -20,6 +20,10 @@ class BaseTD:
         self.gamma_vec_tp = np.zeros(self.task.num_policies)
         self.gamma_vec_t = np.zeros(self.task.num_policies)
 
+    @staticmethod
+    def related_parameters():
+        return ['alpha', 'lmbda']
+
     def compute_rmsve(self):
         est_value = np.dot(self.w, self.task.feature_rep.T)
         error = est_value - self.state_values

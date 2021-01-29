@@ -1,8 +1,8 @@
 import sys
-import gym
 import numpy as np
-from gym import utils
 from Environments.rendering import Render
+import gym
+from gym import utils
 
 BLOCK_NORMAL, BLOCK_WALL, BLOCK_HALLWAY, BLOCK_AGENT = 0, 1, 2, 3
 RGB_COLORS = {
