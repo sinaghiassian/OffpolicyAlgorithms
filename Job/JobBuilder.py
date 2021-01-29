@@ -121,7 +121,9 @@ class JobBuilder:
         elif self.server_name == 'Cedar' or self.server_name == 'cedar' or self.server_name == 'CEDAR':
             with open('Job/SubmitJobsTemplatesCedar.SL', 'r') as f:
                 text = f.read()
-                num_of_jobs = sum(1 for _ in open('exports.dat'))
+                alg = self._batch_params['ALGORITHM']
+                num_of_jobs = sum(1 for _ in open(f'exports_{alg}.dat'))
+                text = text.replace('__ALG__', self._batch_params['ALGORITHM'])
                 text = text.replace('__NUM_OF_JOBS__', str(num_of_jobs))
             return text
 
@@ -144,7 +146,6 @@ class JobBuilder:
         time.sleep(1)
         os.remove('Submit_Jobs.SL')
         if self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
-            os.remove('exports.dat')
             os.remove('Create_Configs.sh')
 
     def __call__(self):
