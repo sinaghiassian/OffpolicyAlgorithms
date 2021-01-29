@@ -1,8 +1,7 @@
 import sys
 from io import StringIO
-import gym
 import numpy as np
-from enum import Enum
+import gym
 from gym import utils
 
 
