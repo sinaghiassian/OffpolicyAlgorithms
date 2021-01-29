@@ -15,7 +15,7 @@ default_params = ImmutableDict(
 
         'sub_sample': 1,
         'num_of_runs': 2,
-        'num_steps': 10000,
+        'num_steps': 15000,
         'meta_parameters': {
             'alpha': 0.01,
             'eta': 0.01,
@@ -130,9 +130,9 @@ class JobBuilder:
             print('Code for running on this server does not exist. Please use either Cedar or Niagara.')
             raise NotImplementedError
         elif self.server_name == 'Niagara' or self.server_name == 'NIAGARA' or self.server_name == 'niagara':
-            print('Submitted the ' + self.agent + 'algorithm jobs on Niagara...')
+            print('Submitted the ' + self.agent + ' algorithm jobs on Niagara...')
         elif self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
-            print('Running the ' + self.agent + 'algorithm jobs on Cedar...')
+            print('Running the ' + self.agent + ' algorithm jobs on Cedar...')
             with open('Create_Configs.sh', 'wt') as f:
                 f.write(self.create_dat_file())
             time.sleep(1)
