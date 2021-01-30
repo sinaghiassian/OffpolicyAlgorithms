@@ -33,7 +33,7 @@ if __name__ == '__main__':
             params[k] = v
 
     if not os.path.exists(args.save_path):
-        os.makedirs(args.save_path)
+        os.makedirs(args.save_path, exist_ok=True)
 
     RMSVE = np.zeros((task_dict[args.task].num_of_policies(), args.num_steps, args.num_of_runs))
     RMSVE_of_runs = np.zeros((args.num_of_runs, args.num_steps))

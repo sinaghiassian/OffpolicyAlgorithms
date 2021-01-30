@@ -6,7 +6,7 @@
 #SBATCH --array=1-__NUM_OF_JOBS__
 
 alg=__ALG__
-source ~/bin/activate/RLENV
+source ~/RLENV/bin/activate
 `sed -n "${SLURM_ARRAY_TASK_ID}p" <exports_${alg}.dat`
 echo ${SLURM_ARRAY_TASK_ID} $ALPHA $LMBDA $ETA $BETA $ZETA $NUMOFRUNS $NUMSTEPS $SUBSAMPLE
 echo "Current working directory is $(pwd)"
