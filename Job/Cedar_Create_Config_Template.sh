@@ -1,5 +1,4 @@
 #!/bin/bash
-rm -f exports.dat
 alpha=(__ALPHA__)
 lmbda=(__LMBDA__)
 eta=(__ETA__)
@@ -13,6 +12,7 @@ environment=__ENVIRONMENT__
 task=__TASK__
 save_path=__SAVEPATH__
 
+rm -f exports_${algorithm}.dat
 for A in ${alpha[@]}; do
   for L in ${lmbda[@]}; do
     for E in ${eta[@]}; do

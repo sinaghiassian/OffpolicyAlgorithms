@@ -79,4 +79,4 @@ if __name__ == '__main__':
                           np.std(auc_mean_over_steps, ddof=1) / np.sqrt(args.num_of_runs)]), params)
 # TODO: Change int(0.01 * args.num_steps) - 1:args.num_steps -1] to int(0.01 * args.num_steps) - 1:]
 # TODO: Change Niagara's and Cedar's time to the time that's really needed for the jobs.:q
-
+# TODO: What if the exports file just uses the name "exports.dat" and is deleted at the end of JobBuilder?
