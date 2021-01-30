@@ -1,8 +1,8 @@
-import sys
 import numpy as np
-from Environments.rendering import Render
-import gym
-from gym import utils
+# from Environments.rendering import Render
+# import sys
+# import gym
+# from gym import utils
 
 BLOCK_NORMAL, BLOCK_WALL, BLOCK_HALLWAY, BLOCK_AGENT = 0, 1, 2, 3
 RGB_COLORS = {
@@ -33,7 +33,7 @@ four_room_map = [
 ]
 
 
-class FourRoomGridWorld(gym.Env):
+class FourRoomGridWorld:
     def __init__(self, stochasticity_fraction=0.0):
         self._grid = np.transpose(np.flip(np.array(four_room_map, dtype=np.uint8), axis=0)[1:-1, 1:-1])
         self._max_row, self._max_col = self._grid.shape
@@ -42,11 +42,6 @@ class FourRoomGridWorld(gym.Env):
         self._walls_tiles = np.where(self._grid == BLOCK_WALL)
 
         self._state = None
-        self._color = {
-            BLOCK_NORMAL: lambda c: utils.colorize(c, "white", highlight=True),
-            BLOCK_WALL: lambda c: utils.colorize(c, "gray", highlight=True),
-            BLOCK_HALLWAY: lambda c: utils.colorize(c, "green", highlight=True),
-        }
         self.ACTION_UP, self.ACTION_DOWN, self.ACTION_RIGHT, self.ACTION_LEFT = 0, 1, 2, 3
         self.num_actions = 4
         self._stochasticity_fraction = stochasticity_fraction
@@ -57,6 +52,11 @@ class FourRoomGridWorld(gym.Env):
             3: (8, 4)
         }
         self._window, self._info = None, None
+        # self._color = {
+        #     BLOCK_NORMAL: lambda c: utils.colorize(c, "white", highlight=True),
+        #     BLOCK_WALL: lambda c: utils.colorize(c, "gray", highlight=True),
+        #     BLOCK_HALLWAY: lambda c: utils.colorize(c, "green", highlight=True),
+        # }
 
     def reset(self):
         # if random_agent_start:
@@ -83,57 +83,6 @@ class FourRoomGridWorld(gym.Env):
             'is_stochastic_selected': is_stochastic_selected,
             'selected_action': action}
 
-    def render(self, mode='human', show_state_numbers=False, render_cls: Render = None):
-        if mode == 'human':
-            outfile = sys.stdout
-            img = [
-                [self._color[b]('  ')
-                 for x, b
-                 in enumerate(line)]
-                for y, line in enumerate(four_room_map)]
-            img[self._max_row - self._state[1]][self._state[0] + 1] = utils.colorize('  ', "red",
-                                                                                     highlight=True)
-            for line in img:
-                outfile.write(f'{"".join(line)}\n')
-            outfile.write('\n')
-        if mode == "rgb" or mode == "screen":
-            x, y = self._state
-            img = np.zeros((*self._grid.shape, 3), dtype=np.uint8)
-            img[self._normal_tiles] = RGB_COLORS['light_grey']
-
-            if render_cls is not None:
-                assert render_cls is not type(Render), "render_cls should be Render class"
-                img = render_cls.render(img)
-
-            img[self._walls_tiles] = RGB_COLORS['black']
-            img[self._hallways_tiles] = RGB_COLORS['green']
-            img[x, y] = RGB_COLORS['red']
-
-            ext_img = np.zeros((self._max_row + 2, self._max_col + 2, 3), dtype=np.uint8)
-            ext_img[1:-1, 1:-1] = np.transpose(img, (1, 0, 2))
-            if mode == "screen":
-
-                from pyglet.window import Window
-                from pyglet.text import Label
-                from pyglet.gl import GLubyte
-                from pyglet.image import ImageData
-                from skimage.transform import resize
-                zoom = 20
-                if self._window is None:
-                    self._window = Window((self._max_row + 2) * zoom, (self._max_col + 2) * zoom)
-                    self._info = Label('Four Room Grid World', font_size=10, x=5, y=5)
-                # self._info.text = f'x: {x}, y: {y}'
-                dt = np.kron(ext_img, np.ones((zoom, zoom, 1)))
-                dt = (GLubyte * dt.size)(*dt.flatten().astype('uint8'))
-                texture = ImageData(self._window.width, self._window.height, 'RGB', dt).get_texture()
-                self._window.clear()
-                self._window.switch_to()
-                self._window.dispatch_events()
-                texture.blit(0, 0)
-                # self._info.draw()
-                self._window.flip()
-            return np.flip(ext_img, axis=0)
-
     def get_xy(self, state):
         return (state % self._max_row), (state // self._max_col)
 
@@ -159,3 +108,54 @@ class FourRoomGridWorld(gym.Env):
         }
         move_func = switcher.get(action)
         return move_func(x, y)
+
+    # def render(self, mode='human', show_state_numbers=False, render_cls: Render = None):
+    #     if mode == 'human':
+    #         outfile = sys.stdout
+    #         img = [
+    #             [self._color[b]('  ')
+    #              for x, b
+    #              in enumerate(line)]
+    #             for y, line in enumerate(four_room_map)]
+    #         img[self._max_row - self._state[1]][self._state[0] + 1] = utils.colorize('  ', "red",
+    #                                                                                  highlight=True)
+    #         for line in img:
+    #             outfile.write(f'{"".join(line)}\n')
+    #         outfile.write('\n')
+    #     if mode == "rgb" or mode == "screen":
+    #         x, y = self._state
+    #         img = np.zeros((*self._grid.shape, 3), dtype=np.uint8)
+    #         img[self._normal_tiles] = RGB_COLORS['light_grey']
+    #
+    #         if render_cls is not None:
+    #             assert render_cls is not type(Render), "render_cls should be Render class"
+    #             img = render_cls.render(img)
+    #
+    #         img[self._walls_tiles] = RGB_COLORS['black']
+    #         img[self._hallways_tiles] = RGB_COLORS['green']
+    #         img[x, y] = RGB_COLORS['red']
+    #
+    #         ext_img = np.zeros((self._max_row + 2, self._max_col + 2, 3), dtype=np.uint8)
+    #         ext_img[1:-1, 1:-1] = np.transpose(img, (1, 0, 2))
+    #         if mode == "screen":
+    #
+    #             from pyglet.window import Window
+    #             from pyglet.text import Label
+    #             from pyglet.gl import GLubyte
+    #             from pyglet.image import ImageData
+    #             from skimage.transform import resize
+    #             zoom = 20
+    #             if self._window is None:
+    #                 self._window = Window((self._max_row + 2) * zoom, (self._max_col + 2) * zoom)
+    #                 self._info = Label('Four Room Grid World', font_size=10, x=5, y=5)
+    #             # self._info.text = f'x: {x}, y: {y}'
+    #             dt = np.kron(ext_img, np.ones((zoom, zoom, 1)))
+    #             dt = (GLubyte * dt.size)(*dt.flatten().astype('uint8'))
+    #             texture = ImageData(self._window.width, self._window.height, 'RGB', dt).get_texture()
+    #             self._window.clear()
+    #             self._window.switch_to()
+    #             self._window.dispatch_events()
+    #             texture.blit(0, 0)
+    #             # self._info.draw()
+    #             self._window.flip()
+    #         return np.flip(ext_img, axis=0)

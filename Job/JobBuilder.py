@@ -147,8 +147,8 @@ class JobBuilder:
         os.remove('Submit_Jobs.SL')
         if self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
             os.remove('Create_Configs.sh')
-            # alg = self._batch_params['ALGORITHM']
-            # os.remove(f'exports_{alg}.dat')
+            alg = self._batch_params['ALGORITHM']
+            os.remove(f'exports_{alg}.dat')
 
     def __call__(self):
         return self.run_batch()
