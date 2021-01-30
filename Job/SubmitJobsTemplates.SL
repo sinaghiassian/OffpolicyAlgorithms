@@ -22,7 +22,6 @@ task=__TASK__
 save_path=__SAVEPATH__
 
 source ~/bin/activate/RLENV
-module load NiaEnv/2019b
 module load gnu-parallel
 module load python
 
