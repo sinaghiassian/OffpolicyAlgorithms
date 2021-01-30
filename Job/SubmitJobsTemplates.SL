@@ -1,8 +1,8 @@
 #!/bin/bash
 # SLURM submission script for submitting multiple serial jobs on Niagara
 #
-#SBATCH --account=def-amw8
-#SBATCH --time=02:58:59
+#SBATCH --account=def-sutton
+#SBATCH --time=00:30:59
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=80
 #SBATCH --job-name FirstChainExp
