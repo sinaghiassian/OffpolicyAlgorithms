@@ -1,15 +1,7 @@
 import os
 from Job.JobBuilder import JobBuilder
 import argparse
-
-
-def find_all_experiment_configuration(experiments_path: str):
-    if experiments_path.endswith('.json'):
-        yield experiments_path
-    for root, _, files in os.walk(experiments_path):
-        for file in files:
-            if file.endswith('.json'):
-                yield os.path.join(root, file)
+from utils import find_all_experiment_configuration
 
 
 if __name__ == '__main__':

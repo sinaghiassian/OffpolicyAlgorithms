@@ -1,9 +1,14 @@
 import numpy as np
-from collections import namedtuple
 import os
 
-Transition = namedtuple('Transition',
-                        ('x', 'a', 'xp', 'r'))
+
+def find_all_experiment_configuration(experiments_path: str, ext='.json'):
+    if experiments_path.endswith(ext):
+        yield experiments_path
+    for root, _, files in os.walk(experiments_path):
+        for file in files:
+            if file.endswith(ext):
+                yield os.path.join(root, file)
 
 
 class ImmutableDict(dict):
@@ -26,9 +31,11 @@ class ImmutableDict(dict):
         self.immutable()
 
 
-def create_name_for_saving(param_dict):
+def create_name_for_save_load(param_dict, excluded_params=[]):
     final_str = ''
     for k, v in param_dict.items():
+        if k in excluded_params:
+            continue
         if k == 'alpha' or k == 'eta':
             split_str = str.split(f'{v:.10f}', '.')
         else:
@@ -38,7 +45,7 @@ def create_name_for_saving(param_dict):
 
 
 def save_result(path, name, result_array, params):
-    name_to_save = create_name_for_saving(param_dict=params)
+    name_to_save = create_name_for_save_load(param_dict=params)
     path_and_name = os.path.join(path, name_to_save)
     final_name = path_and_name + name
     np.save(final_name, result_array)
