@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--exp_name', '-n', type=str, default='FirstChain')
 args = parser.parse_args()
 alg_names = ['GTD', 'TD']
-auc_or_final = 'auc'  # 'final' or 'auc
+auc_or_final = 'auc'  # 'final' or 'auc'
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
