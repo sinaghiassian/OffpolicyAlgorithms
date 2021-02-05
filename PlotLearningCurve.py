@@ -1,11 +1,6 @@
 import argparse
-from Registry import TaskRegistry
-import matplotlib.pyplot as plt
 from pylab import *
 import json
-from Job.JobBuilder import default_params
-import matplotlib.patches as mpatches
-import numpy
 import os
 from Registry.AlgRegistry import alg_dict
 from Job.JobBuilder import default_params
