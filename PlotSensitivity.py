@@ -16,7 +16,7 @@ auc_or_final = 'auc'  # 'final' or 'auc'
 lmbda = 0  # 0 or 0.9
 
 
-def find_all_performance_over_alpha(alg_name):
+def find_best_performance_over_alpha(alg_name):
     params = dict()
     alg_param_names = alg_dict[alg_name].related_parameters()
     exp_path = os.path.join(os.getcwd(), 'Experiments', args.exp_name, alg_name, f'{alg_name}.json')
@@ -70,6 +70,6 @@ def plot_sensitivity(best_performance, stderr, alg_name, best_tp, fp_list):
 
 
 for alg_name in alg_names:
-    best_performance, stderr, best_tp, fp_list = find_all_performance_over_alpha(alg_name)
+    best_performance, stderr, best_tp, fp_list = find_best_performance_over_alpha(alg_name)
     plot_sensitivity(best_performance, stderr, alg_name, best_tp, fp_list)
 plt.show()
