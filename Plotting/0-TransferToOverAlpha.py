@@ -1,54 +1,23 @@
 import os
 import numpy as np
-import json
-import argparse
 from Registry.AlgRegistry import alg_dict
-from Job.JobBuilder import default_params
 from utils import create_name_for_save_load
+from Plotting.plot_utils import make_params, make_current_params, make_args
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--exp_name', '-n', type=str, default='FirstChain')
-args = parser.parse_args()
+args = make_args()
 
-exp_path = os.path.join(os.getcwd(), 'Experiments', args.exp_name)
+exp_path = os.path.join(os.getcwd(), '../Experiments', args.exp_name)
 alg_dir_list = [name for name in os.listdir(exp_path) if os.path.isdir(os.path.join(exp_path, name))]
 for alg_name, alg in alg_dict.items():
     if alg_name in alg_dir_list:
-        params = dict()
-        alg_param_names = alg_dict[alg_name].related_parameters()
-        exp_path = os.path.join(os.getcwd(), 'Experiments', args.exp_name, alg_name, f'{alg_name}.json')
-        with open(exp_path) as f:
-            json_exp_params = json.load(f).get('meta_parameters')
-        for param in alg_param_names:
-            params[param] = json_exp_params.get(param, default_params['meta_parameters'][param])
-            if not isinstance(params[param], list):
-                params[param] = list([params[param]])
-        res_path = os.path.join(os.getcwd(), 'Results', args.exp_name, alg_name)
-        fp_list = params.get('alpha', params['alpha'])
-        tp_list = [0.0]
-        if 'eta' in params:
-            tp_list = params['eta']
-        elif 'beta' in params:
-            tp_list = params['beta']
-        if 'lmbda' in params:
-            sp_list = params['lmbda']
-        else:
-            sp_list = params['zeta']
+        fp_list, sp_list, tp_list, res_path = make_params(alg_name, args.exp_name)
         auc_mean_over_alpha = np.zeros(len(fp_list))
         auc_stderr_over_alpha = np.zeros(len(fp_list))
         final_mean_over_alpha = np.zeros(len(fp_list))
         final_stderr_over_alpha = np.zeros(len(fp_list))
-
         for tp in tp_list:
             for sp in sp_list:
-                current_params = {'alpha': 0}
-                if 'lmbda' in alg_param_names:
-                    current_params['lmbda'] = sp
-                else:
-                    current_params['zeta'] = sp
-                if 'eta' in alg_param_names:
-                    current_params['eta'] = tp
-
+                current_params = make_current_params(alg_name, sp, tp)
                 for i, fp in enumerate(fp_list):
 
                     current_params['alpha'] = fp
