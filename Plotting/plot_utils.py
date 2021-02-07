@@ -22,18 +22,21 @@ def make_params(alg_name, exp_name):
             params[param] = list([params[param]])
     fp_list = params.get('alpha', params['alpha'])
     tp_list = [0.0]
-    if 'eta' in params:
-        tp_list = params['eta']
-    elif 'beta' in params:
-        tp_list = params['beta']
+    fop_list = [0.0]
     if 'lmbda' in params:
         sp_list = params['lmbda']
     else:
         sp_list = params['zeta']
-    return fp_list, sp_list, tp_list, res_path
+    if 'eta' in params:
+        tp_list = params['eta']
+    elif 'beta' in params:
+        tp_list = params['beta']
+    if 'tdrc_beta' in params:
+        fop_list = params['tdrc_beta']
+    return fp_list, sp_list, tp_list, fop_list, res_path
 
 
-def make_current_params(alg_name, sp, tp):
+def make_current_params(alg_name, sp, tp, fop):
     current_params = {'alpha': 0}
     alg_param_names = alg_dict[alg_name].related_parameters()
     if 'lmbda' in alg_param_names:
@@ -42,6 +45,8 @@ def make_current_params(alg_name, sp, tp):
         current_params['zeta'] = sp
     if 'eta' in alg_param_names:
         current_params['eta'] = tp
+    if 'tdrc_beta' in alg_param_names:
+        current_params['tdrc_beta'] = fop
     return current_params
 
 
