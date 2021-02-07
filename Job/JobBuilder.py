@@ -21,7 +21,8 @@ default_params = ImmutableDict(
             'eta': 0.01,
             'beta': 0.1,
             'zeta': 0.1,
-            'lmbda': 0.1
+            'lmbda': 0.1,
+            'tdrc_beta': 1.0
         }
     }
 )
