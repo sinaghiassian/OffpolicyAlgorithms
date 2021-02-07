@@ -1,9 +1,9 @@
-from Algorithms.GTD import GTD
+from Algorithms.BaseGradient import BaseGradient
 import numpy as np
 
 
 # noinspection DuplicatedCode
-class TDRC(GTD):
+class TDRC(BaseGradient):
     def __init__(self, task, **kwargs):
         super().__init__(task, **kwargs)
         self.tdrc_beta = kwargs['tdrc_beta']

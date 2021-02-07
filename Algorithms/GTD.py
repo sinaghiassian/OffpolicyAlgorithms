@@ -2,6 +2,7 @@ from Algorithms.BaseGradient import BaseGradient
 import numpy as np
 
 
+# noinspection DuplicatedCode
 class GTD(BaseGradient):
     def learn_single_policy(self, s, s_p, r, is_terminal):
         delta, alpha, x, x_p, _ = super().learn_single_policy(s, s_p, r, is_terminal)
@@ -9,7 +10,6 @@ class GTD(BaseGradient):
         self.w += alpha * (delta * self.z - self.gamma * (1 - self.lmbda) * np.dot(self.z, self.v) * x_p)
         self.v += alpha_v * (delta * self.z - np.dot(x, self.v) * x)
 
-    # noinspection DuplicatedCode
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
         delta, alpha_vec, x, x_p, *_, rho, stacked_x, stacked_x_p, alphav_vec = super().learn_multiple_policies(
             s, s_p, r, is_terminal)
