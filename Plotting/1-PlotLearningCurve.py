@@ -11,27 +11,29 @@ auc_or_final = 'auc'  # 'final' or 'auc'
 
 
 def find_best_mean_performance(alg_name):
-    fp_list, sp_list, tp_list, res_path = make_params(alg_name, args.exp_name)
-    best_perf, best_fp, best_sp, best_tp = np.inf, np.inf, np.inf, np.inf
+    fp_list, sp_list, tp_list, fop_list, res_path = make_params(alg_name, args.exp_name)
+    best_perf, best_fp, best_sp, best_tp, best_fop = np.inf, np.inf, np.inf, np.inf, np.inf
     best_params = dict()
-    for sp in sp_list:
+    for fop in fop_list:
         for tp in tp_list:
-            current_params = make_current_params(alg_name, sp, tp)
-            load_file_name = os.path.join(res_path, create_name_for_save_load(current_params, excluded_params=[
-                'alpha']) + f'_mean_{auc_or_final}_over_alpha.npy')
-            if not os.path.exists(load_file_name):
-                continue
-            current_perf = np.load(load_file_name)
-            min_perf = min(current_perf)
-            if min_perf < best_perf:
-                best_perf = min_perf
-                best_perf_idx = int(np.argmin(current_perf))
-                best_fp = fp_list[best_perf_idx]
-                best_sp = sp
-                best_tp = tp
-                best_params = current_params
-                best_params['alpha'] = best_fp
-    return best_fp, best_sp, best_tp, best_params
+            for sp in sp_list:
+                current_params = make_current_params(alg_name, sp, tp, fop)
+                load_file_name = os.path.join(res_path, create_name_for_save_load(current_params, excluded_params=[
+                    'alpha']) + f'_mean_{auc_or_final}_over_alpha.npy')
+                if not os.path.exists(load_file_name):
+                    continue
+                current_perf = np.load(load_file_name)
+                min_perf = min(current_perf)
+                if min_perf < best_perf:
+                    best_perf = min_perf
+                    best_perf_idx = int(np.argmin(current_perf))
+                    best_fp = fp_list[best_perf_idx]
+                    best_sp = sp
+                    best_tp = tp
+                    best_fop = fop
+                    best_params = current_params
+                    best_params['alpha'] = best_fp
+    return best_fp, best_sp, best_tp, best_fop, best_params
 
 
 def load_data(alg_name, best_params):
@@ -50,7 +52,7 @@ def plot_data(alg_name, mean_lc, mean_stderr, best_params):
 
 
 for alg in alg_names:
-    fp, sp, tp, current_params = find_best_mean_performance(alg)
+    fp, sp, tp, fop, current_params = find_best_mean_performance(alg)
     if fp == np.inf:
         continue
     mean_lc, mean_stderr = load_data(alg, current_params)
