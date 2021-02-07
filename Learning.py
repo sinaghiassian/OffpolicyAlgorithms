@@ -16,6 +16,7 @@ if __name__ == '__main__':
     parser.add_argument('--eta', '-et', type=float, default=default_params['meta_parameters']['eta'])
     parser.add_argument('--beta', '-b', type=float, default=default_params['meta_parameters']['beta'])
     parser.add_argument('--zeta', '-z', type=float, default=default_params['meta_parameters']['zeta'])
+    parser.add_argument('--tdrc_beta', '-tb', type=float, default=default_params['meta_parameters']['tdrc_beta'])
     parser.add_argument('--algorithm', '-alg', type=str, default=default_params['agent'])
     parser.add_argument('--task', '-t', type=str, default=default_params['task'])
     parser.add_argument('--num_of_runs', '-nr', type=int, default=default_params['num_of_runs'])
@@ -26,7 +27,8 @@ if __name__ == '__main__':
     parser.add_argument('--render', '-render', type=bool, default=False)
     args = parser.parse_args()
 
-    all_params = {'alpha': args.alpha, 'lmbda': args.lmbda, 'eta': args.eta, 'beta': args.beta, 'zeta': args.zeta}
+    all_params = {'alpha': args.alpha, 'lmbda': args.lmbda, 'eta': args.eta, 'beta': args.beta, 'zeta': args.zeta,
+                  'tdrc_beta': args.tdrc_beta}
     params = dict()
     for k, v in all_params.items():
         if k in alg_dict[args.algorithm].related_parameters():
