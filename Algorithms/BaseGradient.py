@@ -19,7 +19,7 @@ class BaseGradient(BaseTD):
         return self.eta * self.compute_step_size()
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
-        delta, alpha_vec, x, x_p, pi, mu, rho, stacked_x = super(BaseGradient, self).learn_multiple_policies()
-        return delta, alpha_vec, x, x_p, pi, mu, rho, stacked_x, \
-               self.task.stacked_feature_rep[:, :, s_p], \
-               self.compute_second_step_size() * self.gamma_vec_t / self.gamma
+        delta, alpha_vec, x, x_p, pi, mu, rho, stacked_x = super(BaseGradient, self).learn_multiple_policies(
+            s, s_p, r, is_terminal)
+        return delta, alpha_vec, x, x_p, pi, mu, rho, stacked_x, self.task.stacked_feature_rep[:, :, s_p], \
+            self.compute_second_step_size() * self.gamma_vec_t / self.gamma
