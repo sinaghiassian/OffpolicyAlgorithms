@@ -1,0 +1,17 @@
+{
+  "agent": "TD",
+  "environment": "FourRoomGridWorld",
+  "task": "LearnEightPoliciesTileCodingFeat",
+  "number_of_runs": 50,
+  "number_of_steps": 50000,
+  "sub_sample": 1,
+  "meta_parameters": {
+    "alpha": [
+      0.000015258, 0.000030517, 0.000061035, 0.000122070, 0.000244140, 0.000488281,
+      0.000976562, 0.001953125, 0.00390625, 0.0078125, 0.015625, 0.03125, 0.0625, 0.125, 0.25, 0.5, 1.0
+    ],
+    "lmbda": [
+      0.0, 0.9
+    ]
+  }
+}
