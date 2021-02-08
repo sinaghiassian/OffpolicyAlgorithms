@@ -8,6 +8,10 @@ class TDRC(BaseGradient):
         super().__init__(task, **kwargs)
         self.tdrc_beta = kwargs['tdrc_beta']
 
+    @staticmethod
+    def related_parameters():
+        return ['alpha', 'lmbda', 'eta', 'tdrc_beta']
+
     def learn_single_policy(self, s, s_p, r, is_terminal):
         delta, alpha, x, x_p, _ = super().learn_single_policy(s, s_p, r, is_terminal)
         alpha_v = self.compute_second_step_size()
