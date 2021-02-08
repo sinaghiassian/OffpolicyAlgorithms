@@ -1,7 +1,7 @@
 {
   "agent": "TDRC",
-  "environment": "Chain",
-  "task": "EightStateOffPolicyRandomFeat",
+  "environment": "FourRoomGridWorld",
+  "task": "LearnEightPoliciesTileCodingFeat",
   "number_of_runs": 50,
   "number_of_steps": 50000,
   "sub_sample": 1,
