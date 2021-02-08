@@ -27,7 +27,7 @@ if __name__ == '__main__':
     parser.add_argument('--render', '-render', type=bool, default=False)
     args = parser.parse_args()
     if args.save_path == '-':
-        args.save_path = os.path.join(os.getcwd(), 'Results', 'FirstChain', args.algorithm)
+        args.save_path = os.path.join(os.getcwd(), 'Results', args.task, args.algorithm)
 
     all_params = {'alpha': args.alpha, 'lmbda': args.lmbda, 'eta': args.eta, 'beta': args.beta, 'zeta': args.zeta,
                   'tdrc_beta': args.tdrc_beta}
