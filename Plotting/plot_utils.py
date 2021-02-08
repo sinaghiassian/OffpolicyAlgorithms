@@ -48,6 +48,8 @@ def make_current_params(alg_name, sp, tp, fop):
         current_params['zeta'] = sp
     if 'eta' in alg_param_names:
         current_params['eta'] = tp
+    elif 'beta' in alg_param_names:
+        current_params['beta'] = tp
     if 'tdrc_beta' in alg_param_names:
         current_params['tdrc_beta'] = fop
     return current_params
@@ -68,4 +70,5 @@ def make_fig():
 def get_alg_names(exp_name):
     exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name)
     alg_names = [name for name in os.listdir(exp_path) if os.path.isdir(os.path.join(exp_path, name))]
+    alg_names.remove('TDRC')
     return alg_names
