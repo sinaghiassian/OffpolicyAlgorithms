@@ -6,16 +6,16 @@ import time
 
 default_params = ImmutableDict(
     {
-        'agent': 'GTD',
-        'task': 'EightStateOffPolicyRandomFeat',
-        'environment': 'Chain',
         # 'agent': 'GTD',
-        # 'task': 'LearnEightPoliciesTileCodingFeat',
-        # 'environment': 'FourRoomGridWorld',
+        # 'task': 'FirstChain',
+        # 'environment': 'Chain',
+        'agent': 'GTD',
+        'task': 'LearnEightPoliciesTileCodingFeat',
+        'environment': 'FourRoomGridWorld',
 
         'sub_sample': 1,
-        'num_of_runs': 2,
-        'num_steps': 15000,
+        'num_of_runs': 50,
+        'num_steps': 50000,
         'meta_parameters': {
             'alpha': 0.01,
             'eta': 0.01,
@@ -43,6 +43,7 @@ class JobBuilder:
                 'ETA': ' '.join([f'{num:.5f}' for num in self.eta]),
                 'BETA': ' '.join([f'{num:.5f}' for num in self.beta]),
                 'ZETA': ' '.join([f'{num:.5f}' for num in self.zeta]),
+                'TDRCBETA': ' '.join([f'{num:.5f}' for num in self.tdrc_beta]),
                 'NUMOFRUNS': f'{self.num_of_runs}',
                 'NUMSTEPS': f'{self.num_steps}',
                 'SUBSAMPLE': f'{self.sub_sample}',
@@ -51,6 +52,11 @@ class JobBuilder:
                 'ENVIRONMENT': self.environment,
                 'SAVEPATH': self.save_path
             })
+
+    @property
+    def tdrc_beta(self):
+        parameters = self._params.get('meta_parameters')
+        return np.asarray(parameters.get('tdrc_beta', [default_params['meta_parameters']['tdrc_beta']]))
 
     @property
     def alpha(self):
