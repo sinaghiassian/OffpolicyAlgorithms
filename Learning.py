@@ -23,9 +23,11 @@ if __name__ == '__main__':
     parser.add_argument('--num_steps', '-ns', type=int, default=default_params['num_steps'])
     parser.add_argument('--sub_sample', '-ss', type=int, default=default_params['sub_sample'])
     parser.add_argument('--environment', '-e', type=str, default=default_params['environment'])
-    parser.add_argument('--save_path', '-sp', type=str, default='Results')
+    parser.add_argument('--save_path', '-sp', type=str, default='-')
     parser.add_argument('--render', '-render', type=bool, default=False)
     args = parser.parse_args()
+    if args.save_path == '-':
+        args.save_path = os.path.join(os.getcwd(), 'Results', 'FirstChain', args.algorithm)
 
     all_params = {'alpha': args.alpha, 'lmbda': args.lmbda, 'eta': args.eta, 'beta': args.beta, 'zeta': args.zeta,
                   'tdrc_beta': args.tdrc_beta}
