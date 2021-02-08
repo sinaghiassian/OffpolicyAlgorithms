@@ -40,7 +40,7 @@ class JobBuilder:
             {
                 'ALPHA': ' '.join([f'{num:.10f}' for num in self.alpha]),
                 'LMBDA': ' '.join([f'{num:.5f}' for num in self.lmbda]),
-                'ETA': ' '.join([f'{num:.5f}' for num in self.eta]),
+                'ETA': ' '.join([f'{num:.10f}' for num in self.eta]),
                 'BETA': ' '.join([f'{num:.5f}' for num in self.beta]),
                 'ZETA': ' '.join([f'{num:.5f}' for num in self.zeta]),
                 'TDRCBETA': ' '.join([f'{num:.5f}' for num in self.tdrc_beta]),
