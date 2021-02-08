@@ -1,17 +1,19 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from Plotting.plot_utils import make_params, make_current_params, make_args, make_fig
+from Plotting.plot_utils import make_params, make_current_params, make_args, make_fig, color_dict, get_alg_names
 from utils import create_name_for_save_load
 
 args = make_args()
 fig, ax = make_fig()
-alg_names = ['GTD', 'TD']
 auc_or_final = 'auc'  # 'final' or 'auc'
+lmbda_or_zeta = 0  # 0 or 0.9
+alg_names = get_alg_names(args.exp_name)
 
 
 def find_best_mean_performance(alg_name):
     fp_list, sp_list, tp_list, fop_list, res_path = make_params(alg_name, args.exp_name)
+    sp_list = [lmbda_or_zeta]
     best_perf, best_fp, best_sp, best_tp, best_fop = np.inf, np.inf, np.inf, np.inf, np.inf
     best_params = dict()
     for fop in fop_list:
@@ -47,7 +49,7 @@ def load_data(alg_name, best_params):
 
 def plot_data(alg_name, mean_lc, mean_stderr, best_params):
     lbl = (alg_name + r'$\alpha=$' + str(best_params['alpha']))
-    ax.plot(np.arange(15000), mean_lc, label=lbl, linewidth=1.0, color='blue')
+    ax.plot(np.arange(15000), mean_lc, label=lbl, linewidth=1.0, color=color_dict[alg_name])
     ax.fill_between(np.arange(15000), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2, alpha=0.3, color='blue')
 
 

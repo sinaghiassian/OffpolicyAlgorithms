@@ -2,9 +2,12 @@ import matplotlib.pyplot as plt
 import argparse
 import json
 import os
-
 from Job.JobBuilder import default_params
 from Registry.AlgRegistry import alg_dict
+
+colors = ['black', 'orchid', 'orange', 'blue', 'grey', 'red', 'green', 'darkred', 'darkkhaki', 'skyblue', 'aqua',
+          'lime', 'cadetblue']
+color_dict = {alg_name: color for alg_name, color in zip(alg_dict.keys(), colors)}
 
 
 def make_params(alg_name, exp_name):
@@ -60,3 +63,9 @@ def make_fig():
     fig = plt.figure()
     ax = fig.add_subplot(111)
     return fig, ax
+
+
+def get_alg_names(exp_name):
+    exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name)
+    alg_names = [name for name in os.listdir(exp_path) if os.path.isdir(os.path.join(exp_path, name))]
+    return alg_names
