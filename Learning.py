@@ -85,3 +85,5 @@ if __name__ == '__main__':
 # TODO: Change Niagara's and Cedar's time to the time that's really needed for the jobs.:q
 # TODO: What if the exports file just uses the name "exports.dat" and is deleted at the end of JobBuilder?
 # TODO: Check GTD multiple policy learning. I changed the parameters that I passed to it and I did not check the result
+# TODO: In plotting, when finding the best parameters, we should ignore nan and inf. Not only nan.
+#  Should do the same thing for other plotting codes such as learning curves.
