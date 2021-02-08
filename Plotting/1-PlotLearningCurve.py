@@ -28,7 +28,7 @@ def find_best_mean_performance(alg_name):
                 min_perf = min(current_perf)
                 if min_perf < best_perf:
                     best_perf = min_perf
-                    best_perf_idx = int(np.argmin(current_perf))
+                    best_perf_idx = int(np.nanargmin(current_perf))
                     best_fp = fp_list[best_perf_idx]
                     best_sp = sp
                     best_tp = tp
@@ -49,14 +49,16 @@ def load_data(alg_name, best_params):
 
 def plot_data(alg_name, mean_lc, mean_stderr, best_params):
     lbl = (alg_name + r'$\alpha=$' + str(best_params['alpha']))
-    ax.plot(np.arange(15000), mean_lc, label=lbl, linewidth=1.0, color=color_dict[alg_name])
-    ax.fill_between(np.arange(15000), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2, alpha=0.3, color='blue')
+    ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=color_dict[alg_name])
+    ax.fill_between(np.arange(
+        mean_lc.shape[0]), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2, alpha=0.3, color=color_dict[alg_name])
 
 
 for alg in alg_names:
+    print(alg)
     fp, sp, tp, fop, current_params = find_best_mean_performance(alg)
     if fp == np.inf:
         continue
     mean_lc, mean_stderr = load_data(alg, current_params)
     plot_data(alg, mean_lc, mean_stderr, current_params)
-    plt.show()
+plt.show()
