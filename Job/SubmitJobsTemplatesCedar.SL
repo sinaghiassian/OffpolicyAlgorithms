@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --account=rrg-whitem
+#SBATCH --account=def-amw8
 #SBATCH --time=00:15:58
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=3G
