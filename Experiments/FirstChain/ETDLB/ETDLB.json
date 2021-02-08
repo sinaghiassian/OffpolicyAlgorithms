@@ -1,5 +1,5 @@
 {
-  "agent": "ETLB",
+  "agent": "ETDLB",
   "environment": "Chain",
   "task": "EightStateOffPolicyRandomFeat",
   "number_of_runs": 50,
