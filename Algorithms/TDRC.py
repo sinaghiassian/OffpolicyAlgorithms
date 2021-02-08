@@ -25,5 +25,5 @@ class TDRC(BaseGradient):
         phi_prime_multiplier = (1 - self.lmbda) * self.gamma_vec_tp * np.sum(self.z * self.v, 1)
         self.w += alpha_vec[:, None] * (delta[:, None] * self.z - phi_prime_multiplier[:, None] * stacked_x_p)
         self.v += alphav_vec[:, None] * (delta[:, None] * self.z - np.sum(
-            x * self.v, 1)[:, None] * stacked_x) - alphav_vec * self.tdrc_beta * self.v
+            x * self.v, 1)[:, None] * stacked_x) - (alphav_vec * self.tdrc_beta)[:, None] * self.v
         self.gamma_vec_t = self.gamma_vec_tp

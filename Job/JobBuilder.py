@@ -9,7 +9,7 @@ default_params = ImmutableDict(
         # 'agent': 'GTD',
         # 'task': 'FirstChain',
         # 'environment': 'Chain',
-        'agent': 'GTD',
+        'agent': 'TDRC',
         'task': 'LearnEightPoliciesTileCodingFeat',
         'environment': 'FourRoomGridWorld',
 

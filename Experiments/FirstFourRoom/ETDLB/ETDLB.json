@@ -1,5 +1,5 @@
 {
-  "agent": "ETLB",
+  "agent": "ETDLB",
   "environment": "FourRoomGridWorld",
   "task": "LearnEightPoliciesTileCodingFeat",
   "number_of_runs": 50,
