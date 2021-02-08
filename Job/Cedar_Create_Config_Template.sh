@@ -23,6 +23,7 @@ for A in ${alpha[@]}; do
             echo export SAVE_PATH=${save_path} ENVIRONMENT=${environment} ALGORITHM=${algorithm} \
             TASK=${task} ALPHA=${A} LMBDA=${L} ETA=${E} BETA=${B} ZETA=${Z} TDRCBETA=${T} NUMOFRUNS=${num_of_runs} \
             NUMSTEPS=${num_steps} SUBSAMPLE=${sub_sample} >>exports_${algorithm}.dat
+          done
         done
       done
     done
