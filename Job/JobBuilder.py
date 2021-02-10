@@ -93,11 +93,11 @@ class JobBuilder:
 
     @property
     def num_of_runs(self):
-        return np.asarray(self._params.get('num_of_runs', default_params['num_of_runs']))
+        return np.asarray(self._params.get('number_of_runs', default_params['num_of_runs']))
 
     @property
     def num_steps(self):
-        return np.asarray(self._params.get('num_steps', default_params['num_steps']))
+        return np.asarray(self._params.get('number_of_steps', default_params['num_steps']))
 
     @property
     def sub_sample(self):
