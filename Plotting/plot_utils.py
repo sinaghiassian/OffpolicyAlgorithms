@@ -5,16 +5,19 @@ import os
 from Job.JobBuilder import default_params
 from Registry.AlgRegistry import alg_dict
 
-colors = ['black', 'orchid', 'orange', 'blue', 'grey', 'red', 'green', 'darkred', 'darkkhaki', 'skyblue', 'aqua',
-          'lime', 'cadetblue']
+# noinspection SpellCheckingInspection
+colors = ['black', "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22",
+          "#17becf"]
 color_dict = {alg_name: color for alg_name, color in zip(alg_dict.keys(), colors)}
+algs_groups = {'main_algs': ['TD', 'GTD', 'ETD'], 'gradiets': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC'],
+               'emphatics': ['ETD', 'ETDLB'], 'fast_algs': ['TD', 'TB', 'Vtrace', 'ABTD']}
 
 
 def make_params(alg_name, exp_name):
     params = dict()
     alg_param_names = alg_dict[alg_name].related_parameters()
-    exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name, alg_name, f'{alg_name}.json')
     res_path = os.path.join(os.getcwd(), '../Results', exp_name, alg_name)
+    exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name, alg_name, f'{alg_name}.json')
     if not os.path.exists(exp_path):
         return [], [], [], res_path
     with open(exp_path) as f:
@@ -70,5 +73,30 @@ def make_fig():
 def get_alg_names(exp_name):
     exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name)
     alg_names = [name for name in os.listdir(exp_path) if os.path.isdir(os.path.join(exp_path, name))]
-    alg_names.remove('TDRC')
     return alg_names
+
+
+def load_sample_json_for_exp(exp_name):
+    alg_name = get_alg_names(exp_name)[0]
+    exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name, alg_name, f'{alg_name}.json')
+    if os.path.exists(exp_path):
+        print('No algorithms exist in the experiment directory...')
+        raise FileExistsError
+    with open(exp_path) as f:
+        json_exp_params = json.load(f)
+    return json_exp_params
+
+
+def get_attr_for_learning_curve(exp_name):
+    attr_dict = dict()
+    json_exp_params = load_sample_json_for_exp(exp_name)
+    if exp_name == 'FirstChain':
+        attr_dict = {'y_lim': [0.0, 0.8], 'x_lim': [0.0, json_exp_params['number_of_steps']],
+                     'y_axis_ticks': [0.1, 0.3, 0.5, 0.7], 'x_axis_ticks': [0.0, 10000, 20000],
+                     'x_tick_labels': [0, '10K', '20K']}
+    elif exp_name == 'FirstFourRoom':
+        attr_dict = {'y_lim': [0.0, 0.8], 'x_lim': [0.0, json_exp_params['number_of_steps']],
+                     'y_axis_ticks': [0.1, 0.3, 0.5, 0.7],
+                     'x_axis_ticks': [0.0, 10000, 20000, 30000, 40000, 50000],
+                     'x_tick_labels': [0, '10K', '20K', '30K', '40K', '50K']}
+    return attr_dict
