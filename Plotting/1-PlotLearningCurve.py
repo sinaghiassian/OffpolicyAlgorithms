@@ -1,14 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from Plotting.plot_utils import make_params, make_current_params, make_args, make_fig, color_dict, get_alg_names
+from Plotting.plot_utils import make_params, make_current_params, make_args, make_fig, color_dict, algs_groups
 from utils import create_name_for_save_load
 
 args = make_args()
-fig, ax = make_fig()
 auc_or_final = 'auc'  # 'final' or 'auc'
 lmbda_or_zeta = 0  # 0 or 0.9
-alg_names = get_alg_names(args.exp_name)
 
 
 def find_best_mean_performance(alg_name):
@@ -48,17 +46,33 @@ def load_data(alg_name, best_params):
 
 
 def plot_data(alg_name, mean_lc, mean_stderr, best_params):
-    lbl = (alg_name + r'$\alpha=$' + str(best_params['alpha']))
+    if alg_name == 'ETDLB' and best_params['beta'] == 0.9:
+        alg_name = 'ETD'
+        lbl = (alg_name + r'$\alpha=$ ' + str(best_params['alpha']))
+    else:
+        lbl = (alg_name + r'$\alpha=$ ' + str(best_params['alpha']))
     ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=color_dict[alg_name])
     ax.fill_between(np.arange(
         mean_lc.shape[0]), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2, alpha=0.3, color=color_dict[alg_name])
+    ax.legend()
 
 
-for alg in alg_names:
-    print(alg)
-    fp, sp, tp, fop, current_params = find_best_mean_performance(alg)
-    if fp == np.inf:
-        continue
-    mean_lc, mean_stderr = load_data(alg, current_params)
-    plot_data(alg, mean_lc, mean_stderr, current_params)
+for alg_names in algs_groups.values():
+    fig, ax = make_fig()
+    alg, mean_lc, mean_stderr, current_params = None, None, None, None
+    for alg in alg_names:
+        print(alg)
+        if alg == 'ETD':
+            alg = 'ETDLB'
+            fp, sp, _, _, current_params = find_best_mean_performance(alg)
+            current_params['beta'] = 0.8
+            mean_lc, mean_stderr = load_data(alg, current_params)
+            plot_data(alg, mean_lc, mean_stderr, current_params)
+            continue
+        fp, sp, tp, fop, current_params = find_best_mean_performance(alg)
+        print(current_params)
+        if fp == np.inf:
+            continue
+        mean_lc, mean_stderr = load_data(alg, current_params)
+        plot_data(alg, mean_lc, mean_stderr, current_params)
 plt.show()

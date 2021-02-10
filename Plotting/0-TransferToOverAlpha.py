@@ -8,7 +8,7 @@ args = make_args()
 
 exp_path = os.path.join(os.getcwd(), '../Experiments', args.exp_name)
 alg_dir_list = [name for name in os.listdir(exp_path) if os.path.isdir(os.path.join(exp_path, name))]
-alg_dir_list.remove('TDRC')
+
 for alg_name, alg in alg_dict.items():
     if alg_name in alg_dir_list:
         print(alg_name)
