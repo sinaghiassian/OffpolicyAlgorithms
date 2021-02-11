@@ -1,12 +1,16 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from Plotting.plot_utils import make_params, make_current_params, make_args, make_fig, color_dict, algs_groups
+import pylab
+from Plotting.plot_utils import make_params, make_current_params, make_args, color_dict, algs_groups, \
+    replace_large_nan_inf, attr_dict
 from utils import create_name_for_save_load
 
 args = make_args()
+attrs = attr_dict[args.exp_name](args.exp_name)
 auc_or_final = 'auc'  # 'final' or 'auc'
 lmbda_or_zeta = 0  # 0 or 0.9
+save_dir = os.path.join('pdf_plots', args.exp_name, f'Lmbda{lmbda_or_zeta}_{auc_or_final}')
 
 
 def find_best_mean_performance(alg_name):
@@ -23,6 +27,9 @@ def find_best_mean_performance(alg_name):
                 if not os.path.exists(load_file_name):
                     continue
                 current_perf = np.load(load_file_name)
+                current_perf = replace_large_nan_inf(
+                    current_perf, large=attrs.learning_starting_point, replace_with=attrs.over_limit_replacement
+                )
                 min_perf = min(current_perf)
                 if min_perf < best_perf:
                     best_perf = min_perf
@@ -46,33 +53,37 @@ def load_data(alg_name, best_params):
 
 
 def plot_data(alg_name, mean_lc, mean_stderr, best_params):
-    if alg_name == 'ETDLB' and best_params['beta'] == 0.9:
-        alg_name = 'ETD'
-        lbl = (alg_name + r'$\alpha=$ ' + str(best_params['alpha']))
-    else:
-        lbl = (alg_name + r'$\alpha=$ ' + str(best_params['alpha']))
+    lbl = (alg_name + r'$\alpha=$ ' + str(best_params['alpha']))
     ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=color_dict[alg_name])
-    ax.fill_between(np.arange(
-        mean_lc.shape[0]), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2, alpha=0.3, color=color_dict[alg_name])
+    ax.fill_between(np.arange(mean_lc.shape[0]), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2,
+                    alpha=0.1, color=color_dict[alg_name])
     ax.legend()
+    ax.get_xaxis().tick_bottom()
+    ax.get_yaxis().tick_left()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.set_xlim(attrs.x_lim)
+    ax.set_ylim(attrs.y_lim)
+    ax.xaxis.set_ticks(attrs.x_axis_ticks)
+    ax.set_xticklabels(attrs.x_tick_labels, fontsize=25)
+    ax.yaxis.set_ticks(attrs.y_axis_ticks)
+    ax.tick_params(axis='y', which='major', labelsize=attrs.size_of_labels)
 
 
 for alg_names in algs_groups.values():
-    fig, ax = make_fig()
+    fig, ax = plt.subplots()
     alg, mean_lc, mean_stderr, current_params = None, None, None, None
     for alg in alg_names:
         print(alg)
-        if alg == 'ETD':
-            alg = 'ETDLB'
-            fp, sp, _, _, current_params = find_best_mean_performance(alg)
-            current_params['beta'] = 0.8
-            mean_lc, mean_stderr = load_data(alg, current_params)
-            plot_data(alg, mean_lc, mean_stderr, current_params)
-            continue
         fp, sp, tp, fop, current_params = find_best_mean_performance(alg)
         print(current_params)
         if fp == np.inf:
             continue
         mean_lc, mean_stderr = load_data(alg, current_params)
         plot_data(alg, mean_lc, mean_stderr, current_params)
-plt.show()
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir, exist_ok=True)
+        pylab.gca().set_rasterized(True)
+        fig.savefig(save_dir + '/learning_curve_' + '_'.join(alg_names) + '.pdf',
+                    format='pdf', dpi=200, bbox_inches='tight')
+    plt.show()
