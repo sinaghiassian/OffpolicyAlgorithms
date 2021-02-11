@@ -6,12 +6,12 @@ import time
 
 default_params = ImmutableDict(
     {
-        'agent': 'ABTD',
-        'task': 'EightStateOffPolicyRandomFeat',
-        'environment': 'Chain',
-        # 'agent': 'TDRC',
-        # 'task': 'LearnEightPoliciesTileCodingFeat',
-        # 'environment': 'FourRoomGridWorld',
+        # 'agent': 'ABTD',
+        # 'task': 'EightStateOffPolicyRandomFeat',
+        # 'environment': 'Chain',
+        'agent': 'TDRC',
+        'task': 'LearnEightPoliciesTileCodingFeat',
+        'environment': 'FourRoomGridWorld',
 
         'sub_sample': 1,
         'num_of_runs': 50,
