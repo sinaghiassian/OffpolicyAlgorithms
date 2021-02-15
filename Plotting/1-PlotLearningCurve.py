@@ -44,6 +44,9 @@ def find_best_mean_performance(alg_name):
 
 
 def load_data(alg_name, best_params):
+    if alg_name == 'TDRC':
+        best_params['eta'] = 1.0
+        best_params['tdrc_beta'] = 1.0
     res_path = os.path.join(os.getcwd(), '../Results', args.exp_name, alg_name)
     load_file_name = os.path.join(res_path, create_name_for_save_load(best_params) + '_RMSVE_mean_over_runs.npy')
     mean_lc = np.load(load_file_name)
