@@ -7,7 +7,6 @@ from utils import ImmutableDict
 
 
 class LearnEightPoliciesTileCodingFeat(BaseTask, FourRoomGridWorld):
-    # noinspection PyUnusedLocal
     def __init__(self, **kwargs):
         BaseTask.__init__(self)
         FourRoomGridWorld.__init__(self)
@@ -170,7 +169,7 @@ class LearnEightPoliciesTileCodingFeat(BaseTask, FourRoomGridWorld):
         return self.feature_rep[s, :]
 
     def create_feature_rep(self):
-        raise NotImplementedError
+        ...
 
     def load_behavior_dist(self):
         return np.load(f'Resources/{self.__class__.__name__}/d_mu.npy')
