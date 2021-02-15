@@ -16,10 +16,6 @@ class BaseTask:
         self.ABTD_si_zero = None
         self.ABTD_si_max = None
 
-    @abstractmethod
-    def get_active_policies(self, s):
-        raise NotImplementedError
-
     def stack_feature_rep(self):
         stacked_feature_rep = np.zeros((self.num_policies, self.feature_rep.shape[1], self.feature_rep.shape[0]))
         for i in range(self.feature_rep.shape[0]):
@@ -27,41 +23,45 @@ class BaseTask:
             stacked_feature_rep[:, :, i] = stacked_x
         return stacked_feature_rep
 
+    @abstractmethod
+    def get_active_policies(self, s):
+        ...
+
     @staticmethod
     def num_of_policies():
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def get_terminal_policies(self, s):
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def load_feature_rep(self):
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def get_state_feature_rep(self, s):
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def create_feature_rep(self):
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def select_target_action(self, s, policy_id=0):
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def select_behavior_action(self, s):
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def get_pi(self, s, a):
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def get_mu(self, s, a):
-        raise NotImplementedError
+        ...
 
     @abstractmethod
     def load_behavior_dist(self):
