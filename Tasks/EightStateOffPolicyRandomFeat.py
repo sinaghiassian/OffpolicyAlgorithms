@@ -71,3 +71,5 @@ class EightStateOffPolicyRandomFeat(BaseTask, Chain):
             return 0.5
         else:
             raise AssertionError
+
+obj = EightStateOffPolicyRandomFeat()
