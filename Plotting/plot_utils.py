@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import argparse
 import json
 import numpy as np
@@ -61,7 +60,7 @@ def make_current_params(alg_name, sp, tp, fop):
 
 def make_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--exp_name', '-n', type=str, default='FirstFourRoom')
+    parser.add_argument('--exp_name', '-n', type=str, default='FirstChain')
     return parser.parse_args()
 
 
