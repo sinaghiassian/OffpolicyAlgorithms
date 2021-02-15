@@ -67,7 +67,7 @@ if __name__ == '__main__':
             agent.state = agent.next_state
             if args.render:
                 env.render(mode='screen', render_cls=error_render)
-        # print(np.mean(RMSVE_of_run, axis=0))
+        print(np.mean(RMSVE_of_run, axis=0))
         RMSVE[:, :, run] = RMSVE_of_run
     RMSVE_of_runs = np.transpose(np.mean(RMSVE, axis=0))  # Average over all policies.
     save_result(args.save_path, '_RMSVE_mean_over_runs', np.mean(RMSVE_of_runs, axis=0), params)
@@ -81,9 +81,4 @@ if __name__ == '__main__':
     save_result(args.save_path, '_mean_stderr_auc',
                 np.array([np.mean(auc_mean_over_steps),
                           np.std(auc_mean_over_steps, ddof=1) / np.sqrt(args.num_of_runs)]), params)
-# TODO: Change int(0.01 * args.num_steps) - 1:args.num_steps -1] to int(0.01 * args.num_steps) - 1:]
-# TODO: Change Niagara's and Cedar's time to the time that's really needed for the jobs.:q
 # TODO: What if the exports file just uses the name "exports.dat" and is deleted at the end of JobBuilder?
-# TODO: Check GTD multiple policy learning. I changed the parameters that I passed to it and I did not check the result.
-# TODO: In plotting, when finding the best parameters, we should ignore nan and inf. Not only nan.
-#  Should do the same thing for other plotting codes such as learning curves.
