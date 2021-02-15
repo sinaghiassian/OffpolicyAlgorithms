@@ -9,19 +9,22 @@ default_params = ImmutableDict(
         # 'agent': 'ABTD',
         # 'task': 'EightStateOffPolicyRandomFeat',
         # 'environment': 'Chain',
-        'agent': 'TDRC',
+        'agent': 'GTD',
         'task': 'LearnEightPoliciesTileCodingFeat',
         'environment': 'FourRoomGridWorld',
+        # 'agent': 'TD',
+        # 'task': 'HighVarianceLearnEightPoliciesTileCodingFeat',
+        # 'environment': 'FourRoomGridWorld',
 
         'sub_sample': 1,
-        'num_of_runs': 50,
-        'num_steps': 50000,
+        'num_of_runs': 1,
+        'num_steps': 4000,
         'meta_parameters': {
-            'alpha': 0.01,
+            'alpha': 0.0001,
             'eta': 0.01,
             'beta': 0.1,
             'zeta': 0.1,
-            'lmbda': 0.1,
+            'lmbda': 0.9,
             'tdrc_beta': 1.0
         }
     }
@@ -119,13 +122,13 @@ class JobBuilder:
         return text
 
     def to_shell(self):
-        if self.server_name == 'Niagara' or self.server_name == 'niagara' or self.server_name == 'NIAGARA':
+        if self.server_name.upper() == 'NIAGARA':
             with open('Job/SubmitJobsTemplates.SL', 'r') as f:
                 text = f.read()
                 for k, v in self._batch_params.items():
                     text = text.replace(f'__{k}__', v)
             return text
-        elif self.server_name == 'Cedar' or self.server_name == 'cedar' or self.server_name == 'CEDAR':
+        elif self.server_name.upper() == 'CEDAR':
             with open('Job/SubmitJobsTemplatesCedar.SL', 'r') as f:
                 text = f.read()
                 alg = self._batch_params['ALGORITHM']
@@ -138,9 +141,9 @@ class JobBuilder:
         if self.server_name not in self.possible_server_names:
             print('Code for running on this server does not exist. Please use either Cedar or Niagara.')
             raise NotImplementedError
-        elif self.server_name == 'Niagara' or self.server_name == 'NIAGARA' or self.server_name == 'niagara':
+        elif self.server_name.upper() == 'NIAGARA':
             print('Submitting the ' + self.agent + ' algorithm jobs on Niagara...')
-        elif self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
+        elif self.server_name.upper() == 'CEDAR':
             print('Submitting the ' + self.agent + ' algorithm jobs on Cedar...')
             with open('Create_Configs.sh', 'wt') as f:
                 f.write(self.create_dat_file())
