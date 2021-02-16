@@ -105,11 +105,11 @@ class FirstChainAttr:
         self.y_lim = [0.0, 0.8]
         self.x_lim = [0.0, json_exp_params['number_of_steps']]
         self.y_axis_ticks = [0.1, 0.3, 0.5, 0.7]
-        self.x_axis_ticks = [0.0, 10000, 20000]
-        self.x_tick_labels = [0, '10', '20']
+        self.x_axis_ticks = [0.0, 5000, 10000, 15000, 20000]
+        self.x_tick_labels = [0, '5K', '10', '15K', '20']
         self.over_limit_replacement = 2.0
         self.over_limit_waterfall = 0.79
-        self.learning_starting_point = 0.6891
+        self.learning_starting_point = 0.68910
 
 
 class FirstFourRoomAttr:
@@ -123,10 +123,15 @@ class FirstFourRoomAttr:
         self.x_tick_labels = [0, '10', '20', '30', '40', '50']
         self.over_limit_replacement = 2.0
         self.over_limit_waterfall = 0.79
-        self.learning_starting_point = 0.7268
+        self.learning_starting_point = 0.72672
 
 
-attr_dict = {'FirstChain': FirstChainAttr, 'FirstFourRoom': FirstFourRoomAttr}
+class HVFirstFourRoomAttr(FirstChainAttr):
+    def __init__(self, exp_name):
+        super(HVFirstFourRoomAttr, self).__init__(exp_name)
+
+
+attr_dict = {'FirstChain': FirstChainAttr, 'FirstFourRoom': FirstFourRoomAttr, '1HVFourRoom': HVFirstFourRoomAttr}
 
 
 def replace_large_nan_inf(arr, large=1.0, replace_with=2.0):
