@@ -1,5 +1,3 @@
-import random
-
 import numpy as np
 from Tasks.LearnEightPoliciesTileCodingFeat import LearnEightPoliciesTileCodingFeat
 
@@ -22,10 +20,7 @@ class HighVarianceLearnEightPoliciesTileCodingFeat(LearnEightPoliciesTileCodingF
                 return self.ACTION_RIGHT
             else:
                 return np.random.choice([self.ACTION_UP, self.ACTION_LEFT, self.ACTION_DOWN])
-        a = np.random.choice([self.ACTION_UP, self.ACTION_DOWN, self.ACTION_LEFT, self.ACTION_RIGHT])
-        return a
-        # return random.choice([self.ACTION_UP, self.ACTION_DOWN, self.ACTION_LEFT, self.ACTION_RIGHT])
-        # return super().select_behavior_action(s)
+        return np.random.choice([self.ACTION_UP, self.ACTION_DOWN, self.ACTION_LEFT, self.ACTION_RIGHT])
 
     def get_mu(self, s, a):
         x, y = self.get_xy(s)
