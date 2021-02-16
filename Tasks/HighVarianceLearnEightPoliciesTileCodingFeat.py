@@ -26,13 +26,13 @@ class HighVarianceLearnEightPoliciesTileCodingFeat(LearnEightPoliciesTileCodingF
         x, y = self.get_xy(s)
         if x == 1 and (y == 1 or y == 8):
             if a == self.ACTION_LEFT:
-                return self.RANDOM_PROB
+                return np.ones(self.num_policies) * self.RANDOM_PROB
             else:
-                return (1 - self.RANDOM_PROB) / 3.0
+                return np.ones(self.num_policies) * ((1 - self.RANDOM_PROB) / 3.0)
         if x == 8 and (y == 1 or y == 8):
             if a == self.ACTION_RIGHT:
-                return self.RANDOM_PROB
+                return np.ones(self.num_policies) * self.RANDOM_PROB
             else:
-                return (1 - self.RANDOM_PROB) / 3.0
+                return np.ones(self.num_policies) * ((1 - self.RANDOM_PROB) / 3.0)
 
         return super().get_mu(s, a)
