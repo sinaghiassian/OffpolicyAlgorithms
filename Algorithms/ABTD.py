@@ -36,7 +36,6 @@ class ABTD(BaseVariableLmbda):
         self.gamma_vec_t = self.gamma_vec_tp
 
     def compute_nu_for_multiple_policies(self, pi, mu):
-        nu = np.zeros(self.task.num_policies)
         si_vec = np.ones(self.task.num_policies) * self.si
         max_vec = 1.0 / np.maximum.reduce([pi, mu])
         return np.minimum.reduce([max_vec, si_vec])
