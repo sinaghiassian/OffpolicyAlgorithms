@@ -4,6 +4,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=3G
 #SBATCH --array=1-__NUM_OF_JOBS__
+#SBATCH --job-name __NAME_OF_EXP__
 
 alg=__ALG__
 source ~/RLENV/bin/activate

@@ -5,7 +5,7 @@
 #SBATCH --time=02:58:59
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=40
-#SBATCH --job-name FirstChain
+#SBATCH --job-name __TASK_____ALGORITHM__
 
 
 alpha=(__ALPHA__)
