@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from Plotting.plot_utils import make_params, make_current_params, make_args, make_fig, color_dict, get_alg_names, \
+from Plotting.plot_utils import make_params, make_current_params, make_args, color_dict, get_alg_names, \
     replace_large_nan_inf, algs_groups, attr_dict
 from utils import create_name_for_save_load
 
@@ -35,7 +35,7 @@ def find_all_performance_over_alpha(alg_name):
 def plot_waterfall(all_performance, alg_name):
     global ticker, xAxisNames, xAxisTicks
     performance_to_plot = all_performance.flatten()
-    percentage_overflowed = round((performance_to_plot > attrs['learning_starting_point']).sum() /
+    percentage_overflowed = round((performance_to_plot > attrs.learning_starting_point).sum() /
                                   performance_to_plot.size, 2)
     xAxisTicks.append(ticker + 1)
     plt.scatter([(ticker + 1)] * performance_to_plot.shape[0] + np.random.uniform(
