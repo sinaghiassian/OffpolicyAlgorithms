@@ -9,12 +9,12 @@ default_params = ImmutableDict(
         # 'agent': 'ABTD',
         # 'task': 'EightStateOffPolicyRandomFeat',
         # 'environment': 'Chain',
-        'agent': 'GTD',
-        'task': 'LearnEightPoliciesTileCodingFeat',
-        'environment': 'FourRoomGridWorld',
-        # 'agent': 'TD',
-        # 'task': 'HighVarianceLearnEightPoliciesTileCodingFeat',
+        # 'agent': 'GTD',
+        # 'task': 'LearnEightPoliciesTileCodingFeat',
         # 'environment': 'FourRoomGridWorld',
+        'agent': 'ETDLB',
+        'task': 'HighVarianceLearnEightPoliciesTileCodingFeat',
+        'environment': 'FourRoomGridWorld',
 
         'sub_sample': 1,
         'num_of_runs': 1,
@@ -135,6 +135,7 @@ class JobBuilder:
                 num_of_jobs = sum(1 for _ in open(f'exports_{alg}.dat'))
                 text = text.replace('__ALG__', self._batch_params['ALGORITHM'])
                 text = text.replace('__NUM_OF_JOBS__', str(num_of_jobs))
+                text = text.replace('__NAME_OF_EXP__', f'{self._batch_params["TASK"]}_{self._batch_params["ALGORITHM"]}')
             return text
 
     def run_batch(self):
