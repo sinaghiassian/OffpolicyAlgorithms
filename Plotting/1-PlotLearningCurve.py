@@ -80,8 +80,8 @@ for exp in exp_names:
         fig, ax = plt.subplots()
         alg, mean_lc, mean_stderr, current_params = None, None, None, None
         for alg in alg_names:
-            print(alg)
             fp, sp, tp, fop, current_params = find_best_mean_performance(alg)
+            print(alg)
             print(current_params)
             if fp == np.inf:
                 continue
