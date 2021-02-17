@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pylab
-from Plotting.plot_params import algs_groups
+from Plotting.plot_params import algs_groups, color_dict
 from Plotting.plot_utils import make_params, make_current_params, attr_dict, replace_large_nan_inf
 from utils import create_name_for_save_load
 
