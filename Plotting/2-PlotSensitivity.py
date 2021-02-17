@@ -1,20 +1,22 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from Plotting.plot_utils import make_params, make_current_params, make_args, color_dict, get_alg_names, \
-    replace_large_nan_inf, algs_groups, attr_dict
+
+from Plotting.plot_params import exp_names, algs_groups, color_dict
+from Plotting.plot_utils import make_params, make_current_params, replace_large_nan_inf, attr_dict
 from utils import create_name_for_save_load
 
-args = make_args()
-attrs = attr_dict[args.exp_name](args.exp_name)
 auc_or_final = 'auc'  # 'final' or 'auc'
 lmbda_or_zeta = 0.0  # 0 or 0.9
-alg_names = get_alg_names(args.exp_name)
-save_dir = os.path.join('pdf_plots', args.exp_name, f'Lmbda{lmbda_or_zeta}_{auc_or_final}')
 
 
 def find_best_performance_over_alpha(alg_name):
-    fp_list, sp_list, tp_list, fop_list, res_path = make_params(alg_name, args.exp_name)
+    fp_list, sp_list, tp_list, fop_list, res_path = make_params(alg_name, exp)
+    if alg_name == 'TDRC':
+        tp_list = [1.0]
+        fop_list = [1.0]
+    if alg_name == 'GTD' or alg_name == 'PGTD2' or alg_name == 'GTD2' or alg_name == 'HTD':
+        tp_list = [1.0]
     sp_list = [lmbda_or_zeta]
     minimum_value = float(np.inf)
     best_performance_over_alpha = np.zeros(len(fp_list))
@@ -46,7 +48,6 @@ def find_best_performance_over_alpha(alg_name):
 
 def plot_sensitivity(best_performance, stderr, alg_name, best_tp, best_fop, fp_list):
     lbl = f'{alg_name}_{best_tp}_{best_fop}'
-    print(best_performance)
     ax.set_xscale('log', basex=2)
     ax.plot(fp_list, best_performance, label=lbl, linestyle='-', marker='o', color=color_dict[alg_name],
             linewidth=2, markersize=5)
@@ -58,23 +59,26 @@ def plot_sensitivity(best_performance, stderr, alg_name, best_tp, best_fop, fp_l
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_ylim(attrs.y_lim)
-    # ax.set_xlim([10e-6, 10e-1])
-    # ax.xaxis.set_ticks(attrs.x_axis_ticks)
-    # ax.set_xticklabels(attrs.x_tick_labels, fontsize=25)
     ax.yaxis.set_ticks(attrs.y_axis_ticks)
     ax.tick_params(axis='y', which='major', labelsize=attrs.size_of_labels)
+    ax.xaxis.set_ticks(attrs.x_axis_ticks_log)
+    ax.set_xticklabels(attrs.x_axis_tick_labels_log, fontsize=25)
+    plt.xticks(fontsize=25)
 
 
-for alg_names in algs_groups.values():
-    fig, ax = plt.subplots()
-    ax.set_ylim([0, 0.8])
-    best_performance, stderr, best_tp, best_fop, fp_list = None, None, None, None, None
-    for alg_name in alg_names:
-        best_performance, stderr, best_tp, best_fop, fp_list = find_best_performance_over_alpha(alg_name)
-        print(alg_name, best_tp, best_fop)
-        plot_sensitivity(best_performance, stderr, alg_name, best_tp, best_fop, fp_list)
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir, exist_ok=True)
-    fig.savefig(save_dir + '/sensitivity_' + '_'.join(alg_names) + '.pdf',
-                format='pdf', dpi=1000, bbox_inches='tight')
-    plt.show()
+for exp in exp_names:
+    attrs = attr_dict[exp](exp)
+    save_dir = os.path.join('pdf_plots', exp, f'Lmbda{lmbda_or_zeta}_{auc_or_final}')
+    for alg_names in algs_groups.values():
+        fig, ax = plt.subplots()
+        ax.set_ylim([0, 0.8])
+        best_performance, stderr, best_tp, best_fop, fp_list = None, None, None, None, None
+        for alg_name in alg_names:
+            best_performance, stderr, best_tp, best_fop, fp_list = find_best_performance_over_alpha(alg_name)
+            print(alg_name, best_tp, best_fop)
+            plot_sensitivity(best_performance, stderr, alg_name, best_tp, best_fop, fp_list)
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir, exist_ok=True)
+        fig.savefig(save_dir + '/sensitivity_' + '_'.join(alg_names) + '.pdf',
+                    format='pdf', dpi=1000, bbox_inches='tight')
+        plt.show()

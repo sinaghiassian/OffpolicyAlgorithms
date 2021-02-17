@@ -5,12 +5,12 @@ import os
 from Job.JobBuilder import default_params
 from Registry.AlgRegistry import alg_dict
 
-# noinspection SpellCheckingInspection
-colors = ['black', "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22",
-          "#17becf"]
-color_dict = {alg_name: color for alg_name, color in zip(alg_dict.keys(), colors)}
-algs_groups = {'main_algs': ['TD', 'GTD', 'ETD'], 'gradiets': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC'],
-               'emphatics': ['ETD', 'ETDLB'], 'fast_algs': ['TD', 'TB', 'Vtrace', 'ABTD']}
+
+def make_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--exp_name', '-n', type=str, default='1HVFourRoom')
+    # 1HVFourRoom or FirstFourRoom or FirstChain
+    return parser.parse_args()
 
 
 def make_params(alg_name, exp_name):
@@ -58,12 +58,6 @@ def make_current_params(alg_name, sp, tp, fop):
     return current_params
 
 
-def make_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--exp_name', '-n', type=str, default='FirstChain')
-    return parser.parse_args()
-
-
 def get_alg_names(exp_name):
     exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name)
     alg_names = [name for name in os.listdir(exp_path) if os.path.isdir(os.path.join(exp_path, name))]
@@ -81,23 +75,6 @@ def load_sample_json_for_exp(exp_name):
     return json_exp_params
 
 
-# def get_attr(exp_name):
-#     attr_dict = dict()
-#     json_exp_params = load_sample_json_for_exp(exp_name)
-#     if exp_name == 'FirstChain':
-#         attr_dict = {'y_lim': [0.0, 0.8], 'x_lim': [0.0, json_exp_params['number_of_steps']],
-#                      'y_axis_ticks': [0.1, 0.3, 0.5, 0.7], 'x_axis_ticks': [0.0, 10000, 20000],
-#                      'x_tick_labels': [0, '10K', '20K'], 'over_limit_replacement': 2.0, 'over_limit_waterfall': 0.79,
-#                      'learning_starting_point': 0.6891}
-#     elif exp_name == 'FirstFourRoom':
-#         attr_dict = {'y_lim': [0.0, 0.8], 'x_lim': [0.0, json_exp_params['number_of_steps']],
-#                      'y_axis_ticks': [0.1, 0.3, 0.5, 0.7],
-#                      'x_axis_ticks': [0.0, 10000, 20000, 30000, 40000, 50000],
-#                      'x_tick_labels': [0, '10K', '20K', '30K', '40K', '50K'], 'over_limit_replacement': 2.0,
-#                      'over_limit_waterfall': 0.79, 'learning_starting_point': 0.7268}
-#     return attr_dict
-
-
 class FirstChainAttr:
     def __init__(self, exp_name):
         json_exp_params = load_sample_json_for_exp(exp_name)
@@ -107,6 +84,8 @@ class FirstChainAttr:
         self.y_axis_ticks = [0.1, 0.3, 0.5, 0.7]
         self.x_axis_ticks = [0.0, 5000, 10000, 15000, 20000]
         self.x_tick_labels = [0, '5K', '10', '15K', '20']
+        self.x_axis_ticks_log = [pow(2, -16), pow(2, -13), pow(2, -10), pow(2, -7), pow(2, -4), pow(2, -1)]
+        self.x_axis_tick_labels_log = [16, 13, 10, 7, 4, 1]
         self.over_limit_replacement = 2.0
         self.over_limit_waterfall = 0.79
         self.learning_starting_point = 0.68910
@@ -121,12 +100,14 @@ class FirstFourRoomAttr:
         self.y_axis_ticks = [0.1, 0.3, 0.5, 0.7]
         self.x_axis_ticks = [0.0, 10000, 20000, 30000, 40000, 50000]
         self.x_tick_labels = [0, '10', '20', '30', '40', '50']
+        self.x_axis_ticks_log = [pow(2, -16), pow(2, -13), pow(2, -10), pow(2, -7), pow(2, -4), pow(2, -1)]
+        self.x_axis_tick_labels_log = [16, 13, 10, 7, 4, 1]
         self.over_limit_replacement = 2.0
         self.over_limit_waterfall = 0.79
         self.learning_starting_point = 0.72672
 
 
-class HVFirstFourRoomAttr(FirstChainAttr):
+class HVFirstFourRoomAttr(FirstFourRoomAttr):
     def __init__(self, exp_name):
         super(HVFirstFourRoomAttr, self).__init__(exp_name)
 

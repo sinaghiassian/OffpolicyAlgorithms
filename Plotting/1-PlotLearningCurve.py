@@ -2,19 +2,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pylab
-from Plotting.plot_utils import make_params, make_current_params, make_args, color_dict, algs_groups, \
-    replace_large_nan_inf, attr_dict
+from Plotting.plot_params import algs_groups
+from Plotting.plot_utils import make_params, make_current_params, attr_dict, replace_large_nan_inf
 from utils import create_name_for_save_load
 
-args = make_args()
-attrs = attr_dict[args.exp_name](args.exp_name)
+exp_names = ['1HVFourRoom', 'FirstFourRoom', 'FirstChain']
 auc_or_final = 'auc'  # 'final' or 'auc'
-lmbda_or_zeta = 0  # 0 or 0.9
-save_dir = os.path.join('pdf_plots', args.exp_name, f'Lmbda{lmbda_or_zeta}_{auc_or_final}')
+lmbda_or_zeta = 0.0  # 0 or 0.9
 
 
 def find_best_mean_performance(alg_name):
-    fp_list, sp_list, tp_list, fop_list, res_path = make_params(alg_name, args.exp_name)
+    fp_list, sp_list, tp_list, fop_list, res_path = make_params(alg_name, exp)
+    if alg_name == 'TDRC':
+        tp_list = [1.0]
+        fop_list = [1.0]
+    if alg_name == 'GTD' or alg_name == 'PGTD2' or alg_name == 'GTD2' or alg_name == 'HTD':
+        tp_list = [1.0]
     sp_list = [lmbda_or_zeta]
     best_perf, best_fp, best_sp, best_tp, best_fop = np.inf, np.inf, np.inf, np.inf, np.inf
     best_params = dict()
@@ -44,10 +47,7 @@ def find_best_mean_performance(alg_name):
 
 
 def load_data(alg_name, best_params):
-    if alg_name == 'TDRC':
-        best_params['eta'] = 1.0
-        best_params['tdrc_beta'] = 1.0
-    res_path = os.path.join(os.getcwd(), '../Results', args.exp_name, alg_name)
+    res_path = os.path.join(os.getcwd(), '../Results', exp, alg_name)
     load_file_name = os.path.join(res_path, create_name_for_save_load(best_params) + '_RMSVE_mean_over_runs.npy')
     mean_lc = np.load(load_file_name)
     load_file_name = os.path.join(res_path, create_name_for_save_load(best_params) + '_RMSVE_stderr_over_runs.npy')
@@ -73,20 +73,23 @@ def plot_data(alg_name, mean_lc, mean_stderr, best_params):
     ax.tick_params(axis='y', which='major', labelsize=attrs.size_of_labels)
 
 
-for alg_names in algs_groups.values():
-    fig, ax = plt.subplots()
-    alg, mean_lc, mean_stderr, current_params = None, None, None, None
-    for alg in alg_names:
-        print(alg)
-        fp, sp, tp, fop, current_params = find_best_mean_performance(alg)
-        print(current_params)
-        if fp == np.inf:
-            continue
-        mean_lc, mean_stderr = load_data(alg, current_params)
-        plot_data(alg, mean_lc, mean_stderr, current_params)
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir, exist_ok=True)
-        pylab.gca().set_rasterized(True)
-        fig.savefig(save_dir + '/learning_curve_' + '_'.join(alg_names) + '.pdf',
-                    format='pdf', dpi=200, bbox_inches='tight')
-    plt.show()
+for exp in exp_names:
+    attrs = attr_dict[exp](exp)
+    save_dir = os.path.join('pdf_plots', exp, f'Lmbda{lmbda_or_zeta}_{auc_or_final}')
+    for alg_names in algs_groups.values():
+        fig, ax = plt.subplots()
+        alg, mean_lc, mean_stderr, current_params = None, None, None, None
+        for alg in alg_names:
+            print(alg)
+            fp, sp, tp, fop, current_params = find_best_mean_performance(alg)
+            print(current_params)
+            if fp == np.inf:
+                continue
+            mean_lc, mean_stderr = load_data(alg, current_params)
+            plot_data(alg, mean_lc, mean_stderr, current_params)
+            if not os.path.exists(save_dir):
+                os.makedirs(save_dir, exist_ok=True)
+            pylab.gca().set_rasterized(True)
+            fig.savefig(save_dir + '/learning_curve_' + '_'.join(alg_names) + '.pdf',
+                        format='pdf', dpi=200, bbox_inches='tight')
+        plt.show()
