@@ -75,6 +75,11 @@ def load_sample_json_for_exp(exp_name):
     return json_exp_params
 
 
+def load_and_replace_large_nan_inf(load_file_name, large, replace_with):
+    current_perf = np.load(load_file_name)
+    return replace_large_nan_inf(current_perf, large=large, replace_with=replace_with)
+
+
 class FirstChainAttr:
     def __init__(self, exp_name):
         json_exp_params = load_sample_json_for_exp(exp_name)
