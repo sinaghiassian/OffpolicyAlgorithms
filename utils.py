@@ -2,6 +2,11 @@ import numpy as np
 import os
 
 
+class Configuration(dict):
+    def __getattr__(self, item):
+        return self[item]
+
+
 def find_all_experiment_configuration(experiments_path: str, ext='.json'):
     if experiments_path.endswith(ext):
         yield experiments_path
