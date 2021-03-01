@@ -1,10 +1,28 @@
+from Plotting.plot_utils import FirstChainAttr, FirstFourRoomAttr, HVFirstFourRoomAttr
 from Registry.AlgRegistry import alg_dict
 
+
+DEBUG_MODE = False
+
 # noinspection SpellCheckingInspection
-colors = ['black', "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22",
+COLORS = ['#000000', "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22",
           "#17becf"]
-color_dict = {alg_name: color for alg_name, color in zip(alg_dict.keys(), colors)}
-# algs_groups = {'main_algs': ['TD', 'GTD', 'ETD'], 'gradients': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC'],
-#                'emphatics': ['ETD', 'ETDLB'], 'fast_algs': ['TD', 'TB', 'Vtrace', 'ABTD']}
-algs_groups = {'gradients': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC']}
-exp_names = ['1HVFourRoom', 'FirstFourRoom', 'FirstChain']
+ALG_COLORS = {alg_name: color for alg_name, color in zip(alg_dict.keys(), COLORS)}
+ALG_GROUPS = {'main_algs': ['TD', 'GTD', 'ETD'],
+              'gradients': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC'],
+              'emphatics': ['ETD', 'ETDLB'],
+              'fast_algs': ['TD', 'TB', 'Vtrace', 'ABTD']}
+EXPS = ['1HVFourRoom', 'FirstFourRoom', 'FirstChain']
+ALGS = [key for key in alg_dict.keys()]
+ALGS.remove('LSTD')
+ALGS.remove('LSETD')
+LMBDA_AND_ZETA = [0.0, 0.9]
+AUC_AND_FINAL = ['auc', 'final']
+EXP_ATTRS = {'FirstChain': FirstChainAttr, 'FirstFourRoom': FirstFourRoomAttr, '1HVFourRoom': HVFirstFourRoomAttr}
+
+if DEBUG_MODE:
+    EXPS = ['FirstChain']
+    ALGS = ['GTD']
+    LMBDA_AND_ZETA = [0.0]
+    AUC_AND_FINAL = ['auc']
+    ALG_GROUPS = {'gradients': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC', 'TD']}
