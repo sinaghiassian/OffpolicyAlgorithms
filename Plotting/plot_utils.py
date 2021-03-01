@@ -32,6 +32,28 @@ def make_args():
     return parser.parse_args()
 
 
+def rename_best_old_result(res_path, params_dict, file_name):
+    name_to_save = create_name_for_save_load(param_dict=params_dict)
+    path_and_name = os.path.join(res_path, name_to_save)
+    file_name = path_and_name + file_name
+    os.rename(file_name + '.npy', file_name + '_old.npy')
+
+
+def load_best_perf_json(alg, exp, sp, auc_or_final):
+    res_path = make_res_path(alg, exp)
+    res_path = os.path.join(res_path, f"{auc_or_final}_{sp}.json")
+    with open(res_path, 'r') as f:
+        return json.load(f)
+
+
+def load_json_file(alg, exp):
+    res_path = make_res_path(alg, exp)
+    exp_path = make_exp_path(alg, exp)
+    exp_path = os.path.join(exp_path, f'{alg}.json')
+    with open(exp_path) as f:
+        return json.load(f), res_path
+
+
 def make_params(alg_name, exp_name):
     params = dict()
     alg_param_names = alg_dict[alg_name].related_parameters()
