@@ -4,6 +4,25 @@ import numpy as np
 import os
 from Job.JobBuilder import default_params
 from Registry.AlgRegistry import alg_dict
+from utils import create_name_for_save_load
+
+
+def make_res_path(alg, exp):
+    return os.path.join(os.getcwd(), 'Results', exp, alg)
+
+
+def make_exp_path(alg, exp):
+    return os.path.join(os.getcwd(), 'Experiments', exp, alg)
+
+
+def load_best_rerun_params(alg, exp, auc_or_final, sp):
+    res_path = make_res_path(alg, exp)
+    with open(os.path.join(res_path, f"{auc_or_final}_{sp}.json")) as f:
+        best_res_dict = json.load(f)['meta_parameters']
+        best_fp = best_res_dict.get('alpha', 0)
+        best_tp = best_res_dict.get('eta', best_res_dict.get('beta', 0))
+        best_fop = best_res_dict.get('tdrc_beta', 0)
+        return best_fp, best_tp, best_fop
 
 
 def make_args():
