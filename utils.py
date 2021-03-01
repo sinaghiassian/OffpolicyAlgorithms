@@ -51,10 +51,12 @@ def create_name_for_save_load(param_dict, excluded_params=None):
     return final_str
 
 
-def save_result(path, name, result_array, params):
+def save_result(path, name, result_array, params, rerun):
     name_to_save = create_name_for_save_load(param_dict=params)
     path_and_name = os.path.join(path, name_to_save)
-    final_name = path_and_name + name
+    final_name = f"{path_and_name}{name}"
+    if rerun:
+        final_name = f"{final_name}_rerun"
     np.save(final_name, result_array)
 
 
