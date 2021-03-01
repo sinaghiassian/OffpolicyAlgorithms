@@ -57,12 +57,8 @@ def load_json_file(alg, exp):
 def make_params(alg_name, exp_name):
     params = dict()
     alg_param_names = alg_dict[alg_name].related_parameters()
-    res_path = os.path.join(os.getcwd(), '../Results', exp_name, alg_name)
-    exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name, alg_name, f'{alg_name}.json')
-    if not os.path.exists(exp_path):
-        return [], [], [], res_path
-    with open(exp_path) as f:
-        json_exp_params = json.load(f).get('meta_parameters')
+    json_content, res_path = load_json_file(alg_name, exp_name)
+    json_exp_params = json_content.get('meta_parameters')
     for param in alg_param_names:
         params[param] = json_exp_params.get(param, default_params['meta_parameters'][param])
         if not isinstance(params[param], list):
@@ -80,6 +76,8 @@ def make_params(alg_name, exp_name):
         tp_list = params['beta']
     if 'tdrc_beta' in params:
         fop_list = params['tdrc_beta']
+    if alg_name == 'TDRC':
+        tp_list, fop_list = [1.0], [1.0]
     return fp_list, sp_list, tp_list, fop_list, res_path
 
 
@@ -100,14 +98,15 @@ def make_current_params(alg_name, sp, tp, fop):
 
 
 def get_alg_names(exp_name):
-    exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name)
-    alg_names = [name for name in os.listdir(exp_path) if os.path.isdir(os.path.join(exp_path, name))]
+    path = os.path.join(os.getcwd(), 'Experiments', exp_name)
+    alg_names = [name for name in os.listdir(path) if os.path.isdir(os.path.join(path, name))]
     return alg_names
 
 
-def load_sample_json_for_exp(exp_name):
-    alg_name = get_alg_names(exp_name)[0]
-    exp_path = os.path.join(os.getcwd(), '../Experiments', exp_name, alg_name, f'{alg_name}.json')
+def load_sample_json_for_exp(exp):
+    alg = get_alg_names(exp)[0]
+    exp_path = make_exp_path(alg, exp)
+    exp_path = os.path.join(exp_path, f'{alg}.json')
     if not os.path.exists(exp_path):
         print('No algorithms exist in the experiment directory...')
         raise FileExistsError
@@ -156,9 +155,6 @@ class FirstFourRoomAttr:
 class HVFirstFourRoomAttr(FirstFourRoomAttr):
     def __init__(self, exp_name):
         super(HVFirstFourRoomAttr, self).__init__(exp_name)
-
-
-attr_dict = {'FirstChain': FirstChainAttr, 'FirstFourRoom': FirstFourRoomAttr, '1HVFourRoom': HVFirstFourRoomAttr}
 
 
 def replace_large_nan_inf(arr, large=1.0, replace_with=2.0):
