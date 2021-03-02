@@ -15,14 +15,18 @@ def make_exp_path(alg, exp):
     return os.path.join(os.getcwd(), 'Experiments', exp, alg)
 
 
-def load_best_rerun_params(alg, exp, auc_or_final, sp):
+def load_best_rerun_params_dict(alg, exp, auc_or_final, sp):
     res_path = make_res_path(alg, exp)
     with open(os.path.join(res_path, f"{auc_or_final}_{sp}.json")) as f:
-        best_res_dict = json.load(f)['meta_parameters']
-        best_fp = best_res_dict.get('alpha', 0)
-        best_tp = best_res_dict.get('eta', best_res_dict.get('beta', 0))
-        best_fop = best_res_dict.get('tdrc_beta', 0)
-        return best_fp, best_tp, best_fop
+        return json.load(f)['meta_parameters']
+
+
+def load_best_rerun_params(alg, exp, auc_or_final, sp):
+    best_res_dict = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
+    best_fp = best_res_dict.get('alpha', 0)
+    best_tp = best_res_dict.get('eta', best_res_dict.get('beta', 0))
+    best_fop = best_res_dict.get('tdrc_beta', 0)
+    return best_fp, best_tp, best_fop
 
 
 def make_args():
