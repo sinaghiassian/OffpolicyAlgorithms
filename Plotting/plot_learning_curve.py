@@ -2,8 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pylab
-from Plotting.plot_params import ALG_GROUPS, ALG_COLORS, EXP_ATTRS, EXPS, AUC_AND_FINAL, LMBDA_AND_ZETA
-from Plotting.plot_utils import make_params, make_current_params, replace_large_nan_inf
+from Plotting.plot_params import ALG_GROUPS, ALG_COLORS, EXP_ATTRS, EXPS, AUC_AND_FINAL, LMBDA_AND_ZETA, \
+    PLOT_RERUN_AND_ORIG, RERUN, RERUN_POSTFIX
+from Plotting.plot_utils import load_best_rerun_params_dict
 from utils import create_name_for_save_load
 
 
@@ -17,11 +18,14 @@ def load_data(alg, exp, best_params, postfix=''):
     return mean_lc, stderr_lc
 
 
-def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs):
+def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time=False):
+    alpha = 1.0
+    if PLOT_RERUN_AND_ORIG:
+        alpha = 1.0 if second_time else 0.5
     lbl = (alg + r'$\alpha=$ ' + str(best_params['alpha']))
-    ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=ALG_COLORS[alg])
+    ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=ALG_COLORS[alg], alpha=alpha)
     ax.fill_between(np.arange(mean_lc.shape[0]), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2,
-                    alpha=0.1, color=ALG_COLORS[alg])
+                    color=ALG_COLORS[alg], alpha=0.1*alpha)
     ax.legend()
     ax.get_xaxis().tick_bottom()
     ax.get_yaxis().tick_left()
@@ -44,15 +48,24 @@ def plot_learning_curve():
                 for alg_names in ALG_GROUPS.values():
                     fig, ax = plt.subplots()
                     for alg in alg_names:
-                        current_params = find_best_mean_performance(alg, exp, auc_or_final, sp, exp_attrs)
+                        postfix = RERUN_POSTFIX if RERUN else ''
+                        current_params = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
                         print(alg, current_params)
-                        mean_lc, mean_stderr = load_data(alg, exp, current_params)
+                        mean_lc, mean_stderr = load_data(alg, exp, current_params, postfix)
                         plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs)
+                        if PLOT_RERUN_AND_ORIG:
+                            postfix = RERUN_POSTFIX
+                            mean_lc, mean_stderr = load_data(alg, exp, current_params, postfix)
+                            plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs, True)
                         if not os.path.exists(save_dir):
                             os.makedirs(save_dir, exist_ok=True)
                         pylab.gca().set_rasterized(True)
-                        fig.savefig(save_dir + '/learning_curve_' + '_'.join(alg_names) + '.pdf',
+                        if PLOT_RERUN_AND_ORIG:
+                            postfix = '_rerun_and_original'
+                        elif RERUN:
+                            postfix = RERUN_POSTFIX
+                        else:
+                            postfix = ''
+                        fig.savefig(os.path.join(save_dir, f"learning_curve_{'_'.join(alg_names)}{postfix}.pdf"),
                                     format='pdf', dpi=200, bbox_inches='tight')
                     plt.show()
-                    # TODO: Add rerun.
-                    # TODO: change to loading the best parameters rather than finding them again.
