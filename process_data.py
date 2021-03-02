@@ -12,7 +12,7 @@ def save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=False):
     fp_list, sp_list, tp_list, fop_list, _ = make_params(alg, exp)
     res_path = make_res_path(alg, exp)
     mean_over_alpha, stderr_over_alpha = np.zeros(len(fp_list)), np.zeros(len(fp_list))
-    best_fp, best_tp, best_fop = load_best_rerun_params(alg, exp, auc_or_final, sp) if rerun else 0, 0, 0
+    best_fp, best_tp, best_fop = load_best_rerun_params(alg, exp, auc_or_final, sp) if rerun else (0, 0, 0)
     for tp in tp_list:
         for fop in fop_list:
             current_params = make_current_params(alg, sp, tp, fop)
