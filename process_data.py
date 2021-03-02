@@ -68,7 +68,6 @@ def save_best_perf_in_json(alg, exp, best_params, auc_or_final, sp):
 
 
 def run_learning_with_best_perf(alg, exp, auc_or_final, sp):
-    print(f"\nRe-Running {exp}, {alg} lmbda_or_zeta: {sp}, {auc_or_final} ...")
     res_path = os.path.join(os.getcwd(), 'Results', exp, alg)
     best_perf_jsn = load_best_perf_json(alg, exp, sp, auc_or_final)
     param_dict = best_perf_jsn['meta_parameters']
@@ -90,9 +89,10 @@ def process_data():
         for alg in ALGS:
             for auc_or_final in AUC_AND_FINAL:
                 for sp in LMBDA_AND_ZETA:
+                    print(f"\nStarted re-running {exp}, {alg} lmbda_or_zeta: {sp}, {auc_or_final} ...")
                     save_perf_over_alpha(alg, exp, auc_or_final, sp)
                     best_params = find_best_perf(alg, exp, auc_or_final, sp)
                     save_best_perf_in_json(alg, exp, best_params, auc_or_final, sp)
-                    print(exp, alg, best_params)
-                    # run_learning_with_best_perf(alg, exp, auc_or_final, sp)
-                    # save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=True)
+                    run_learning_with_best_perf(alg, exp, auc_or_final, sp)
+                    save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=True)
+                    print(f"Finished re-running {exp}, {alg} {best_params}")
