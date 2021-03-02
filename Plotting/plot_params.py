@@ -2,6 +2,11 @@ from Plotting.plot_utils import FirstChainAttr, FirstFourRoomAttr, HVFirstFourRo
 from Registry.AlgRegistry import alg_dict
 
 
+RERUN = True
+PLOT_RERUN_AND_ORIG = False
+if RERUN and PLOT_RERUN_AND_ORIG:
+    PLOT_RERUN_AND_ORIG = False
+RERUN_POSTFIX = '_rerun'
 DEBUG_MODE = False
 
 # noinspection SpellCheckingInspection
@@ -21,8 +26,8 @@ AUC_AND_FINAL = ['auc', 'final']
 EXP_ATTRS = {'FirstChain': FirstChainAttr, 'FirstFourRoom': FirstFourRoomAttr, '1HVFourRoom': HVFirstFourRoomAttr}
 
 if DEBUG_MODE:
-    EXPS = ['FirstChain']
+    EXPS = ['1HVFourRoom']
     ALGS = ['GTD']
     LMBDA_AND_ZETA = [0.0]
     AUC_AND_FINAL = ['auc']
-    ALG_GROUPS = {'gradients': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC', 'TD']}
+    ALG_GROUPS = {'main_algs': ['TD', 'GTD', 'ETD']}
