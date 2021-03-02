@@ -2,7 +2,8 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-from Plotting.plot_params import EXPS, ALG_GROUPS, ALG_COLORS, EXP_ATTRS, AUC_AND_FINAL, LMBDA_AND_ZETA
+from Plotting.plot_params import EXPS, ALG_GROUPS, ALG_COLORS, EXP_ATTRS, AUC_AND_FINAL, LMBDA_AND_ZETA, RERUN, \
+    RERUN_POSTFIX
 from Plotting.plot_utils import make_current_params, replace_large_nan_inf, make_params
 from utils import create_name_for_save_load
 
@@ -15,6 +16,12 @@ def load_all_performances(alg, exp, auc_or_final, sp, exp_attrs):
             current_params = make_current_params(alg, sp, tp, fop)
             load_file_name = os.path.join(res_path, create_name_for_save_load(
                 current_params, excluded_params=['alpha']) + f'_mean_{auc_or_final}_over_alpha.npy')
+
+            if RERUN:
+                load_file_name_rerun = load_file_name.replace('.npy', f"{RERUN_POSTFIX}.npy")
+                if os.path.exists(load_file_name):
+                    load_file_name = load_file_name_rerun
+
             performance = np.load(load_file_name)
             performance = replace_large_nan_inf(performance, large=exp_attrs.learning_starting_point,
                                                 replace_with=exp_attrs.over_limit_waterfall)
@@ -61,8 +68,8 @@ def plot_waterfall_scatter():
                         plot_waterfall(ax, alg, all_performance, alg_names, exp_attrs)
                     if not os.path.exists(save_dir):
                         os.makedirs(save_dir, exist_ok=True)
-                    fig.savefig(save_dir + '/waterfall_' + '_'.join(alg_names) + '.pdf',
+                    postfix = RERUN_POSTFIX if RERUN else ''
+                    fig.savefig(os.path.join(save_dir, f"waterfall_{'_'.join(alg_names)}{postfix}.pdf"),
                                 format='pdf', dpi=1000, bbox_inches='tight')
                     plt.show()
                     print(exp, alg_names, auc_or_final, sp)
-                    # TODO: add rerun.
