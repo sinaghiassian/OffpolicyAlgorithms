@@ -61,8 +61,7 @@ def save_best_perf_in_json(alg, exp, best_params, auc_or_final, sp):
     json_exp = os.path.join(exp_path, f"{alg}.json")
     with open(json_exp, 'r') as f:
         json_exp = json.load(f)
-    for key, value in best_params.items():
-        json_exp['meta_parameters'][key] = value
+    json_exp['meta_parameters'] = best_params
     save_name = os.path.join(res_path, f"{auc_or_final}_{sp}.json")
     with open(save_name, 'wt') as f:
         json.dump(json_exp, f, indent=4)
