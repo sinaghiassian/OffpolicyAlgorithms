@@ -7,36 +7,12 @@ from Plotting.plot_utils import make_params, make_current_params, replace_large_
 from utils import create_name_for_save_load
 
 
-def find_best_mean_performance(alg, exp, auc_or_final, sp, exp_attrs):
-    fp_list, sp_list, tp_list, fop_list, res_path = make_params(alg, exp)
-    best_perf, best_fp, best_sp, best_tp, best_fop = np.inf, np.inf, np.inf, np.inf, np.inf
-    best_params = dict()
-    for fop in fop_list:
-        for tp in tp_list:
-            current_params = make_current_params(alg, sp, tp, fop)
-            load_file_name = os.path.join(res_path, create_name_for_save_load(current_params, excluded_params=[
-                'alpha']) + f'_mean_{auc_or_final}_over_alpha.npy')
-            if not os.path.exists(load_file_name):
-                continue
-            current_perf = np.load(load_file_name)
-            current_perf = replace_large_nan_inf(
-                current_perf, large=exp_attrs.learning_starting_point, replace_with=exp_attrs.over_limit_replacement
-            )
-            min_perf = min(current_perf)
-            if min_perf < best_perf:
-                best_perf = min_perf
-                best_perf_idx = int(np.nanargmin(current_perf))
-                best_fp = fp_list[best_perf_idx]
-                best_params = current_params
-                best_params['alpha'] = best_fp
-    return best_params
-
-
-def load_data(alg, exp, best_params):
+def load_data(alg, exp, best_params, postfix=''):
     res_path = os.path.join(os.getcwd(), 'Results', exp, alg)
-    load_file_name = os.path.join(res_path, create_name_for_save_load(best_params) + '_RMSVE_mean_over_runs.npy')
+    generic_name = create_name_for_save_load(best_params)
+    load_file_name = os.path.join(res_path, f"{generic_name}_RMSVE_mean_over_runs{postfix}.npy")
     mean_lc = np.load(load_file_name)
-    load_file_name = os.path.join(res_path, create_name_for_save_load(best_params) + '_RMSVE_stderr_over_runs.npy')
+    load_file_name = os.path.join(res_path, f"{generic_name}_RMSVE_stderr_over_runs{postfix}.npy")
     stderr_lc = np.load(load_file_name)
     return mean_lc, stderr_lc
 
