@@ -5,5 +5,5 @@ from process_data import process_data
 
 process_data()
 # plot_learning_curve()
-# plot_sensitivity_curve()
+plot_sensitivity_curve()
 # plot_waterfall_scatter()

@@ -6,25 +6,25 @@ import time
 
 default_params = ImmutableDict(
     {
-        # 'agent': 'ABTD',
+        # 'agent': 'TD',
         # 'task': 'EightStateOffPolicyRandomFeat',
         # 'environment': 'Chain',
-        # 'agent': 'GTD',
-        # 'task': 'LearnEightPoliciesTileCodingFeat',
-        # 'environment': 'FourRoomGridWorld',
-        'agent': 'ETDLB',
-        'task': 'HighVarianceLearnEightPoliciesTileCodingFeat',
+        'agent': 'GTD',
+        'task': 'LearnEightPoliciesTileCodingFeat',
         'environment': 'FourRoomGridWorld',
+        # 'agent': 'ETDLB',
+        # 'task': 'HighVarianceLearnEightPoliciesTileCodingFeat',
+        # 'environment': 'FourRoomGridWorld',
 
         'sub_sample': 1,
-        'num_of_runs': 1,
-        'num_steps': 4000,
+        'num_of_runs': 5,
+        'num_steps': 50000,
         'meta_parameters': {
-            'alpha': 0.0001,
-            'eta': 0.01,
+            'alpha': 0.01,
+            'eta': 16.0,
             'beta': 0.1,
             'zeta': 0.1,
-            'lmbda': 0.9,
+            'lmbda': 0.0,
             'tdrc_beta': 1.0
         }
     }
