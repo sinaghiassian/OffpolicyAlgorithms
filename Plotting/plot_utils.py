@@ -85,8 +85,8 @@ def make_params(alg_name, exp_name):
     return fp_list, sp_list, tp_list, fop_list, res_path
 
 
-def make_current_params(alg_name, sp, tp, fop):
-    current_params = {'alpha': 0}
+def make_current_params(alg_name, sp, tp, fop, fp=0):
+    current_params = {'alpha': fp}
     alg_param_names = alg_dict[alg_name].related_parameters()
     if 'lmbda' in alg_param_names:
         current_params['lmbda'] = sp
