@@ -35,8 +35,6 @@ class LSETD(BaseLS):
         self.z = rho[:, None] * (self.lmbda * self.z * self.gamma_vec_t[:, None] + stacked_x * m[:, None])
         super(LSETD, self).learn_multiple_policies(s, s_p, r, is_terminal)
         self.old_rho = rho
-        self.old_rho = rho
-        self.gamma_vec_tp = self.gamma_vec_t
 
     def reset(self):
         super().reset()
