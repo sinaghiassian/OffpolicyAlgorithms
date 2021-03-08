@@ -3,11 +3,11 @@ from Registry.AlgRegistry import alg_dict
 
 
 RERUN = False
-PLOT_RERUN_AND_ORIG = True
+PLOT_RERUN_AND_ORIG = False
 if RERUN and PLOT_RERUN_AND_ORIG:
     PLOT_RERUN_AND_ORIG = False
 RERUN_POSTFIX = '_rerun'
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 # noinspection SpellCheckingInspection
 COLORS = ['#000000', "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22",
@@ -26,8 +26,8 @@ AUC_AND_FINAL = ['auc', 'final']
 EXP_ATTRS = {'FirstChain': FirstChainAttr, 'FirstFourRoom': FirstFourRoomAttr, '1HVFourRoom': HVFirstFourRoomAttr}
 
 if DEBUG_MODE:
-    EXPS = ['FirstFourRoom']
+    EXPS = ['1HVFourRoom', 'FirstFourRoom', 'FirstChain']
     # ALGS = ['GTD']
     LMBDA_AND_ZETA = [0.0]
     AUC_AND_FINAL = ['auc']
-    ALG_GROUPS = {'main_algs': ['TD', 'GTD', 'ETD']}
+    ALG_GROUPS = {'main_algs': ['GTD', 'GTD2', 'PGTD2']}
