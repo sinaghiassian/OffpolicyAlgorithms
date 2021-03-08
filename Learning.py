@@ -79,7 +79,7 @@ if __name__ == '__main__':
     parser.add_argument('--render', '-rndr', type=bool, default=False)
     args = parser.parse_args()
     if args.save_path == '-':
-        args.save_path = os.path.join(os.getcwd(), 'Results', args.task, args.algorithm)
+        args.save_path = os.path.join(os.getcwd(), 'Results', default_params['exp'], args.algorithm)
 
     config = Configuration(vars(args))
     learn(config=config)
