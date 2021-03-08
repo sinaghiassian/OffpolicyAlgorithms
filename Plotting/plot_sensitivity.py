@@ -90,4 +90,3 @@ def plot_sensitivity_curve():
                                 format='pdf', dpi=1000, bbox_inches='tight')
                     plt.show()
                     print(exp, alg_names, auc_or_final, sp)
-                    # TODO: Possible bug: Why is the sensitivity curve for four rooms so low? and so high for collision?
