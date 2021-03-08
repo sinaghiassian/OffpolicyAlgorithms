@@ -3,6 +3,9 @@ import os
 
 
 class Configuration(dict):
+    def __str__(self):
+        return f"{self.environment} {self.task} {self.algorithm}"
+
     def __getattr__(self, item):
         return self[item]
 
