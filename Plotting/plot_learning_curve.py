@@ -39,6 +39,24 @@ def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time
     ax.tick_params(axis='y', which='major', labelsize=exp_attrs.size_of_labels)
 
 
+def get_ls_rmsve(alg, exp, sp):
+    res_path = os.path.join(os.getcwd(), 'Results', exp, alg)
+    params = {'alpha': 0.01, 'lmbda': sp}
+    if alg == 'LSETD':
+        params['beta'] = 0.9
+    generic_name = create_name_for_save_load(params)
+    load_file_name = os.path.join(res_path, f"{generic_name}_RMSVE_mean_over_runs.npy")
+    return np.load(load_file_name)
+
+
+def plot_ls_solution(ax, ls_rmsve, alg, sp):
+    lbl = f"{alg} $\\lambda=$ {sp}"
+    x = np.arange(ls_rmsve.shape[0])
+    y = ls_rmsve[-1] * np.ones(ls_rmsve.shape[0])
+    ax.plot(x, y, label=lbl, linewidth=1.0, color=ALG_COLORS[alg], linestyle=':')
+    ax.legend()
+
+
 def plot_learning_curve():
     for exp in EXPS:
         exp_attrs = EXP_ATTRS[exp](exp)
@@ -49,9 +67,12 @@ def plot_learning_curve():
                 for alg_names in ALG_GROUPS.values():
                     fig, ax = plt.subplots()
                     for alg in alg_names:
+                        if alg in ['LSTD', 'LSETD']:
+                            ls_rmsve = get_ls_rmsve(alg, exp, sp)
+                            plot_ls_solution(ax, ls_rmsve, alg, sp)
+                            continue
                         prefix = RERUN_POSTFIX if RERUN else ''
                         current_params = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
-                        print(alg, current_params)
                         mean_lc, mean_stderr = load_data(alg, exp, current_params, prefix)
                         plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs)
                         if PLOT_RERUN_AND_ORIG:
@@ -70,5 +91,5 @@ def plot_learning_curve():
                     fig.savefig(os.path.join(save_dir,
                                 f"{prefix}_learning_curve_{'_'.join(alg_names)}{exp}Lmbda{sp}.pdf"),
                                 format='pdf', dpi=200, bbox_inches='tight')
-                    plt.close(fig)
                     plt.show()
+                    plt.close(fig)
