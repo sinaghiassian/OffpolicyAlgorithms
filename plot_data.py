@@ -10,4 +10,4 @@ from process_data import process_data
 # plot_sensitivity_curve()
 # plot_waterfall_scatter()
 # plot_all_sensitivities_per_alg()
-plot_learning_curve_for_lambdas()
+# plot_learning_curve_for_lambdas()
