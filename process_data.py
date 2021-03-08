@@ -29,8 +29,8 @@ def save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=False):
             postfix = ''
             if rerun and tp == best_tp and fop == best_fop:
                 postfix = '_rerun'
-            np.save(f"{save_name}_mean_auc_over_alpha{postfix}", mean_over_alpha)
-            np.save(f"{save_name}_stderr_auc_over_alpha{postfix}", stderr_over_alpha)
+            np.save(f"{save_name}_mean_{auc_or_final}_over_alpha{postfix}", mean_over_alpha)
+            np.save(f"{save_name}_stderr_{auc_or_final}_over_alpha{postfix}", stderr_over_alpha)
 
 
 def find_best_perf(alg, exp, auc_or_final, sp):
@@ -93,6 +93,6 @@ def process_data():
                     save_perf_over_alpha(alg, exp, auc_or_final, sp)
                     best_params = find_best_perf(alg, exp, auc_or_final, sp)
                     save_best_perf_in_json(alg, exp, best_params, auc_or_final, sp)
-                    run_learning_with_best_perf(alg, exp, auc_or_final, sp)
+                    # run_learning_with_best_perf(alg, exp, auc_or_final, sp)
                     save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=True)
                     print(f"Finished re-running {exp}, {alg} {best_params}")
