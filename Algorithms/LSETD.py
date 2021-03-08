@@ -12,6 +12,10 @@ class LSETD(BaseLS):
             self.F = np.ones(self.task.num_policies)
             self.old_rho = np.zeros(self.task.num_policies)
 
+    @staticmethod
+    def related_parameters():
+        return ['alpha', 'lmbda', 'beta']
+
     def learn_single_policy(self, s, s_p, r, is_terminal):
         self.F = self.beta * self.old_rho * self.F + 1
         m = self.lmbda + (1 - self.lmbda) * self.F
