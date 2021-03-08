@@ -44,28 +44,31 @@ def plot_learning_curve():
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in AUC_AND_FINAL:
             for sp in LMBDA_AND_ZETA:
-                save_dir = os.path.join('pdf_plots', exp, f'Lmbda{sp}_{auc_or_final}')
+                save_dir = os.path.join('pdf_plots', 'learning_curves', auc_or_final)
+                # save_dir = os.path.join('pdf_plots', exp, f'Lmbda{sp}_{auc_or_final}')
                 for alg_names in ALG_GROUPS.values():
                     fig, ax = plt.subplots()
                     for alg in alg_names:
-                        postfix = RERUN_POSTFIX if RERUN else ''
+                        prefix = RERUN_POSTFIX if RERUN else ''
                         current_params = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
                         print(alg, current_params)
-                        mean_lc, mean_stderr = load_data(alg, exp, current_params, postfix)
+                        mean_lc, mean_stderr = load_data(alg, exp, current_params, prefix)
                         plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs)
                         if PLOT_RERUN_AND_ORIG:
-                            postfix = RERUN_POSTFIX
-                            mean_lc, mean_stderr = load_data(alg, exp, current_params, postfix)
+                            prefix = RERUN_POSTFIX
+                            mean_lc, mean_stderr = load_data(alg, exp, current_params, prefix)
                             plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs, True)
                         if not os.path.exists(save_dir):
                             os.makedirs(save_dir, exist_ok=True)
                         pylab.gca().set_rasterized(True)
-                        if PLOT_RERUN_AND_ORIG:
-                            postfix = '_rerun_and_original'
-                        elif RERUN:
-                            postfix = RERUN_POSTFIX
-                        else:
-                            postfix = ''
-                        fig.savefig(os.path.join(save_dir, f"learning_curve_{'_'.join(alg_names)}{postfix}.pdf"),
-                                    format='pdf', dpi=200, bbox_inches='tight')
+                    if PLOT_RERUN_AND_ORIG:
+                        prefix = '_rerun_and_original'
+                    elif RERUN:
+                        prefix = RERUN_POSTFIX
+                    else:
+                        prefix = ''
+                    fig.savefig(os.path.join(save_dir,
+                                f"{prefix}_learning_curve_{'_'.join(alg_names)}{exp}Lmbda{sp}.pdf"),
+                                format='pdf', dpi=200, bbox_inches='tight')
+                    plt.close(fig)
                     plt.show()
