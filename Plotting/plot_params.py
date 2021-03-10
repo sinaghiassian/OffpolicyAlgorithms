@@ -23,6 +23,7 @@ EXPS = ['1HVFourRoom', 'FirstFourRoom', 'FirstChain']
 ALGS = [key for key in alg_dict.keys()]
 ALGS.remove('LSTD')
 ALGS.remove('LSETD')
+ALL_ALGS = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETDLB', 'TB', 'Vtrace', 'ABTD', 'ETD', 'LSTD', 'LSETD']
 LMBDA_AND_ZETA = [0.0, 0.9]
 AUC_AND_FINAL = ['auc', 'final']
 EXP_ATTRS = {'FirstChain': FirstChainAttr, 'FirstFourRoom': FirstFourRoomAttr, '1HVFourRoom': HVFirstFourRoomAttr}
@@ -30,6 +31,9 @@ EXP_ATTRS = {'FirstChain': FirstChainAttr, 'FirstFourRoom': FirstFourRoomAttr, '
 if DEBUG_MODE:
     EXPS = ['FirstChain']
     # ALGS = ['GTD']
-    LMBDA_AND_ZETA = [0.0, 0.9]
+    ALL_ALGS.remove('ETDLB')
+    # ALL_ALGS.remove('LSTD')
+    # ALL_ALGS.remove('LSETD')
+    LMBDA_AND_ZETA = [0.0]
     AUC_AND_FINAL = ['auc']
-    ALG_GROUPS = {'main_algs': ['GTD', 'GTD2', 'PGTD2', 'LSTD', 'LSETD']}
+    ALG_GROUPS = {'main_algs': ALL_ALGS}
