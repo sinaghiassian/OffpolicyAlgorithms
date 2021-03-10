@@ -19,7 +19,7 @@ def load_all_performances(alg, exp, auc_or_final, sp, exp_attrs):
 
             if RERUN:
                 load_file_name_rerun = load_file_name.replace('.npy', f"{RERUN_POSTFIX}.npy")
-                if os.path.exists(load_file_name):
+                if os.path.isfile(load_file_name_rerun):
                     load_file_name = load_file_name_rerun
 
             performance = np.load(load_file_name)
@@ -34,11 +34,24 @@ def plot_waterfall(ax, alg, all_performance, alg_names, exp_attrs):
     performance_to_plot = np.array(all_performance.flatten())
     percentage_overflowed = round((performance_to_plot > exp_attrs.learning_starting_point).sum() /
                                   performance_to_plot.size, 2)
+    ok_percentage = round((performance_to_plot < exp_attrs.ok_error).sum() /
+                          performance_to_plot.size, 2)
+    # print(alg, 'percentage_overflowed', percentage_overflowed)
+    print(alg, 'OK_percentage', ok_percentage)
+    color = ALG_COLORS[alg]
+    if alg != 'ETD':
+        color = 'grey'
     ax.scatter([(ticker + 1)] * performance_to_plot.shape[0] + np.random.uniform(
         -0.25, 0.25, performance_to_plot.shape[0]), performance_to_plot, marker='o',
-                facecolors='none', color=ALG_COLORS[alg])
+                facecolors='none', color=color)
     x_axis_ticks.append(ticker + 1)
     ticker = (ticker + 1) % len(alg_names)
+    ax.tick_params(
+        axis='x',  # changes apply to the x-axis
+        which='both',  # both major and minor ticks are affected
+        bottom=False,  # ticks along the bottom edge are off
+        top=False,  # ticks along the top edge are off
+        labelbottom=True)  # labels along the bottom edge are off
     x_axis_names.append(f'{alg}_{percentage_overflowed}')
     ax.xaxis.set_ticks(x_axis_ticks)
     ax.set_xticklabels(x_axis_names)
@@ -50,7 +63,7 @@ def plot_waterfall(ax, alg, all_performance, alg_names, exp_attrs):
     ax.yaxis.set_ticks(exp_attrs.y_axis_ticks)
 
 
-ticker, x_axis_names, x_axis_ticks = -0.5, [''], [0]
+ticker, x_axis_names, x_axis_ticks = 0.0, [''], [0]
 
 
 def plot_waterfall_scatter():
@@ -58,7 +71,7 @@ def plot_waterfall_scatter():
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in AUC_AND_FINAL:
             for sp in LMBDA_AND_ZETA:
-                save_dir = os.path.join('pdf_plots', exp, f'Lmbda{sp}_{auc_or_final}')
+                save_dir = os.path.join('pdf_plots', 'learning_curves', auc_or_final)
                 for alg_names in ALG_GROUPS.values():
                     global ticker, x_axis_names, x_axis_ticks
                     ticker, x_axis_names, x_axis_ticks = -0.5, [''], [0]
@@ -68,8 +81,9 @@ def plot_waterfall_scatter():
                         plot_waterfall(ax, alg, all_performance, alg_names, exp_attrs)
                     if not os.path.exists(save_dir):
                         os.makedirs(save_dir, exist_ok=True)
-                    postfix = RERUN_POSTFIX if RERUN else ''
-                    fig.savefig(os.path.join(save_dir, f"waterfall_{'_'.join(alg_names)}{postfix}.pdf"),
+                    prefix = RERUN_POSTFIX if RERUN else ''
+                    fig.savefig(os.path.join(save_dir,
+                                             f"{prefix}_waterfall_curve_{'_'.join(alg_names)}{exp}Lmbda{sp}.pdf"),
                                 format='pdf', dpi=1000, bbox_inches='tight')
                     plt.show()
                     print(exp, alg_names, auc_or_final, sp)
