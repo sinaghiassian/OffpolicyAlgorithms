@@ -1,4 +1,5 @@
 from Plotting.plot_all_third_parameters import plot_all_sensitivities_per_alg
+from Plotting.plot_dist import plot_distribution
 from Plotting.plot_learning_curve import plot_learning_curve
 from Plotting.plot_learning_for_two_lambdas import plot_learning_curve_for_lambdas
 from Plotting.plot_sensitivity import plot_sensitivity_curve
@@ -11,3 +12,4 @@ from process_data import process_data
 # plot_waterfall_scatter()
 # plot_all_sensitivities_per_alg()
 # plot_learning_curve_for_lambdas()
+plot_distribution()
