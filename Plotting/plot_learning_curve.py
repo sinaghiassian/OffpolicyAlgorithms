@@ -23,10 +23,13 @@ def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time
     if PLOT_RERUN_AND_ORIG:
         alpha = 1.0 if second_time else 0.5
     lbl = (alg + r'$\alpha=$ ' + str(best_params['alpha']))
-    ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=ALG_COLORS[alg], alpha=alpha)
+    color = ALG_COLORS[alg]
+    if alg is not 'ETD':
+        color = 'grey'
+    ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=color, alpha=alpha)
     ax.fill_between(np.arange(mean_lc.shape[0]), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2,
-                    color=ALG_COLORS[alg], alpha=0.1*alpha)
-    ax.legend()
+                    color=color, alpha=0.1*alpha)
+    # ax.legend()
     ax.get_xaxis().tick_bottom()
     ax.get_yaxis().tick_left()
     ax.spines['top'].set_visible(False)
@@ -54,7 +57,7 @@ def plot_ls_solution(ax, ls_rmsve, alg, sp):
     x = np.arange(ls_rmsve.shape[0])
     y = ls_rmsve[-1] * np.ones(ls_rmsve.shape[0])
     ax.plot(x, y, label=lbl, linewidth=1.0, color=ALG_COLORS[alg], linestyle=':')
-    ax.legend()
+    # ax.legend()
 
 
 def plot_learning_curve():
@@ -63,7 +66,6 @@ def plot_learning_curve():
         for auc_or_final in AUC_AND_FINAL:
             for sp in LMBDA_AND_ZETA:
                 save_dir = os.path.join('pdf_plots', 'learning_curves', auc_or_final)
-                # save_dir = os.path.join('pdf_plots', exp, f'Lmbda{sp}_{auc_or_final}')
                 for alg_names in ALG_GROUPS.values():
                     fig, ax = plt.subplots()
                     for alg in alg_names:
