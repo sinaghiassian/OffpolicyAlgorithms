@@ -33,10 +33,13 @@ def plot_sensitivity(ax, alg, alphas, best_performance, stderr, exp_attrs, secon
         alpha = 1.0 if second_time else 0.5
     lbl = f'{alg}'
     ax.set_xscale('log', basex=2)
-    ax.plot(alphas, best_performance, label=lbl, linestyle='-', marker='o', color=ALG_COLORS[alg],
+    color = ALG_COLORS[alg]
+    if alg != 'ETD':
+        color = 'grey'
+    ax.plot(alphas, best_performance, label=lbl, linestyle='-', marker='o', color=color,
             linewidth=2, markersize=5, alpha=alpha)
-    ax.errorbar(alphas, best_performance, yerr=stderr, ecolor=ALG_COLORS[alg], mfc=ALG_COLORS[alg],
-                mec=ALG_COLORS[alg], linestyle='', elinewidth=2, markersize=5, alpha=alpha)
+    ax.errorbar(alphas, best_performance, yerr=stderr, ecolor=color, mfc=color,
+                mec=color, linestyle='', elinewidth=2, markersize=5, alpha=alpha)
     # ax.legend()
     ax.get_xaxis().tick_bottom()
     ax.get_yaxis().tick_left()
@@ -63,7 +66,7 @@ def plot_sensitivity_curve():
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in AUC_AND_FINAL:
             for sp in LMBDA_AND_ZETA:
-                save_dir = os.path.join('pdf_plots', exp, f'Lmbda{sp}_{auc_or_final}')
+                save_dir = os.path.join('pdf_plots', 'learning_curves', auc_or_final)
                 for alg_names in ALG_GROUPS.values():
                     fig, ax = plt.subplots()
                     for alg in alg_names:
@@ -81,12 +84,13 @@ def plot_sensitivity_curve():
                     if not os.path.exists(save_dir):
                         os.makedirs(save_dir, exist_ok=True)
                     if PLOT_RERUN_AND_ORIG:
-                        postfix = '_rerun_and_original'
+                        prefix = '_rerun_and_original'
                     elif RERUN:
-                        postfix = RERUN_POSTFIX
+                        prefix = RERUN_POSTFIX
                     else:
-                        postfix = ''
-                    fig.savefig(os.path.join(save_dir, f"sensitivity_{'_'.join(alg_names)}{postfix}.pdf"),
+                        prefix = ''
+                    fig.savefig(os.path.join(save_dir,
+                                             f"{prefix}_sensitivity_curve_{'_'.join(alg_names)}{exp}Lmbda{sp}.pdf"),
                                 format='pdf', dpi=1000, bbox_inches='tight')
                     plt.show()
                     print(exp, alg_names, auc_or_final, sp)
