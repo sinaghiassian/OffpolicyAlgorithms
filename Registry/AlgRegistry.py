@@ -11,5 +11,7 @@ from Algorithms.Vtrace import Vtrace
 from Algorithms.TB import TB
 from Algorithms.LSTD import LSTD
 from Algorithms.LSETD import LSETD
-alg_dict = {'TD': TD, 'ETD': ETD, 'Vtrace': Vtrace, 'ABTD': ABTD, 'GTD': GTD, 'TB': TB, 'GTD2': GTD2, 'HTD': HTD,
+alg_dict = {'TD': TD, 'Vtrace': Vtrace, 'GTD': GTD, 'ABTD': ABTD, 'ETD': ETD, 'TB': TB, 'GTD2': GTD2, 'HTD': HTD,
             'ETDLB': ETDLB, 'PGTD2': PGTD2, 'TDRC': TDRC, 'LSTD': LSTD, 'LSETD': LSETD}
+# alg_dict = {'TD': TD, 'GTD': GTD, 'GTD2': GTD2, 'PGTD2': PGTD2, 'HTD': HTD, 'TDRC': TDRC, 'ETD': ETD, 'ETDLB': ETDLB,
+#             'TB': TB, 'Vtrace': Vtrace, 'ABTD': ABTD, 'LSTD': LSTD, 'LSETD': 'LSETD'}
