@@ -24,8 +24,9 @@ def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time
         alpha = 1.0 if second_time else 0.5
     lbl = (alg + r'$\alpha=$ ' + str(best_params['alpha']))
     color = ALG_COLORS[alg]
-    if alg is not 'ETD':
-        color = 'grey'
+    # if alg == 'TD':
+    #     color = 'grey'
+    #     alpha = 0.7
     ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=color, alpha=alpha)
     ax.fill_between(np.arange(mean_lc.shape[0]), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2,
                     color=color, alpha=0.1*alpha)
@@ -67,7 +68,7 @@ def plot_learning_curve():
             for sp in LMBDA_AND_ZETA:
                 save_dir = os.path.join('pdf_plots', 'learning_curves', auc_or_final)
                 for alg_names in ALG_GROUPS.values():
-                    fig, ax = plt.subplots()
+                    fig, ax = plt.subplots(figsize=(10, 6))
                     for alg in alg_names:
                         if alg in ['LSTD', 'LSETD']:
                             ls_rmsve = get_ls_rmsve(alg, exp, sp)
