@@ -37,13 +37,15 @@ def learn(config: Configuration):
             agent.action = agent.choose_behavior_action()
             agent.next_state, r, is_terminal, info = env.step(agent.action)
             agent.learn(agent.state, agent.next_state, r, is_terminal)
+            if config.render:
+                env.render(mode='screen', render_cls=error_render)
+            if config.save_value_function and (step in get_save_value_function_steps(task.num_steps)):
+                save_value_function(agent.compute_value_function(), config.save_path, step, run)
             if is_terminal:
                 agent.state = env.reset()
                 agent.reset()
                 continue
             agent.state = agent.next_state
-            if config.render:
-                env.render(mode='screen', render_cls=error_render)
         print(np.mean(rmsve_of_run, axis=0))
         rmsve[:, :, run] = rmsve_of_run
     rmsve_of_runs = np.transpose(np.mean(rmsve, axis=0))  # Average over all policies.
