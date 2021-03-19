@@ -153,7 +153,7 @@ class LearnEightPoliciesTileCodingFeat(BaseTask, FourRoomGridWorld):
         if s in self._active_policies_cache:
             return self._active_policies_cache[s]
         x, y = self.get_xy(s)
-        active_policy_vec = np.zeros(self.num_policies)
+        active_policy_vec = np.zeros(self.num_policies, dtype=int)
         for policy_number, policy_values in self.optimal_policies.items():
             for (condition, _) in policy_values:
                 if condition(x, y):
