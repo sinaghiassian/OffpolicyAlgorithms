@@ -189,3 +189,19 @@ class LearnEightPoliciesTileCodingFeat(BaseTask, FourRoomGridWorld):
             if i:
                 pi_vec[policy_id] = self.get_probability(policy_id, s, a)
         return pi_vec
+
+    def generate_behavior_dist(self, total_steps):
+        final_state_dist = np.zeros((self.num_policies, self.num_states))
+        s = self.reset()
+        state_visitation_count = np.zeros(self.num_states)
+        for step in range(total_steps):
+            if step % 100000 == 0:
+                print(step)
+            state_visitation_count[s] += 1
+            sp, r, is_terminal, _ = self.step(self.select_behavior_action(s))
+            s = sp
+        for s in range(self.num_states):
+            for policy_id, i in enumerate(self.get_active_policies(s)):
+                if i:
+                    final_state_dist[policy_id, s] = state_visitation_count[s]
+        return (final_state_dist / total_steps).T
