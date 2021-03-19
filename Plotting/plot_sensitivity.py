@@ -1,11 +1,10 @@
 import os
-import numpy as np
-import json
 import matplotlib.pyplot as plt
+import numpy as np
 
-from Plotting.plot_params import EXPS, ALG_GROUPS, ALG_COLORS, EXP_ATTRS, AUC_AND_FINAL, LMBDA_AND_ZETA, \
-    PLOT_RERUN_AND_ORIG, RERUN, RERUN_POSTFIX
-from Plotting.plot_utils import replace_large_nan_inf, make_res_path, make_exp_path, load_best_rerun_params_dict
+from Plotting.plot_params import EXPS, ALG_GROUPS, ALG_COLORS, EXP_ATTRS, AUC_AND_FINAL, LMBDA_AND_ZETA, RERUN, \
+    PLOT_RERUN_AND_ORIG, RERUN_POSTFIX
+from Plotting.plot_utils import replace_large_nan_inf, make_res_path, load_best_rerun_params_dict, get_alphas
 from utils import create_name_for_save_load
 
 
@@ -34,8 +33,9 @@ def plot_sensitivity(ax, alg, alphas, best_performance, stderr, exp_attrs, secon
     lbl = f'{alg}'
     ax.set_xscale('log', basex=2)
     color = ALG_COLORS[alg]
-    if alg != 'ETD':
-        color = 'grey'
+    # if alg == 'TD':
+    #     color = 'grey'
+    #     alpha=0.7
     ax.plot(alphas, best_performance, label=lbl, linestyle='-', marker='o', color=color,
             linewidth=2, markersize=5, alpha=alpha)
     ax.errorbar(alphas, best_performance, yerr=stderr, ecolor=color, mfc=color,
@@ -53,23 +53,17 @@ def plot_sensitivity(ax, alg, alphas, best_performance, stderr, exp_attrs, secon
     plt.xticks(fontsize=25)
 
 
-def get_alphas(alg, exp):
-    exp_path = make_exp_path(alg, exp)
-    exp_path = os.path.join(exp_path, f"{alg}.json")
-    with open(exp_path) as f:
-        jsn_content = json.load(f)
-        return jsn_content['meta_parameters']['alpha']
-
-
 def plot_sensitivity_curve():
     for exp in EXPS:
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in AUC_AND_FINAL:
             for sp in LMBDA_AND_ZETA:
-                save_dir = os.path.join('pdf_plots', 'learning_curves', auc_or_final)
+                save_dir = os.path.join('pdf_plots', 'sensitivity_curves', auc_or_final)
                 for alg_names in ALG_GROUPS.values():
-                    fig, ax = plt.subplots()
+                    fig, ax = plt.subplots(figsize=(10, 6))
                     for alg in alg_names:
+                        if alg in ['LSTD', 'LSETD']:
+                            continue
                         postfix = RERUN_POSTFIX if RERUN else ''
                         best_params = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
                         alphas = get_alphas(alg, exp)
