@@ -7,7 +7,7 @@ from Plotting.plot_params import EXPS, ALG_GROUPS, ALG_COLORS, EXP_ATTRS, AUC_AN
 from Plotting.plot_utils import make_current_params, replace_large_nan_inf, make_params
 from utils import create_name_for_save_load
 
-
+np.random.seed(0)
 def load_all_performances(alg, exp, auc_or_final, sp, exp_attrs):
     fp_list, sp_list, tp_list, fop_list, res_path = make_params(alg, exp)
     all_performance = np.zeros((len(fp_list), len(tp_list), len(fop_list)))
@@ -17,7 +17,7 @@ def load_all_performances(alg, exp, auc_or_final, sp, exp_attrs):
             load_file_name = os.path.join(res_path, create_name_for_save_load(
                 current_params, excluded_params=['alpha']) + f'_mean_{auc_or_final}_over_alpha.npy')
 
-            if RERUN:
+            if RERUN and auc_or_final == 'auc':
                 load_file_name_rerun = load_file_name.replace('.npy', f"{RERUN_POSTFIX}.npy")
                 if os.path.isfile(load_file_name_rerun):
                     load_file_name = load_file_name_rerun
@@ -36,11 +36,9 @@ def plot_waterfall(ax, alg, all_performance, alg_names, exp_attrs):
                                   performance_to_plot.size, 2)
     ok_percentage = round((performance_to_plot < exp_attrs.ok_error).sum() /
                           performance_to_plot.size, 2)
-    # print(alg, 'percentage_overflowed', percentage_overflowed)
-    print(alg, 'OK_percentage', ok_percentage)
+    print(alg, 'percentage_overflowed', percentage_overflowed)
+    # print(alg, 'OK_percentage', ok_percentage)
     color = ALG_COLORS[alg]
-    if alg != 'ETD':
-        color = 'grey'
     ax.scatter([(ticker + 1)] * performance_to_plot.shape[0] + np.random.uniform(
         -0.25, 0.25, performance_to_plot.shape[0]), performance_to_plot, marker='o',
                 facecolors='none', color=color)
@@ -71,12 +69,14 @@ def plot_waterfall_scatter():
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in AUC_AND_FINAL:
             for sp in LMBDA_AND_ZETA:
-                save_dir = os.path.join('pdf_plots', 'learning_curves', auc_or_final)
+                save_dir = os.path.join('pdf_plots', 'waterfalls', auc_or_final)
                 for alg_names in ALG_GROUPS.values():
                     global ticker, x_axis_names, x_axis_ticks
                     ticker, x_axis_names, x_axis_ticks = -0.5, [''], [0]
-                    fig, ax = plt.subplots()
+                    fig, ax = plt.subplots(figsize=(10, 6))
                     for alg in alg_names:
+                        if alg in ['LSTD', 'LSETD']:
+                            continue
                         all_performance = load_all_performances(alg, exp, auc_or_final, sp, exp_attrs)
                         plot_waterfall(ax, alg, all_performance, alg_names, exp_attrs)
                     if not os.path.exists(save_dir):
