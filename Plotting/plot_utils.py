@@ -58,7 +58,7 @@ def load_best_perf_json(alg, exp, sp, auc_or_final):
         return json.load(f)
 
 
-def load_json_file(alg, exp):
+def load_exp_json_file(alg, exp):
     res_path = make_res_path(alg, exp)
     exp_path = make_exp_path(alg, exp)
     exp_path = os.path.join(exp_path, f'{alg}.json')
