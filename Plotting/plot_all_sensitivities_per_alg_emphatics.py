@@ -3,9 +3,13 @@ import numpy as np
 import json
 import matplotlib.pyplot as plt
 
-from Plotting.plot_params import EXPS, EXP_ATTRS, AUC_AND_FINAL, LMBDA_AND_ZETA
+from Plotting.plot_params import EXPS, EXP_ATTRS, AUC_AND_FINAL, LMBDA_AND_ZETA, ALG_COLORS
 from Plotting.plot_utils import replace_large_nan_inf, make_res_path, make_exp_path, make_params, make_current_params
 from utils import create_name_for_save_load
+
+new_colors = ['grey', 'red']
+color_counter = 0
+plot_alpha = 1.0
 
 
 def load_performance_over_alpha(alg, exp, params, auc_or_final, exp_attrs):
@@ -25,13 +29,22 @@ def load_performance_over_alpha(alg, exp, params, auc_or_final, exp_attrs):
     return performance_over_alpha, std_err_of_best_perf_over_alpha
 
 
-def plot_sensitivity(ax, alg, exp, alphas, tp, performance, stderr, exp_attrs):
-    lbl = f'{alg}_{exp}_{tp}'
+def plot_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr, exp_attrs):
+    global plot_alpha
+    lbl = f'{alg}_{tp}'
     ax.set_xscale('log', basex=2)
+    if alg == 'ETD':
+        color = 'red'
+    elif alg == 'ETDLB':
+        color = 'grey'
+        plot_alpha -= 0.1
+    else:
+        color = 'black'
     ax.plot(alphas, performance, label=lbl, linestyle='-', marker='o',
-            linewidth=2, markersize=5)
-    ax.errorbar(alphas, performance, yerr=stderr, linestyle='', elinewidth=2, markersize=5)
-    ax.legend()
+            linewidth=2, markersize=5, color=color, alpha=plot_alpha)
+    ax.errorbar(alphas, performance, yerr=stderr, linestyle='', elinewidth=2, markersize=5,
+                color=color, alpha=plot_alpha)
+    # ax.legend()
     ax.get_xaxis().tick_bottom()
     ax.get_yaxis().tick_left()
     ax.spines['top'].set_visible(False)
@@ -52,25 +65,35 @@ def get_alphas(alg, exp):
         return jsn_content['meta_parameters']['alpha']
 
 
-SELECTED_ALGS = ['GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETDLB']
-
-
-def plot_all_sensitivities_per_alg():
-    for exp in EXPS:
+def plot_all_sensitivities_per_alg_emphatics():
+    global color_counter
+    for exp in ['FirstChain']:
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in AUC_AND_FINAL:
-            for sp in LMBDA_AND_ZETA:
-                for alg in SELECTED_ALGS:
+            for sp in [0.0]:
+                for alg in ['ETDLB']:
                     save_dir = os.path.join('pdf_plots', 'AllThirds', exp, f'Lmbda{sp}_{auc_or_final}')
-                    fig, ax = plt.subplots()
+                    fig, ax = plt.subplots(figsize=(14, 6))
                     fp_list, sp_list, tp_list, fop_list, _ = make_params(alg, exp)
+                    if alg == 'ETDLB':
+                        alg = 'ETD'
+                        current_params = make_current_params(alg, sp, 0, 0)
+                        alphas = get_alphas(alg, exp)
+                        performance, stderr = load_performance_over_alpha(
+                            alg, exp, current_params, auc_or_final, exp_attrs)
+                        plot_sensitivity(ax, alg, exp, alphas, sp, 0, performance, stderr, exp_attrs)
+                        alg = 'ETDLB'
                     for tp in tp_list:
+                        if alg != 'ETDLB':
+                            if color_counter % 2 == 0:
+                                color_counter += 1
+                                continue
                         for fop in fop_list:
                             current_params = make_current_params(alg, sp, tp, fop)
                             alphas = get_alphas(alg, exp)
                             performance, stderr = load_performance_over_alpha(
                                 alg, exp, current_params, auc_or_final, exp_attrs)
-                            plot_sensitivity(ax, alg, exp, alphas, tp, performance, stderr, exp_attrs)
+                            plot_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr, exp_attrs)
                     if not os.path.exists(save_dir):
                         os.makedirs(save_dir, exist_ok=True)
                     fig.savefig(os.path.join(save_dir, f"sensitivity_{alg}_{exp}.pdf"),
