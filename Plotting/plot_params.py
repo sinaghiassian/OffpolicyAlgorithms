@@ -2,7 +2,7 @@ from Plotting.plot_utils import FirstChainAttr, FirstFourRoomAttr, HVFirstFourRo
 from Registry.AlgRegistry import alg_dict
 
 
-RERUN = False
+RERUN = True
 PLOT_RERUN_AND_ORIG = False
 if RERUN and PLOT_RERUN_AND_ORIG:
     PLOT_RERUN_AND_ORIG = False
@@ -23,17 +23,18 @@ EXPS = ['1HVFourRoom', 'FirstFourRoom', 'FirstChain']
 ALGS = [key for key in alg_dict.keys()]
 ALGS.remove('LSTD')
 ALGS.remove('LSETD')
-ALL_ALGS = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETDLB', 'TB', 'Vtrace', 'ABTD', 'ETD', 'LSTD', 'LSETD']
-LMBDA_AND_ZETA = [0.0, 0.9]
+# ALL_ALGS = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD', 'LSTD', 'LSETD']
+ALL_ALGS = ['TD', 'TB', 'Vtrace', 'ABTD']
+# LMBDA_AND_ZETA = [0.0, 0.9]
 AUC_AND_FINAL = ['auc', 'final']
 EXP_ATTRS = {'FirstChain': FirstChainAttr, 'FirstFourRoom': FirstFourRoomAttr, '1HVFourRoom': HVFirstFourRoomAttr}
 
 if DEBUG_MODE:
     EXPS = ['FirstChain']
     # ALGS = ['GTD']
-    ALL_ALGS.remove('ETDLB')
+    # ALL_ALGS.remove('ETDLB')
     # ALL_ALGS.remove('LSTD')
     # ALL_ALGS.remove('LSETD')
-    LMBDA_AND_ZETA = [0.0]
+    LMBDA_AND_ZETA = [0.9]
     AUC_AND_FINAL = ['auc']
     ALG_GROUPS = {'main_algs': ALL_ALGS}
