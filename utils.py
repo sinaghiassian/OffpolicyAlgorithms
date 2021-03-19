@@ -2,6 +2,18 @@ import numpy as np
 import os
 
 
+def get_save_value_function_steps(num_steps):
+    return [int(num_steps * i) - 1 for i in [0.01, 0.05, 0.1, 0.2, 0.5, 1.0]]
+
+
+def save_value_function(value_function, save_path, step, run):
+    save_dir = os.path.join(save_path, 'Sample_value_function')
+    res_path = os.path.join(save_dir, f"{step}_{run}")
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir, exist_ok=True)
+    np.save(res_path, value_function)
+
+
 class Configuration(dict):
     def __str__(self):
         return f"{self.environment} {self.task} {self.algorithm}"
