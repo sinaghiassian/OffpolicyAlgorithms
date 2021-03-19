@@ -41,6 +41,7 @@ class FourRoomGridWorld:
         self._normal_tiles = np.where(self._grid == BLOCK_NORMAL)
         self._hallways_tiles = np.where(self._grid == BLOCK_HALLWAY)
         self._walls_tiles = np.where(self._grid == BLOCK_WALL)
+        self.num_states = self._grid.size
 
         self._state = None
         self.ACTION_UP, self.ACTION_DOWN, self.ACTION_RIGHT, self.ACTION_LEFT = 0, 1, 2, 3
