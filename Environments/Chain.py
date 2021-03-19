@@ -15,6 +15,7 @@ class Chain:
         self._state = None
         self.RIGHT_ACTION = 0
         self.RETREAT_ACTION = 1
+        self.num_states = states_number
 
     def reset(self):
         self._state = np.random.randint(0, self._start_state_number)
