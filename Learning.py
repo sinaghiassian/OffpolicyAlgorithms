@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import argparse
-from utils import save_result, Configuration
+from utils import save_result, Configuration, save_value_function, get_save_value_function_steps
 from Registry.AlgRegistry import alg_dict
 from Registry.EnvRegistry import environment_dict
 from Registry.TaskRegistry import task_dict
