@@ -21,6 +21,14 @@ def load_best_rerun_params_dict(alg, exp, auc_or_final, sp):
         return json.load(f)['meta_parameters']
 
 
+def get_alphas(alg, exp):
+    exp_path = make_exp_path(alg, exp)
+    exp_path = os.path.join(exp_path, f"{alg}.json")
+    with open(exp_path) as f:
+        jsn_content = json.load(f)
+        return jsn_content['meta_parameters']['alpha']
+
+
 def load_best_rerun_params(alg, exp, auc_or_final, sp):
     best_res_dict = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
     best_fp = best_res_dict.get('alpha', 0)
