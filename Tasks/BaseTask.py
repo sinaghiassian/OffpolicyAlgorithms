@@ -71,5 +71,9 @@ class BaseTask:
     def load_state_values(self):
         return self.state_values
 
+    @abstractmethod
+    def generate_behavior_dist(self, total_steps):
+        ...
+
     def __str__(self):
         return f'task:{type(self).__name__}'
