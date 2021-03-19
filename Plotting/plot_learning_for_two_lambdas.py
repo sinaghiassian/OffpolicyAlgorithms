@@ -40,16 +40,21 @@ def plot_data(ax, alg, mean_lc, mean_stderr, sp, exp_attrs, second_time=False):
     ax.set_xticklabels(exp_attrs.x_tick_labels, fontsize=25)
     ax.yaxis.set_ticks(exp_attrs.y_axis_ticks)
     ax.tick_params(axis='y', which='major', labelsize=exp_attrs.size_of_labels)
+    ax.tick_params(axis='x', which='major', labelsize=exp_attrs.size_of_labels)
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
 
 
 # noinspection DuplicatedCode
 def plot_learning_curve_for_lambdas():
-    for exp in EXPS:
+    for exp in ['FirstChain']:
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in AUC_AND_FINAL:
             # save_dir = os.path.join('pdf_plots', exp, f'Lmbda{sp}_{auc_or_final}')
             for alg_names in ALG_GROUPS.values():
                 for alg in alg_names:
+                    if alg in ['LSETD', 'LSTD']:
+                        continue
                     fig, ax = plt.subplots()
                     save_dir = os.path.join('pdf_plots', 'learning_curves_for_lambdas', auc_or_final)
                     for sp in LMBDA_AND_ZETA:
@@ -74,5 +79,5 @@ def plot_learning_curve_for_lambdas():
                     fig.savefig(os.path.join(save_dir,
                                 f"{prefix}_learning_curve_{alg}{exp}.pdf"),
                                 format='pdf', dpi=200, bbox_inches='tight')
-                    plt.show()
+                    # plt.show()
                     plt.close(fig)
