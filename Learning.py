@@ -18,11 +18,12 @@ def learn(config: Configuration):
     if not os.path.exists(config.save_path):
         os.makedirs(config.save_path, exist_ok=True)
 
+    env = environment_dict[config.environment]()
+
     rmsve = np.zeros((task_dict[config.task].num_of_policies(), config.num_steps, config.num_of_runs))
     for run in range(config.num_of_runs):
         random_seed = (run + config.num_of_runs) if config.rerun else run
         np.random.seed(random_seed)
-        env = environment_dict[config.environment]()
         task = task_dict[config.task](run_number=run, num_steps=config.num_steps)
         agent = alg_dict[config.algorithm](task, **params)
 
