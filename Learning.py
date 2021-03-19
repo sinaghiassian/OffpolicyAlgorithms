@@ -80,6 +80,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_path', '-sp', type=str, default='-')
     parser.add_argument('--rerun', '-rrn', type=bool, default=False)
     parser.add_argument('--render', '-rndr', type=bool, default=False)
+    parser.add_argument('--save_value_function', '-svf', type=bool, default=default_params['save_value_function'])
     args = parser.parse_args()
     if args.save_path == '-':
         args.save_path = os.path.join(os.getcwd(), 'Results', default_params['exp'], args.algorithm)
