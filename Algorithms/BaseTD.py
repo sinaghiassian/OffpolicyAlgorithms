@@ -24,9 +24,11 @@ class BaseTD:
     def related_parameters():
         return ['alpha', 'lmbda']
 
+    def compute_value_function(self):
+        return np.dot(self.w, self.task.feature_rep.T)
+
     def compute_rmsve(self):
-        est_value = np.dot(self.w, self.task.feature_rep.T)
-        error = est_value - self.state_values
+        error = self.compute_value_function() - self.state_values
         error_squared = error * error
         return np.sqrt(np.sum(self.d_mu * error_squared.T, 0) / np.sum(self.d_mu, 0)), error
 
