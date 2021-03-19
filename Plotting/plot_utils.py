@@ -69,7 +69,7 @@ def load_exp_json_file(alg, exp):
 def make_params(alg_name, exp_name):
     params = dict()
     alg_param_names = alg_dict[alg_name].related_parameters()
-    json_content, res_path = load_json_file(alg_name, exp_name)
+    json_content, res_path = load_exp_json_file(alg_name, exp_name)
     json_exp_params = json_content.get('meta_parameters')
     for param in alg_param_names:
         params[param] = json_exp_params.get(param, default_params['meta_parameters'][param])
