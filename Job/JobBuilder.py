@@ -160,7 +160,7 @@ class JobBuilder:
         os.system('sbatch Submit_Jobs.SL')
         time.sleep(1)
         os.remove('Submit_Jobs.SL')
-        if self.server_name == 'Cedar' or self.server_name == 'CEDAR' or self.server_name == 'cedar':
+        if self.server_name.upper() == 'CEDAR':
             os.remove('Create_Configs.sh')
             # alg = self._batch_params['ALGORITHM']
             # os.remove(f'exports_{alg}.dat')
