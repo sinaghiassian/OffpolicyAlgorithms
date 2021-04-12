@@ -56,6 +56,8 @@ def plot_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr, exp_attr
     ax.xaxis.set_ticks(exp_attrs.x_axis_ticks_log)
     ax.set_xticklabels(exp_attrs.x_axis_tick_labels_log, fontsize=25)
     plt.xticks(fontsize=25)
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
 
 
 def get_alphas(alg, exp):
