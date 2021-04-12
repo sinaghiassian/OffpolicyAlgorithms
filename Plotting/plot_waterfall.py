@@ -59,6 +59,8 @@ def plot_waterfall(ax, alg, all_performance, alg_names, exp_attrs):
     ax.tick_params(axis='y', which='major', labelsize=exp_attrs.size_of_labels)
     ax.set_ylim(exp_attrs.y_lim)
     ax.yaxis.set_ticks(exp_attrs.y_axis_ticks)
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
 
 
 ticker, x_axis_names, x_axis_ticks = 0.0, [''], [0]
