@@ -8,8 +8,6 @@ from Plotting.plot_params import EXP_ATTRS, AUC_AND_FINAL
 from Plotting.plot_utils import replace_large_nan_inf, make_res_path, make_exp_path, make_params, make_current_params
 from utils import create_name_for_save_load
 
-new_colors = ['grey', 'red']
-color_counter = 0
 plot_alpha = 1.0
 
 
