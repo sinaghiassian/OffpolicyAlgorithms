@@ -61,14 +61,14 @@ def plot_ls_solution(ax, ls_rmsve, alg, sp):
     # ax.legend()
 
 
-def plot_learning_curve():
-    for exp in EXPS:
+def plot_learning_curve(**kwargs):
+    for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
-        for auc_or_final in AUC_AND_FINAL:
-            for sp in LMBDA_AND_ZETA:
+        for auc_or_final in kwargs['auc_or_final']:
+            for sp in kwargs['sp_list']:
                 save_dir = os.path.join('pdf_plots', 'learning_curves', auc_or_final)
-                for alg_names in ALG_GROUPS.values():
-                    fig, ax = plt.subplots(figsize=(10, 6))
+                for alg_names in kwargs['alg_groups'].values():
+                    fig, ax = plt.subplots(figsize=kwargs['fig_size'])
                     for alg in alg_names:
                         if alg in ['LSTD', 'LSETD']:
                             ls_rmsve = get_ls_rmsve(alg, exp, sp)
