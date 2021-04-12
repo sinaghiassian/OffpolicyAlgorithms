@@ -92,24 +92,20 @@ def load_sample_params_dict(alg, exp, sp):
                 'tdrc_beta': fop_list[np.random.randint(0, len(fop_list))]}
 
 
-ALGS = ['GTD2', 'PGTD2', 'LSTD']
-# TP_LIST = [0.015625, 0.0625, 0.25, 1.0, 4.0, 16.0, 64.0, 256.0]
-TP_LIST = [1.0]
-
-def plot_all_learning_curves_for_one_third():
-    for exp in ['FirstFourRoom']:
+def plot_all_learning_curves_for_third(**kwargs):
+    for exp in kwargs['exps']:
         prefix = ''
         exp_attrs = EXP_ATTRS[exp](exp)
-        for auc_or_final in AUC_AND_FINAL:
-            for sp in [0.0]:
+        for auc_or_final in kwargs['auc_or_final']:
+            for sp in kwargs['sp_list']:
                 save_dir = os.path.join('pdf_plots', 'all_third_learning_curves', auc_or_final)
-                fig, ax = plt.subplots(figsize=(10, 6))
-                for alg in ALGS:
+                fig, ax = plt.subplots(figsize=kwargs['fig_size'])
+                for alg in kwargs['algs']:
                     if alg in ['LSTD', 'LSETD']:
                         ls_rmsve = get_ls_rmsve(alg, exp, sp)
                         plot_ls_solution(ax, ls_rmsve, alg, sp)
                         continue
-                    for tp in TP_LIST:
+                    for tp in kwargs['tp_list']:
                         for fp in get_alphas(alg, exp):
                             for fop in [1.0]:
                                 current_params = make_current_params(alg, sp, tp, fop, fp)
@@ -119,7 +115,7 @@ def plot_all_learning_curves_for_one_third():
                     os.makedirs(save_dir, exist_ok=True)
                 pylab.gca().set_rasterized(True)
                 fig.savefig(os.path.join(save_dir,
-                            f"{prefix}_learning_curve_{'_'.join(ALGS)}{exp}Lmbda{sp}.pdf"),
+                            f"{prefix}_learning_curve_{'_'.join(kwargs['algs'])}{exp}Lmbda{sp}.pdf"),
                             format='pdf', dpi=200, bbox_inches='tight')
                 plt.show()
                 plt.close(fig)
