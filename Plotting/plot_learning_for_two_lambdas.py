@@ -46,18 +46,17 @@ def plot_data(ax, alg, mean_lc, mean_stderr, sp, exp_attrs, second_time=False):
 
 
 # noinspection DuplicatedCode
-def plot_learning_curve_for_lambdas():
-    for exp in ['FirstChain']:
+def plot_learning_curve_for_lambdas(**kwargs):
+    for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
-        for auc_or_final in AUC_AND_FINAL:
-            # save_dir = os.path.join('pdf_plots', exp, f'Lmbda{sp}_{auc_or_final}')
-            for alg_names in ALG_GROUPS.values():
+        for auc_or_final in kwargs['auc_or_final']:
+            for alg_names in kwargs['alg_groups'].values():
                 for alg in alg_names:
                     if alg in ['LSETD', 'LSTD']:
                         continue
-                    fig, ax = plt.subplots()
+                    fig, ax = plt.subplots(figsize=kwargs['fig_size'])
                     save_dir = os.path.join('pdf_plots', 'learning_curves_for_lambdas', auc_or_final)
-                    for sp in LMBDA_AND_ZETA:
+                    for sp in kwargs['sp_list']:
                         prefix = RERUN_POSTFIX if RERUN else ''
                         current_params = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
                         print(alg, current_params)
