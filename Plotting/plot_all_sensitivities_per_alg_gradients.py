@@ -68,7 +68,6 @@ def get_alphas(alg, exp):
         return jsn_content['meta_parameters']['alpha']
 
 
-SELECTED_ALGS = ['GTD', 'GTD2', 'PGTD2', 'HTD']
 COUNTER = 0
 
 
@@ -81,13 +80,13 @@ def plot_extra_alg_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr
     if alg == 'TDRC':
         color = ALG_COLORS[alg]
         alpha = 1.0
-    linestyle = '-'
+    linestyle = '--'
     # if alg == 'GTD2':
     #     linestyle = '-'
     #     alpha=1.0
     ax.plot(alphas, performance, label=lbl, linestyle=linestyle, marker='o',
-            linewidth=1, markersize=5, color=color, alpha=alpha)
-    ax.errorbar(alphas, performance, yerr=stderr, linestyle='', elinewidth=2, markersize=5,
+            linewidth=3, markersize=5, color=color, alpha=alpha)
+    ax.errorbar(alphas, performance, yerr=stderr, linestyle='', elinewidth=3, markersize=5,
                 color=color, alpha=alpha)
     # ax.legend()
     ax.get_xaxis().tick_bottom()
@@ -100,20 +99,20 @@ def plot_extra_alg_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr
     ax.xaxis.set_ticks(exp_attrs.x_axis_ticks_log)
     ax.set_xticklabels(exp_attrs.x_axis_tick_labels_log, fontsize=25)
     plt.xticks(fontsize=25)
-    # ax.set_yticklabels([])
-    # ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
 
 
-def plot_all_sensitivities_per_alg_gradients():
+def plot_all_sensitivities_per_alg_gradients(**kwargs):
     global color_counter, COUNTER
-    for exp in ['FirstChain']:
+    for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
-        for auc_or_final in AUC_AND_FINAL:
-            for sp in [0.0]:
-                for alg in SELECTED_ALGS:
+        for auc_or_final in kwargs['auc_or_final']:
+            for sp in kwargs['sp_list']:
+                for alg in kwargs['algs']:
                     color_counter = 4
                     save_dir = os.path.join('pdf_plots', 'AllThirds', exp, f'Lmbda{sp}_{auc_or_final}')
-                    fig, ax = plt.subplots(figsize=(12, 6))
+                    fig, ax = plt.subplots(figsize=kwargs['fig_size'])
                     fp_list, sp_list, tp_list, fop_list, _ = make_params(alg, exp)
                     for tp in tp_list:
                         if COUNTER % 2 == 0:
