@@ -8,9 +8,6 @@ from Plotting.plot_utils import replace_large_nan_inf, make_res_path, make_exp_p
 from utils import create_name_for_save_load
 
 
-# new_colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#17becf',
-#               '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
-#               '#bcbd22', '#d62728']
 new_colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#17becf',
               'orange', '#8c564b', '#e377c2', '#2ca02c',
               '#bcbd22', '#d62728']
