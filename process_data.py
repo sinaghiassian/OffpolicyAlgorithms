@@ -84,15 +84,15 @@ def run_learning_with_best_perf(alg, exp, auc_or_final, sp):
     learn(config)
 
 
-def process_data():
-    for exp in EXPS:
-        for alg in ALGS:
-            for auc_or_final in AUC_AND_FINAL:
-                for sp in LMBDA_AND_ZETA:
+def process_data(**kwargs):
+    for exp in kwargs['exps']:
+        for alg in kwargs['algs']:
+            for auc_or_final in kwargs['auc_or_final']:
+                for sp in kwargs['sp_list']:
                     print(f"\nStarted re-running {exp}, {alg} lmbda_or_zeta: {sp}, {auc_or_final} ...")
                     save_perf_over_alpha(alg, exp, auc_or_final, sp)
                     best_params = find_best_perf(alg, exp, auc_or_final, sp)
                     save_best_perf_in_json(alg, exp, best_params, auc_or_final, sp)
-                    # run_learning_with_best_perf(alg, exp, auc_or_final, sp)
+                    run_learning_with_best_perf(alg, exp, auc_or_final, sp)
                     save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=True)
                     print(f"Finished re-running {exp}, {alg} {best_params}")
