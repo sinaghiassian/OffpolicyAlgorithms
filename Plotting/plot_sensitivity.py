@@ -33,9 +33,9 @@ def plot_sensitivity(ax, alg, alphas, best_performance, stderr, exp_attrs, secon
     lbl = f'{alg}'
     ax.set_xscale('log', basex=2)
     color = ALG_COLORS[alg]
-    # if alg == 'TD':
-    #     color = 'grey'
-    #     alpha=0.7
+    if alg == 'TD':
+        color = 'grey'
+        alpha=0.7
     ax.plot(alphas, best_performance, label=lbl, linestyle='-', marker='o', color=color,
             linewidth=2, markersize=5, alpha=alpha)
     ax.errorbar(alphas, best_performance, yerr=stderr, ecolor=color, mfc=color,
@@ -55,14 +55,14 @@ def plot_sensitivity(ax, alg, alphas, best_performance, stderr, exp_attrs, secon
     ax.set_xticklabels([])
 
 
-def plot_sensitivity_curve():
-    for exp in EXPS:
+def plot_sensitivity_curve(**kwargs):
+    for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
-        for auc_or_final in AUC_AND_FINAL:
-            for sp in LMBDA_AND_ZETA:
+        for auc_or_final in kwargs['auc_or_final']:
+            for sp in kwargs['sp_list']:
                 save_dir = os.path.join('pdf_plots', 'sensitivity_curves', auc_or_final)
-                for alg_names in ALG_GROUPS.values():
-                    fig, ax = plt.subplots(figsize=(10, 6))
+                for alg_names in kwargs['alg_groups'].values():
+                    fig, ax = plt.subplots(figsize=kwargs['fig_size'])
                     for alg in alg_names:
                         if alg in ['LSTD', 'LSETD']:
                             continue
