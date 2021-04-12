@@ -66,16 +66,16 @@ def plot_waterfall(ax, alg, all_performance, alg_names, exp_attrs):
 ticker, x_axis_names, x_axis_ticks = 0.0, [''], [0]
 
 
-def plot_waterfall_scatter():
-    for exp in EXPS:
+def plot_waterfall_scatter(**kwargs):
+    for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
-        for auc_or_final in AUC_AND_FINAL:
-            for sp in LMBDA_AND_ZETA:
+        for auc_or_final in kwargs['auc_or_final']:
+            for sp in kwargs['sp_list']:
                 save_dir = os.path.join('pdf_plots', 'waterfalls', auc_or_final)
-                for alg_names in ALG_GROUPS.values():
+                for alg_names in kwargs['alg_groups'].values():
                     global ticker, x_axis_names, x_axis_ticks
                     ticker, x_axis_names, x_axis_ticks = -0.5, [''], [0]
-                    fig, ax = plt.subplots(figsize=(10, 6))
+                    fig, ax = plt.subplots(kwargs['fig_size'])
                     for alg in alg_names:
                         if alg in ['LSTD', 'LSETD']:
                             continue
