@@ -42,9 +42,9 @@ def plot_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr, exp_attr
     #     linestyle = '--'
     #     alpha = 0.5
     ax.plot(alphas, performance, label=lbl, linestyle=linestyle, marker='o',
-            linewidth=4, markersize=5, color=color, alpha=alpha)
+            linewidth=2, markersize=5, color=color, alpha=alpha)
     ax.errorbar(alphas, performance, yerr=stderr, linestyle='', elinewidth=2, markersize=5,
-                color=color)
+                color=color, alpha=alpha)
     color_counter = color_counter + 1
     # ax.legend()
     ax.get_xaxis().tick_bottom()
