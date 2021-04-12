@@ -1,9 +1,10 @@
-import os
-import numpy as np
 import json
-import matplotlib.pyplot as plt
+import os
 
-from Plotting.plot_params import EXPS, EXP_ATTRS, AUC_AND_FINAL, LMBDA_AND_ZETA, ALG_COLORS
+import matplotlib.pyplot as plt
+import numpy as np
+
+from Plotting.plot_params import EXP_ATTRS, AUC_AND_FINAL
 from Plotting.plot_utils import replace_large_nan_inf, make_res_path, make_exp_path, make_params, make_current_params
 from utils import create_name_for_save_load
 
