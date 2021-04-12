@@ -78,6 +78,7 @@ def run_learning_with_best_perf(alg, exp, auc_or_final, sp):
     param_dict['num_of_runs'] = best_perf_jsn['number_of_runs']
     param_dict['sub_sample'] = best_perf_jsn['sub_sample']
     param_dict['save_path'] = res_path
+    param_dict['save_value_function'] = False
     param_dict['rerun'] = True
     param_dict['render'] = False
     config = Configuration(param_dict)
