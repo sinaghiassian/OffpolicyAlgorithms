@@ -51,14 +51,14 @@ def plot_sensitivity(ax, alg, alphas, sp, best_performance, stderr, exp_attrs, s
     ax.set_xticklabels([])
 
 
-def plot_sensitivity_for_lambdas():
-    for exp in ['FirstChain']:
+def plot_sensitivity_for_lambdas(**kwargs):
+    for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
-        for auc_or_final in AUC_AND_FINAL:
+        for auc_or_final in kwargs['auc_or_final']:
             save_dir = os.path.join('pdf_plots', 'sensitivity_curves_for_lambdas', auc_or_final)
-            for alg in ALGS:
-                fig, ax = plt.subplots()
-                for sp in [0.0, 0.9]:
+            for alg in kwargs['algs']:
+                fig, ax = plt.subplots(figsize=kwargs['fig_size'])
+                for sp in kwargs['sp_list']:
                     if alg in ['LSTD', 'LSETD']:
                         continue
                     postfix = RERUN_POSTFIX if RERUN else ''
@@ -81,7 +81,7 @@ def plot_sensitivity_for_lambdas():
                 else:
                     prefix = ''
                 fig.savefig(os.path.join(save_dir,
-                                         f"{prefix}_sensitivity_curve_{alg}{exp}Lmbda{sp}.pdf"),
+                                         f"{prefix}_sensitivity_curve_{alg}{exp}.pdf"),
                             format='pdf', dpi=1000, bbox_inches='tight')
                 plt.show()
                 print(exp, alg, auc_or_final, sp)
