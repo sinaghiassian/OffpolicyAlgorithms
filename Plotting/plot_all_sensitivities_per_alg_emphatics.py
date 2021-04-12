@@ -66,38 +66,33 @@ def get_alphas(alg, exp):
         return jsn_content['meta_parameters']['alpha']
 
 
-def plot_all_sensitivities_per_alg_emphatics():
-    global color_counter
-    for exp in ['FirstChain']:
+def plot_all_sensitivities_per_alg_emphatics(**kwargs):
+    global plot_alpha
+    for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in AUC_AND_FINAL:
-            for sp in [0.0]:
-                for alg in ['ETDLB']:
-                    save_dir = os.path.join('pdf_plots', 'AllThirds', exp, f'Lmbda{sp}_{auc_or_final}')
-                    fig, ax = plt.subplots(figsize=(14, 6))
-                    fp_list, sp_list, tp_list, fop_list, _ = make_params(alg, exp)
-                    if alg == 'ETDLB':
-                        alg = 'ETD'
-                        current_params = make_current_params(alg, sp, 0, 0)
+            for sp in kwargs['sp_list']:
+                plot_alpha = 1.0
+                alg = 'ETD'
+                save_dir = os.path.join('pdf_plots', 'AllThirds', exp, f'Lmbda{sp}_{auc_or_final}')
+                fig, ax = plt.subplots(figsize=kwargs['fig_size'])
+                current_params = make_current_params(alg, sp, 0, 0)
+                alphas = get_alphas(alg, exp)
+                performance, stderr = load_performance_over_alpha(
+                    alg, exp, current_params, auc_or_final, exp_attrs)
+                plot_sensitivity(ax, alg, exp, alphas, sp, 0, performance, stderr, exp_attrs)
+                alg = 'ETDLB'
+                fp_list, sp_list, tp_list, fop_list, _ = make_params(alg, exp)
+                for tp in tp_list:
+                    for fop in fop_list:
+                        current_params = make_current_params(alg, sp, tp, fop)
                         alphas = get_alphas(alg, exp)
                         performance, stderr = load_performance_over_alpha(
                             alg, exp, current_params, auc_or_final, exp_attrs)
-                        plot_sensitivity(ax, alg, exp, alphas, sp, 0, performance, stderr, exp_attrs)
-                        alg = 'ETDLB'
-                    for tp in tp_list:
-                        if alg != 'ETDLB':
-                            if color_counter % 2 == 0:
-                                color_counter += 1
-                                continue
-                        for fop in fop_list:
-                            current_params = make_current_params(alg, sp, tp, fop)
-                            alphas = get_alphas(alg, exp)
-                            performance, stderr = load_performance_over_alpha(
-                                alg, exp, current_params, auc_or_final, exp_attrs)
-                            plot_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr, exp_attrs)
-                    if not os.path.exists(save_dir):
-                        os.makedirs(save_dir, exist_ok=True)
-                    fig.savefig(os.path.join(save_dir, f"sensitivity_{alg}_{exp}.pdf"),
-                                format='pdf', dpi=1000, bbox_inches='tight')
-                    plt.show()
-                    print(exp, alg, auc_or_final, sp)
+                        plot_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr, exp_attrs)
+                if not os.path.exists(save_dir):
+                    os.makedirs(save_dir, exist_ok=True)
+                fig.savefig(os.path.join(save_dir, f"sensitivity_{alg}_{exp}.pdf"),
+                            format='pdf', dpi=1000, bbox_inches='tight')
+                plt.show()
+                print(exp, alg, auc_or_final, sp)
