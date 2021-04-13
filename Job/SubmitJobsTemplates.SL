@@ -2,7 +2,7 @@
 # SLURM submission script for submitting multiple serial jobs on Niagara
 #
 #SBATCH --account=def-sutton
-#SBATCH --time=058:58:59
+#SBATCH --time=00:58:59
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=40
 #SBATCH --job-name __TASK_____ALGORITHM__
