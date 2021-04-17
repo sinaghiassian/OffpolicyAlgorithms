@@ -24,6 +24,25 @@ This repository includes the code for the "empirical off-policy" paper.
 
 
 
+<a name='how-to-run'></a>
+## How to Run the Code
+
+The code can be run in two different ways.
+One way is through *learning.py* that can be used to run small experiments on a local computer.
+The other way is through the files inside the Job directory. 
+We explain each of these approaches below.
+
+<a name="learning.py"></a>
+### Learning.py
+```sh
+$ learning.py -p1 p1
+```
+
+<a name="job_builder"></a>
+### Job Builder
+
+
+
 
 <a name='algorithms'></a>
 ## Algorithms
@@ -64,22 +83,3 @@ The MDP defines the states, actions, rewards, transition probability matrix, and
 ## Tasks
 A task, or a problem, uses an environment along with a target and behavior policy.
 With this definition, multiple tasks could be defined on one environment.
-
-<a name='how-to-run'></a>
-## How to Run the Code
-
-The code can be run in two different ways.
-One way is through *learning.py* that can be used to run small experiments on a local computer.
-The other way is through the files inside the Job directory. 
-We explain each of these approaches below.
-
-<a name="learning.py"></a>
-### Learning.py
-```sh
-$ learning.py -p1 p1
-```
-
-<a name="job_builder"></a>
-### Job Builder
-
-
