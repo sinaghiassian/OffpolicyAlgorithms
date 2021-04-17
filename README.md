@@ -19,7 +19,7 @@ This repository ...
 - **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
 - **[Tasks](#tasks)** : [Collision](#collision), [Hallway proximity](#hallway_proximity), 
   [High variance hallway proximity](#highvar_hallway_proximity)
-- **[Glossary]**(#glossary)
+- **[Algorithm Glossary](#glossary)** :
 
 ## Run
 - [Learning.py](#learning.py)
