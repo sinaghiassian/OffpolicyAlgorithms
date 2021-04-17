@@ -15,15 +15,12 @@ This repository includes the code for the "empirical off-policy" paper.
 </p>
 
 ## Table of Contents
+- **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
 - **[Algorithms](#algorithms)**: [Off-policy TD](#td), [GTD](#gtd), [Emphatic TD](#ETD), [Emphatic TDβ](#ETDB)
 - **[Algorithm Glossary](#glossary)** :
 - **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
 - **[Tasks](#tasks)** : [Collision](#collision), [Hallway proximity](#hallway_proximity), 
   [High variance hallway proximity](#highvar_hallway_proximity)
-
-## Run
-- [Learning.py](#learning.py)
-- [Job Buidler](#job_builder)
 
 
 
@@ -68,6 +65,7 @@ The MDP defines the states, actions, rewards, transition probability matrix, and
 A task, or a problem, uses an environment along with a target and behavior policy.
 With this definition, multiple tasks could be defined on one environment.
 
+<a name='how-to-run'></a>
 ## How to Run the Code
 
 The code can be run in two different ways.
