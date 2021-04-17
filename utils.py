@@ -79,5 +79,5 @@ def generate_gif(frames, path):
     import imageio
     from skimage.transform import resize
     for idx, frame_idx in enumerate(frames):
-        frames[idx] = resize(frame_idx, (256, 256, 3), preserve_range=True, order=0).astype(np.uint8)
-    imageio.mimsave(path, frames, duration=1 / 10)
+        frames[idx] = resize(frame_idx, (180, 180, 3), preserve_range=True, order=0).astype(np.uint8)
+    imageio.mimsave(path, frames, duration=1 / 20)
