@@ -18,6 +18,11 @@ This repository ...
 - [GTD](#gtd)
 - [Emphatic TD](#Emphatic_TD)
 
+
+## Run
+- [Learning.py](#learning.py)
+- [Job Buidler](#job_builder)
+
 <hr>
 
 <a name='td'></a>
@@ -34,5 +39,13 @@ def learn_wights(s, s_p, r):
 ```
 where s and s_p are the current and next states, r is the reward, and gamma is the discount factor parameter
     
+<a name="learning.py"></a>
+### Learning.py
+```sh
+$ learning.py -p1 p1
+```
+
+<a name="job_builder"></a>
+### Job Builder
 
 ## Environment
