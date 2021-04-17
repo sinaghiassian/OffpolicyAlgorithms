@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="/Assets/rlai.png" />
+    <img width="100" src="/Assets/rlai.png" />
 </p>
 
 <h2 align=center>Off-policy Prediction Learning Algorithms</h2>
