@@ -1,6 +1,7 @@
 import time
 
 import utils
+from Environments.Chain import Chain
 from Environments.FourRoomGridWorld import FourRoomGridWorld
 from Tasks.LearnEightPoliciesTileCodingFeat import LearnEightPoliciesTileCodingFeat
 import pyglet
@@ -13,37 +14,14 @@ if __name__ == "__main__":
     render_mode = 'screen'
 
     frames = []
-    actions = {
-        0: 'up',
-        1: 'down',
-        2: 'right',
-        3: 'left',
-    }
     env = FourRoomGridWorld()
-    task = LearnEightPoliciesTileCodingFeat()
-    state = env.reset()
-    frame = env.render(mode=render_mode)
-    frames.append(frame)
-    is_terminal = False
-    #s_a = [0, 2, 2, 2, 2, 2, 2, 3, 3, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 3, 3, 3]
-    for step in range(50):
-        # a = task.select_target_action(state, policy_id=0)
-        a = np.random.randint(0, 4)
-        #a = s_a[step]
+    env = Chain()
+    env.reset()
+    for step in range(100):
+        a = np.random.randint(0, 2)
         next_state, r, is_terminal, info = env.step(a)
-        x, y, x_p, y_p, is_rand, selected_action = info.values()
-        # print(
-        #     f'sept:{step}, '
-        #     f's({state}):({x},{y}), '
-        #     f'a:{actions[a]}, '
-        #     f'environment_action: {actions[selected_action]}, '
-        #     f's_p({next_state}):({x_p},{y_p}), '
-        #     f'stochasticity:{is_rand}, '
-        #     f'terminal:{is_terminal}'
-        # )
         state = next_state
-        frame = env.render(mode=render_mode)
-        frames.append(frame)
+        frames.append(env.render(mode=render_mode))
         if is_terminal:
-            break
-    utils.generate_gif(frames, 'Assets/fourRoomGridWorld.gif')
+            env.reset()
+    utils.generate_gif(frames, 'Assets/chain.gif', size=(30, 180, 3),duration=1/10)
