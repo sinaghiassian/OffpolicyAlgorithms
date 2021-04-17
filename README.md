@@ -9,6 +9,7 @@ This repository ...
 <p align="center">
     <img src="/Assets/fourRoomGridWorld.gif" />
 </p>
+
 ## Algorithms
 - [Off-policy TD](#td)
 - [GTD](#gtd)
