@@ -1,5 +1,5 @@
 <p align="center">
-    ![Logo of RLAI](/Assets/rlai.png)
+    ![Logo of RLAI](Assets/rlai.png)
 </p>
 
 <h2 align=center>Off-policy Prediction Learning Algorithms</h2>
@@ -7,9 +7,9 @@ This repository ...
 
 
 <p align="center">
-    ![Logo of RLAI](/Assets/fourRoomGridWorld.gif)
-    ![Logo of RLAI](/Assets/fourRoomGridWorld.gif)
-    ![Logo of RLAI](/Assets/fourRoomGridWorld.gif)
+    ![Logo of RLAI](Assets/fourRoomGridWorld.gif)
+    ![Logo of RLAI](Assets/fourRoomGridWorld.gif)
+    ![Logo of RLAI](Assets/fourRoomGridWorld.gif)
 </p>
 ## Algorithms
 - [Off-policy TD](#td)
