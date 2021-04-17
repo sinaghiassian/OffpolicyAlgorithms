@@ -26,7 +26,6 @@ This repository ...
 
 <a name='algorithms'></a>
 ## Algorithms
-<hr>
 <a name='td'></a>
 
 ### Off-policy TD
@@ -41,12 +40,12 @@ def learn_wights(s, s_p, r):
         w += alpha * delta * z
 ```
 where s and s_p are the current and next states, r is the reward, and gamma is the discount factor parameter
-<hr>
+
 
 
 <a name='environment'></a>
 ## Environment
-<hr>
+
 <a name="four_room_grid_world"></a>
 
 ### Four Room Grid World
@@ -56,7 +55,7 @@ where s and s_p are the current and next states, r is the reward, and gamma is t
 ### Chain
 
 ## Run
-<hr>
+
 <a name="learning.py"></a>
 ### Learning.py
 ```sh
