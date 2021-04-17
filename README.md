@@ -15,8 +15,11 @@ This repository ...
 </p>
 
 ## Table of Contents
-- **[Algorithms](#algorithms)**: [Off-policy TD](#td), [GTD](#gtd), [Emphatic TD](#Emphatic_TD)
-- **[Environment](#environment)** : [Four Room Grid World](#four_room_grid_world), [Chain](#chain)
+- **[Algorithms](#algorithms)**: [Off-policy TD](#td), [GTD](#gtd), [Emphatic TD](#ETD), [Emphatic TDβ](#ETDB)
+- **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
+- **[Tasks](#tasks)** : [Collision](#collision), [Hallway proximity](#hallway_proximity), 
+  [High variance hallway proximity](#highvar_hallway_proximity)
+- **[Glossary]**(#glossary)
 
 ## Run
 - [Learning.py](#learning.py)
@@ -27,6 +30,9 @@ This repository ...
 
 <a name='algorithms'></a>
 ## Algorithms
+Algorithms are used to find a weight vector, **w**, such that the dot product of **w** and the feature vector, 
+approximates the value function. 
+
 <a name='td'></a>
 
 ### Off-policy TD
@@ -46,6 +52,8 @@ where s and s_p are the current and next states, r is the reward, and gamma is t
 
 <a name='environment'></a>
 ## Environment
+At the heart of an environment is an MDP.
+The MDP defines the states, actions, rewards, transition probability matrix, and the discount factor.
 
 <a name="four_room_grid_world"></a>
 
@@ -55,7 +63,17 @@ where s and s_p are the current and next states, r is the reward, and gamma is t
 
 ### Chain
 
-## Run
+<a name='tasks'></a>
+## Tasks
+A task, or a problem, uses an environment along with a target and behavior policy.
+With this definition, multiple tasks could be defined on one environment.
+
+## How to Run the Code
+
+The code can be run in two different ways.
+One way is through *learning.py* that can be used to run small experiments on a local computer.
+The other way is through the files inside the Job directory. 
+We explain each of these approaches below.
 
 <a name="learning.py"></a>
 ### Learning.py
