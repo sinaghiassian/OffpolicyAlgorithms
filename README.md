@@ -11,6 +11,7 @@ This repository ...
 
 <p align="center">
     <img src="/Assets/fourRoomGridWorld.gif" />
+    <img src="/Assets/chain.gif" />
 </p>
 
 ## Table of Contents
