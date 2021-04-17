@@ -7,9 +7,9 @@ This repository ...
 
 
 <p align="center">
-    ![Logo of RLAI](https://github.com/sinaghiassian/OffpolicyAlgorithmsAssets/fourRoomGridWorld.gif)
-    ![Logo of RLAI](https://github.com/sinaghiassian/OffpolicyAlgorithmsAssets/fourRoomGridWorld.gif)
-    ![Logo of RLAI](https://github.com/sinaghiassian/OffpolicyAlgorithmsAssets/fourRoomGridWorld.gif)
+    ![Logo of RLAI](https://github.com/sinaghiassian/OffpolicyAlgorithms/Assets/fourRoomGridWorld.gif)
+    ![Logo of RLAI](https://github.com/sinaghiassian/OffpolicyAlgorithms/Assets/fourRoomGridWorld.gif)
+    ![Logo of RLAI](https://github.com/sinaghiassian/OffpolicyAlgorithms/Assets/fourRoomGridWorld.gif)
 </p>
 ## Algorithms
 - [Off-policy TD](#td)
