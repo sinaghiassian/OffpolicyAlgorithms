@@ -6,7 +6,7 @@
 <div align="center">
   :steam_locomotive::train::train::train::train::train:
 </div>
-This repository ... 
+This repository includes the code for the "empirical off-policy" paper.
 
 
 <p align="center">
