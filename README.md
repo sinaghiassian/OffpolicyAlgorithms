@@ -16,10 +16,10 @@ This repository ...
 
 ## Table of Contents
 - **[Algorithms](#algorithms)**: [Off-policy TD](#td), [GTD](#gtd), [Emphatic TD](#ETD), [Emphatic TDβ](#ETDB)
+- **[Algorithm Glossary](#glossary)** :
 - **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
 - **[Tasks](#tasks)** : [Collision](#collision), [Hallway proximity](#hallway_proximity), 
   [High variance hallway proximity](#highvar_hallway_proximity)
-- **[Algorithm Glossary](#glossary)** :
 
 ## Run
 - [Learning.py](#learning.py)
