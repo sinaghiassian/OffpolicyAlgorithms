@@ -77,7 +77,9 @@ from the past affects the current update.
 - delta (𝛿): is the td-error, which in the full bootstrapping case, is equal to the reward plus the value of the next 
   state minus the value of the current state<sup>2</sup>.
 - s: is the current state (scalar).
+- **x**: is the feature vector of the current state<sup>2</sup>.
 - s_p: is the next state (scalar).
+- **x_p**: is the feature vector of the next state<sup>2</sup>. 
 - r: is the reward<sup>2</sup>.
 - gamma (γ): is the discount factor parameter.
 
@@ -110,7 +112,8 @@ Eric Wiewiora<br>
 ```python
 def learn_wights(s, s_p, r):
         delta = compute_delta(s, s_p, r, gamma)
-        w += alpha * delta * z
+        w += alpha * (delta * z - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
+        v += alpha_v * (delta * z - np.dot(x, v) * x)
 ```
 
 
