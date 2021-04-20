@@ -73,30 +73,45 @@ from the past affects the current update.
 #### Variable naming conventions
 - **w**: is the main weight vector being learned<sup>1</sup>.
 - **v**: is the secondary weight vector learned by Gradient-TD algorithms<sup>1</sup>.
-- delta (𝛿): is a numpy array or scalar representing the td-error, which in the full bootstrapping case, is equal to the
-  reward plus the value of the next state, minus the value of the current state.
-  delta is a scalar in the case that one policy is learned and is a numpy array in the case that multiple target 
-  policies are learned. 
+- **z**: is the eligibility trace vector<sup>1</sup>.
+- delta (𝛿): is the td-error, which in the full bootstrapping case, is equal to the reward plus the value of the next 
+  state minus the value of the current state<sup>2</sup>.
 - s: is the current state (scalar).
 - s_p: is the next state (scalar).
-- r: is the reward (numpy array or scalar, similar to delta).
-- **z**: is the eligibility trace vector (a matrix in the case where multiple target policies are learned).
+- r: is the reward<sup>2</sup>.
+- gamma (γ): is the discount factor parameter.
 
-> <sub>1: a matrix in the case of multiple target policies.</sub>
+> <sub>1: a matrix in the case of multiple target policies.</sub> </br>
+> <sub>2: numpy array in the case that multiple target policies are learned.</sub>
 
 <a name='td'></a>
 ### Off-policy TD
 
-**Paper** [Off-Policy Temporal-Difference Learning with Function Approximation](https://www.cs.mcgill.ca/~dprecup/publications/PSD-01.pdf)<br>
-**Author** Doina Precup, Richard S. Sutton, Sanjoy Dasgupta<br>
+**Paper** [Off-Policy Temporal-Difference Learning with Function Approximation](
+https://www.cs.mcgill.ca/~dprecup/publications/PSD-01.pdf)<br>
+**Authors** Doina Precup, Richard S. Sutton, Sanjoy Dasgupta<br>
 
-#### Main update rule:
+#### Main update rules:
 ```python
 def learn_wights(s, s_p, r):
         delta = compute_delta(s, s_p, r, gamma)
         w += alpha * delta * z
 ```
-where s and s_p are the current and next states, r is the reward, and gamma is the discount factor parameter
+
+### Gradient-TD family
+#### GTD
+
+**Paper** [Off-Policy Temporal-Difference Learning with Function Approximation](
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.160.6170&rep=rep1&type=pdf)<br>
+**Authors** Richard S. Sutton, Hamid Reza Maei, Doina Precup, Shalabh Bhatnagar, David Silver, Csaba Szepesvàri,
+Eric Wiewiora<br>
+
+#### Main update rules:
+```python
+def learn_wights(s, s_p, r):
+        delta = compute_delta(s, s_p, r, gamma)
+        w += alpha * delta * z
+```
 
 
 
