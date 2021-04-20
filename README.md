@@ -93,7 +93,6 @@ from the past affects the current update.
 https://www.cs.mcgill.ca/~dprecup/publications/PSD-01.pdf)<br>
 **Authors** Doina Precup, Richard S. Sutton, Sanjoy Dasgupta<br>
 
-#### Main update rules:
 ```python
 def learn_wights(s, s_p, r):
         delta = compute_delta(s, s_p, r, gamma)
@@ -108,7 +107,6 @@ http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.160.6170&rep=rep1&type=
 **Authors** Richard S. Sutton, Hamid Reza Maei, Doina Precup, Shalabh Bhatnagar, David Silver, Csaba Szepesvàri,
 Eric Wiewiora<br>
 
-#### Main update rules:
 ```python
 def learn_wights(s, s_p, r):
         delta = compute_delta(s, s_p, r, gamma)
