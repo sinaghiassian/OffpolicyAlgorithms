@@ -18,10 +18,11 @@ This repository includes the code for the "empirical off-policy" paper.
 - **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
 - **[Algorithms](#algorithms)**
     - **[Algorithm Glossary](#glossary)**
-    - TD: [Off-policy TD](#td), [GTD](#gtd) , [GTD](#gtd2), [Emphatic TD](#etd), [Emphatic TDβ](#etdb)
-    - Variable Lmbda: [TB](#tb), [ABTD](#abtd), [Vtrace](#vtrace) 
-    - Gradient: [HTD](#htd), [PGTD2](#pgdt2), [TDRC](#tdrc)
-    - LS: [HTD](#lsetd), [LSTD](#lstd)
+    - TD: [Off-policy TD](#td)
+    - Gradient-TD family : [GTD](#gtd) , [GTD](#gtd2), [HTD](#htd), [PGTD2](#pgdt2), [TDRC](#tdrc)
+    - Emphatic-TD family: [Emphatic TD](#etd), [Emphatic TDβ](#etdb)  
+    - Variable-λ family: [TB](#tb), [Vtrace](#vtrace), [ABTD](#abtd)
+    - Least squared family: [LSTD](#lstd), [LSETD](#lsetd)
 - **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
 - **[Tasks](#tasks)** : [Collision](#collision), [Hallway proximity](#hallway_proximity), 
   [High variance hallway proximity](#highvar_hallway_proximity)
@@ -55,8 +56,14 @@ approximates the value function.
 
 <a name='glossary'></a>
 ### Algorithm Glossary
+> Here, we briefly explain all the symbols and variables names that we use in our implementation.
 
 #### parameters
+- Common parameters of all algorithms:
+  - Alpha (α): is the step size for the main learned weight vector `w`.
+  - 
+
+
 #### rules
 
 <a name='td'></a>
