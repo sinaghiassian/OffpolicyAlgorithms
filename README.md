@@ -82,7 +82,8 @@ from the past affects the current update.
 - r: is the reward (numpy array or scalar, similar to delta).
 - **z**: is the eligibility trace vector (a matrix in the case where multiple target policies are learned).
 
-> 1: a matrix in the case of multiple target policies.
+> <sub>1: a matrix in the case of multiple target policies.</sub>
+
 <a name='td'></a>
 ### Off-policy TD
 
