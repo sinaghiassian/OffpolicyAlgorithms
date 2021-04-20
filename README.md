@@ -16,8 +16,12 @@ This repository includes the code for the "empirical off-policy" paper.
 
 ## Table of Contents
 - **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
-- **[Algorithms](#algorithms)**: [Off-policy TD](#td), [GTD](#gtd), [Emphatic TD](#ETD), [Emphatic TDβ](#ETDB)
-- **[Algorithm Glossary](#glossary)** :
+- **[Algorithms](#algorithms)**
+    - **[Algorithm Glossary](#glossary)**
+    - TD: [Off-policy TD](#td), [GTD](#gtd) , [GTD](#gtd2), [Emphatic TD](#etd), [Emphatic TDβ](#etdb)
+    - Variable Lmbda: [TB](#tb), [ABTD](#abtd), [Vtrace](#vtrace) 
+    - Gradient: [HTD](#htd), [PGTD2](#pgdt2), [TDRC](#tdrc)
+    - LS: [HTD](#lsetd), [LSTD](#lstd)
 - **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
 - **[Tasks](#tasks)** : [Collision](#collision), [Hallway proximity](#hallway_proximity), 
   [High variance hallway proximity](#highvar_hallway_proximity)
@@ -26,11 +30,11 @@ This repository includes the code for the "empirical off-policy" paper.
 
 <a name='how-to-run'></a>
 ## How to Run the Code
-
 The code can be run in two different ways.
 One way is through *learning.py* that can be used to run small experiments on a local computer.
 The other way is through the files inside the Job directory. 
 We explain each of these approaches below.
+
 
 <a name="learning.py"></a>
 ### Learning.py
@@ -48,6 +52,12 @@ $ learning.py -p1 p1
 ## Algorithms
 Algorithms are used to find a weight vector, **w**, such that the dot product of **w** and the feature vector, 
 approximates the value function. 
+
+<a name='glossary'></a>
+### Algorithm Glossary
+
+#### parameters
+#### rules
 
 <a name='td'></a>
 
