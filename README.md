@@ -22,11 +22,11 @@ This repository includes the code for the "empirical off-policy" paper.
 - **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
 - **[Algorithms](#algorithms)**
     - **[Algorithm Glossary](#glossary)**
-    - TD: [Off-policy TD](#td)
-    - Gradient-TD family : [GTD](#gtd) , [GTD](#gtd2), [HTD](#htd), [PGTD2](#pgdt2), [TDRC](#tdrc)
-    - Emphatic-TD family: [Emphatic TD](#etd), [Emphatic TDβ](#etdb)  
-    - Variable-λ family: [TB](#tb), [Vtrace](#vtrace), [ABTD](#abtd)
-    - Least squared family: [LSTD](#lstd), [LSETD](#lsetd)
+    - **TD**: [Off-policy TD](#td)
+    - **Gradient-TD family**   : [GTD](#gtd) , [GTD](#gtd2), [HTD](#htd), [PGTD2](#pgdt2), [TDRC](#tdrc)
+    - **Emphatic-TD family**   : [Emphatic TD](#etd), [Emphatic TDβ](#etdb)  
+    - **Variable-λ family**    : [TB](#tb), [Vtrace](#vtrace), [ABTD](#abtd)
+    - **Least squared family** : [LSTD](#lstd), [LSETD](#lsetd)
 - **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
 - **[Tasks](#tasks)** : [Collision](#collision), [Hallway proximity](#hallway_proximity), 
   [High variance hallway proximity](#highvar_hallway_proximity)
@@ -36,7 +36,7 @@ This repository includes the code for the "empirical off-policy" paper.
 <a name='how-to-run'></a>
 ## How to Run the Code
 The code can be run in two different ways.
-One way is through *learning.py* that can be used to run small experiments on a local computer.
+One way is through `learning.py` that can be used to run small experiments on a local computer.
 The other way is through the files inside the Job directory. 
 We explain each of these approaches below.
 
@@ -55,7 +55,7 @@ $ learning.py -p1 p1
 
 <a name='algorithms'></a>
 ## Algorithms
-Algorithms are used to find a weight vector, **w**, such that the dot product of **w** and the feature vector, 
+Algorithms are used to find a weight vector, [**w**](#var_w), such that the dot product of [**w**](#var_w) and the feature vector, 
 approximates the value function. 
 
 <a name='glossary'></a>
@@ -64,27 +64,37 @@ Here, we briefly explain all the symbols and variables names that we use in our 
 
 #### meta-parameters
 - Common parameters of all algorithms:
-  - Alpha (α): is the step size that defines how much the weight vector `w` is updated at each time step.
+  - Alpha (α): is the step size that defines how much the weight vector [**w**](#var_w) is updated at each time step.
   - Lambda (λ): is the bootstrapping parameter.
 - Common parameters of Gradient-TD algorithms:    
-  - Alpha<sub>v</sub> (α<sub>v</sub>): is the second step size that defines how much the second weight vector `v` is 
+  - Alpha<sub>v</sub> (α<sub>v</sub>): is the second step size that defines how much the second weight vector [**v**](#var_v) is 
     updated at each time step.
-- Beta (β): is the parameter used by the ETDβ algorithm that defines how much the product of importance sampling ratios
+- Beta (β): is the parameter used by the [**ETDβ**](#etdb) algorithm that defines how much the product of importance sampling ratios
 from the past affects the current update.
-- Zeta (ζ): is only used in the ABTD algorithm. It is similar to the bootstrapping parameter of other algorithms.
-- TDRCBeta (TDRCβ): is the regularization parameter of the TDRC algorithms. This parameter is often set to 1.
+- Zeta (ζ): is only used in the [**ABTD**](#abtd) algorithm. It is similar to the bootstrapping parameter of other algorithms.
+- TDRCBeta (TDRCβ): is the regularization parameter of the [**TDRC**](#tdrc) algorithms. This parameter is often set to 1.
 
 #### Variable naming conventions
+<a name='var_w'></a>
 - **w**: is the main weight vector being learned<sup>1</sup>.
+<a name='var_v'></a>
 - **v**: is the secondary weight vector learned by Gradient-TD algorithms<sup>1</sup>.
+<a name='var_z'></a>
 - **z**: is the eligibility trace vector<sup>1</sup>.
+<a name='var_delta'></a>
 - delta (𝛿): is the td-error, which in the full bootstrapping case, is equal to the reward plus the value of the next 
   state minus the value of the current state<sup>2</sup>.
+<a name='var_s'></a>
 - s: is the current state (scalar).
+<a name='var_x'></a>
 - **x**: is the feature vector of the current state<sup>2</sup>.
+<a name='var_s_p'></a>
 - s_p: is the next state (scalar).
+<a name='var_x_p'></a>
 - **x_p**: is the feature vector of the next state<sup>2</sup>. 
+<a name='var_r'></a>
 - r: is the reward<sup>2</sup>.
+<a name='var_gamma'></a>
 - gamma (γ): is the discount factor parameter.
 
 > <sub>1: a matrix in the case of multiple target policies.</sub> </br>
