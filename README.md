@@ -13,6 +13,9 @@ This repository includes the code for the "empirical off-policy" paper.
     <img src="/Assets/fourRoomGridWorld.gif" />
     <img src="/Assets/chain.gif" />
 </p>
+<p align="center">
+    <img src="/Assets/plots.png" />
+</p>
 
 ## Table of Contents
 - **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
