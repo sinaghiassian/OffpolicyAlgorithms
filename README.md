@@ -24,7 +24,7 @@ This repository includes the code for the "empirical off-policy" paper.
 - **[Algorithms](#algorithms)**
     - **[Algorithm Glossary](#glossary)**
     - **TD**: [Off-policy TD](#td)
-    - **Gradient-TD family**   : [GTD](#gtd) , [GTD](#gtd2), [HTD](#htd), [PGTD2](#pgdt2), [TDRC](#tdrc)
+    - **Gradient-TD family**   : [GTD](#gtd) , [GTD2](#gtd2), [HTD](#htd), [PGTD2](#pgdt2), [TDRC](#tdrc)
     - **Emphatic-TD family**   : [Emphatic TD](#etd), [Emphatic TDβ](#etdb)  
     - **Variable-λ family**    : [TB](#tb), [Vtrace](#vtrace), [ABTD](#abtd)
     - **Least squared family** : [LSTD](#lstd), [LSETD](#lsetd)
