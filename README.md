@@ -77,11 +77,13 @@ from the past affects the current update.
 
 #### Variable naming conventions
 <a name='var_w'></a>
-- **w**: is the main weight vector being learned<sup>1</sup>.
+- **w**: is the main weight vector being learned<sup>1</sup>. ```init: w=0```.
 <a name='var_v'></a>
-- **v**: is the secondary weight vector learned by Gradient-TD algorithms<sup>1</sup>.
+- **v**: is the secondary weight vector learned by Gradient-TD algorithms<sup>1</sup>.  ```init: v=0```.
 <a name='var_z'></a>
-- **z**: is the eligibility trace vector<sup>1</sup>.
+- **z**: is the eligibility trace vector<sup>1</sup>.  ```init: z=0```.
+<a name='var_zb'></a>
+- **z<sub>b</sub>**: is the extra eligibility trace vector used by [**HTD**](#htd)<sup>1</sup>.  ```init: z_b=0```.
 <a name='var_delta'></a>
 - delta (𝛿): is the td-error, which in the full bootstrapping case, is equal to the reward plus the value of the next 
   state minus the value of the current state<sup>2</sup>.
@@ -115,7 +117,7 @@ def learn_wights(s, s_p, r):
 ```
 
 ### Gradient-TD family
-#### GTD
+#### GTD/TDC
 
 **Paper** [Off-Policy Temporal-Difference Learning with Function Approximation](
 http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.160.6170&rep=rep1&type=pdf)<br>
@@ -127,6 +129,34 @@ def learn_wights(s, s_p, r):
         delta = compute_delta(s, s_p, r, gamma)
         w += alpha * (delta * z - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
         v += alpha_v * (delta * z - np.dot(x, v) * x)
+```
+
+#### GTD2
+
+**Paper** [Off-Policy Temporal-Difference Learning with Function Approximation](
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.160.6170&rep=rep1&type=pdf)<br>
+**Authors** Richard S. Sutton, Hamid Reza Maei, Doina Precup, Shalabh Bhatnagar, David Silver, Csaba Szepesvàri,
+Eric Wiewiora<br>
+
+```python
+def learn_wights(s, s_p, r):
+        delta = compute_delta(s, s_p, r, gamma)
+        w += alpha * (np.dot(x, v) * x - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
+        v += alpha_v * (delta * z - np.dot(x, v) * x)
+```
+
+#### HTD
+
+**Paper** [Investigating Practical Linear Temporal Difference Learning](
+https://arxiv.org/pdf/1602.08771.pdf)<br>
+**Authors** Adam White, Martha White<br>
+
+```python
+def learn_wights(s, s_p, r):
+        delta = compute_delta(s, s_p, r, gamma)
+        z_b = gamma * lmbda * z_b + x
+        w += alpha * ((delta * z) + (x - gamma * x_p) * np.dot((z - z_b), v))
+        v += alpha_v * ((delta * z) - (x - gamma * x_p) * np.dot(v, z_b))
 ```
 
 
