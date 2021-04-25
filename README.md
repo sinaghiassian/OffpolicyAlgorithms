@@ -102,11 +102,23 @@ from the past affects the current update.
   divided by the probability of taking the same action under the behavior policy<sup>2</sup>.
 <a name='var_oldrho'></a>
 - old_rho (oldρ): is the importance sampling ratio at the previous time step<sup>2</sup>.
+<a name='var_pi'></a>
+- pi (π): is the probability of taking an action under the target policy at the current time step<sup>2</sup>.
+<a name='var_oldpi'></a>
+- old_pi (oldπ): is the probability of taking an action under the target policy in the previous time step. The variable
+  π itself is the probability of taking action under the target policy at the current time step<sup>2</sup>.
 <a name='var_F'></a>
 - F : is the follow-on trace used by Emphatic-TD algorithms ???link??? <sup>2</sup>.
 <a name='var_m'></a>
 - m : is the emphasis used by Emphatic-TD algorithms ???link??? <sup>2</sup>.
-<a name='var_gamma'></a>
+<a name='var_nu'></a>
+- nu (ν): Variable used by the ABQ/ABTD algorithm. ??more explanation??
+<a name='var_si'></a>
+- xi (ψ): Variable used by the ABQ/ABTD algorithm. ??more explanation??
+<a name='var_mu'></a>
+- mu (μ): is the probability of taking action under the behavior policy at the current time step<sup>2</sup>.
+<a name='var_oldmu'></a>
+- old_mu (oldμ): is the probability of taking an action under the target policy at the previous time step<sup>2</sup>.
 - gamma (γ): is the discount factor parameter.
 
 > <sub>1: a matrix in the case of multiple target policies.</sub> </br>
@@ -230,13 +242,45 @@ w += alpha * delta * z
 
 
 ### Variable-λ algorithms
-#### Tree backup
+#### Tree backup/ Tree backup for prediction
 
-**Paper** [](
-)<br>
-**Authors** <br>
+**Paper** [Eligibility Traces for Off-Policy Policy Evaluation](
+https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&=&context=cs_faculty_pubs&=&sei-redir=1&referer=https%253A%252F%252Fscholar.google.com%252Fscholar%253Fhl%253Den%2526as_sdt%253D0%25252C5%2526q%253Dtree%252Bbackup%252Balgorithm%252Bdoina%252Bprecup%2526btnG%253D#search=%22tree%20backup%20algorithm%20doina%20precup%22)<br>
+**Authors** Doina Precup, Richard S. Sutton, Satinder Singh<br>
+
+The algorithm pseudo-code described below is the prediction variant of the original Tree backup algorithm proposed by 
+Precup, Sutton, and Singh (2000). The prediction variant of the algorithm used here is first derived in the current paper.
+```python
+delta = rho * (r + gamma * np.dot(w, x_p) - np.dot(w, x))
+z = gamma * lmbda * old_pi * z + x
+w = w + alpha * delta * z
+```
+
+#### Vtrace
+
+**Paper** [IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures](
+https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&=&context=cs_faculty_pubs&=&sei-redir=1&referer=https%253A%252F%252Fscholar.google.com%252Fscholar%253Fhl%253Den%2526as_sdt%253D0%25252C5%2526q%253Dtree%252Bbackup%252Balgorithm%252Bdoina%252Bprecup%2526btnG%253D#search=%22tree%20backup%20algorithm%20doina%20precup%22)<br>
+**Authors** Lasse Espeholt,  Hubert Soyer,  Remi Munos,  Karen Simonyan, Volodymyr Mnih, Tom Ward, Yotam Doron, Vlad Firoiu, Tim Harley, Iain Dunning, Shane Legg, Koray Kavukcuoglu <br>
 
 ```python
+delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
+z = min(1, rho) * (gamma * lmbda * z + x)
+w += alpha * delta * z
+```
+
+#### ABQ/ABTD
+
+**Paper** [IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures](
+https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&=&context=cs_faculty_pubs&=&sei-redir=1&referer=https%253A%252F%252Fscholar.google.com%252Fscholar%253Fhl%253Den%2526as_sdt%253D0%25252C5%2526q%253Dtree%252Bbackup%252Balgorithm%252Bdoina%252Bprecup%2526btnG%253D#search=%22tree%20backup%20algorithm%20doina%20precup%22)<br>
+**Authors** Lasse Espeholt,  Hubert Soyer,  Remi Munos,  Karen Simonyan, Volodymyr Mnih, Tom Ward, Yotam Doron, Vlad Firoiu, Tim Harley, Iain Dunning, Shane Legg, Koray Kavukcuoglu <br>
+
+The algorithm pseudo-code described below is the prediction variant of the original Tree backup algorithm proposed by 
+Mahmood, Sutton, and Yu (2017). The prediction variant of the algorithm used here is first derived in the current paper.
+```python
+delta = rho * (r + gamma * np.dot(w, x_p) - np.dot(w, x))
+nu = min(si, 1.0 / max(pi, mu))
+z = x + gamma * old_nu * old_pi * z
+w += alpha * delta * z
 ```
 
 
