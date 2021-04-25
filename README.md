@@ -65,17 +65,17 @@ Here, we briefly explain all the symbols and variables names that we use in our 
 
 #### meta-parameters
 - Common parameters of all algorithms:
-  - **Alpha (α)**: is the step size that defines how much the weight vector [**w**](#var_w) is updated at each time step.
-  - **Lambda (λ)**: is the bootstrapping parameter.
+  - **alpha (α)**: is the step size that defines how much the weight vector [**w**](#var_w) is updated at each time step.
+  - **lambda (λ)**: is the bootstrapping parameter.
 - Common parameters of Gradient-TD algorithms:    
-  - **Alpha<sub>v</sub> (α<sub>v</sub>)**: is the second step size that defines how much the second weight vector [**v**](#var_v) is 
+  - **alpha_v (α<sub>v</sub>)**: is the second step size that defines how much the second weight vector [**v**](#var_v) is 
     updated at each time step.
-- **Beta (β)**: is the parameter used by the [**ETDβ**](#etdb) algorithm that defines how much the product of importance sampling ratios
+- **beta (β)**: is the parameter used by the [**ETDβ**](#etdb) algorithm that defines how much the product of importance sampling ratios
 from the past affects the current update.
-- **Zeta (ζ)**: is only used in the [**ABTD**](#abtd) algorithm. It is similar to the bootstrapping parameter of other algorithms.
-- TDRCBeta (TDRCβ): is the regularization parameter of the [**TDRC**](#tdrc) algorithms. This parameter is often set to 1.
+- **tdrc_beta (tdrc<sub>β</sub>)**: is the regularization parameter of the [**TDRC**](#tdrc) algorithms. This parameter is often set to 1.  
+- **zeta (ζ)**: is only used in the [**ABTD**](#abtd) algorithm. It is similar to the bootstrapping parameter of other algorithms.
 
-#### Variable naming conventions
+#### Algorithms variables
 <a name='var_w'></a>
 - **w**: is the main weight vector being learned<sup>1</sup>. ```init: w=0```.
 <a name='var_v'></a>
@@ -97,6 +97,15 @@ from the past affects the current update.
 - **x_p**: is the feature vector of the next state<sup>2</sup>. 
 <a name='var_r'></a>
 - r: is the reward<sup>2</sup>.
+<a name='var_rho'></a>
+- rho (ρ): is the importance sampling ratio, which is equal to the probability of taking an action under the target policy
+  divided by the probability of taking the same action under the behavior policy<sup>2</sup>.
+<a name='var_oldrho'></a>
+- old_rho (oldρ): is the importance sampling ratio at the previous time step<sup>2</sup>.
+<a name='var_F'></a>
+- F : is the follow-on trace used by Emphatic-TD algorithms ???link??? <sup>2</sup>.
+<a name='var_m'></a>
+- m : is the emphasis used by Emphatic-TD algorithms ???link??? <sup>2</sup>.
 <a name='var_gamma'></a>
 - gamma (γ): is the discount factor parameter.
 
@@ -111,9 +120,9 @@ https://www.cs.mcgill.ca/~dprecup/publications/PSD-01.pdf)<br>
 **Authors** Doina Precup, Richard S. Sutton, Sanjoy Dasgupta<br>
 
 ```python
-def learn_wights(s, s_p, r):
-        delta = compute_delta(s, s_p, r, gamma)
-        w += alpha * delta * z
+delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
+z = rho * (gamma * lmbda * z + x)
+w += alpha * delta * z
 ```
 
 ### Gradient-TD family
@@ -125,10 +134,10 @@ http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.160.6170&rep=rep1&type=
 Eric Wiewiora<br>
 
 ```python
-def learn_wights(s, s_p, r):
-        delta = compute_delta(s, s_p, r, gamma)
-        w += alpha * (delta * z - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
-        v += alpha_v * (delta * z - np.dot(x, v) * x)
+delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
+z = rho * (gamma * lmbda * z + x)
+w += alpha * (delta * z - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
+v += alpha_v * (delta * z - np.dot(x, v) * x)
 ```
 
 #### GTD2
@@ -139,10 +148,10 @@ http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.160.6170&rep=rep1&type=
 Eric Wiewiora<br>
 
 ```python
-def learn_wights(s, s_p, r):
-        delta = compute_delta(s, s_p, r, gamma)
-        w += alpha * (np.dot(x, v) * x - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
-        v += alpha_v * (delta * z - np.dot(x, v) * x)
+delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
+z = rho * (gamma * lmbda * z + x)
+w += alpha * (np.dot(x, v) * x - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
+v += alpha_v * (delta * z - np.dot(x, v) * x)
 ```
 
 #### HTD
@@ -152,13 +161,83 @@ https://arxiv.org/pdf/1602.08771.pdf)<br>
 **Authors** Adam White, Martha White<br>
 
 ```python
-def learn_wights(s, s_p, r):
-        delta = compute_delta(s, s_p, r, gamma)
-        z_b = gamma * lmbda * z_b + x
-        w += alpha * ((delta * z) + (x - gamma * x_p) * np.dot((z - z_b), v))
-        v += alpha_v * ((delta * z) - (x - gamma * x_p) * np.dot(v, z_b))
+delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
+z = rho * (gamma * lmbda * z + x)
+z_b = gamma * lmbda * z_b + x
+w += alpha * ((delta * z) + (x - gamma * x_p) * np.dot((z - z_b), v))
+v += alpha_v * ((delta * z) - (x - gamma * x_p) * np.dot(v, z_b))
 ```
 
+#### Proximal GTD2
+
+**Paper** [Proximal Gradient Temporal Difference Learning: Stable Reinforcement Learning with Polynomial Sample Complexity](
+https://arxiv.org/pdf/2006.03976.pdf)<br>
+**Authors** Bo Liu, Ian Gemp, Mohammad Ghavamzadeh, Ji Liu, Sridhar Mahadevan, Marek Petrik<br>
+
+```python
+delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
+z = rho * (gamma * lmbda * z + x)
+v_mid = v + alpha_v * (delta * z - np.dot(x, v) * x)
+w_mid = w + alpha * (np.dot(x, v) * x - (1 - lmbda) * gamma * np.dot(z, v) * x_p)
+delta_mid = r + gamma * np.dot(w_mid, x_p) - np.dot(w_mid, x)
+w += alpha * (np.dot(x, v_mid) * x - gamma * (1 - lmbda) * np.dot(z, v_mid) * x_p)
+v += alpha_v * (delta_mid * z - np.dot(x, v_mid) * x)
+```
+
+#### TDRC
+
+**Paper** [Gradient Temporal-Difference Learning with Regularized Corrections](
+http://proceedings.mlr.press/v119/ghiassian20a/ghiassian20a.pdf)<br>
+**Authors** Sina Ghiassian, Andrew Patterson, Shivam Garg, Dhawal Gupta, Adam White, Martha White <br>
+
+```python
+delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
+z = rho * (gamma * lmbda * z + x)
+w += alpha * (delta * z - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
+v += alpha_v * (delta * z - np.dot(x, v) * x) - alpha_v * tdrc_beta * v
+```
+
+### Emphatic-TD family
+#### Emphatic TD
+
+**Paper** [An Emphatic Approach to the Problem of Off-policy Temporal-Difference Learning](
+https://jmlr.org/papers/volume17/14-488/14-488.pdf)<br>
+**Authors** Richard S. Sutton, A. Rupam Mahmood, Martha White<br>
+
+```python
+delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
+z = rho * (gamma * lmbda * z + x)
+F = gamma * old_rho * F + 1
+m = lmbda * 1 + (1 - lmbda) * F
+z = rho * (x * m + gamma * lmbda * z)
+w += alpha * delta * z
+```
+
+#### Emphatic TDβ
+
+**Paper** [An Emphatic Approach to the Problem of Off-policy Temporal-Difference Learning](
+https://jmlr.org/papers/volume17/14-488/14-488.pdf)<br>
+**Authors** Richard S. Sutton, A. Rupam Mahmood, Martha White<br>
+
+```python
+delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
+z = rho * (gamma * lmbda * z + x)
+F = beta * old_rho * F + 1
+m = lmbda * 1 + (1 - lmbda) * F
+z = rho * (x * m + gamma * lmbda * z)
+w += alpha * delta * z
+```
+
+
+### Variable-λ algorithms
+#### Tree backup
+
+**Paper** [](
+)<br>
+**Authors** <br>
+
+```python
+```
 
 
 <a name='environment'></a>
