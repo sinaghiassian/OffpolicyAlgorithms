@@ -32,6 +32,9 @@ def plot_sensitivity(ax, alg, alphas, sp, best_performance, stderr, exp_attrs, s
     lbl = f'{alg}'
     ax.set_xscale('log', basex=2)
     color = 'blue' if sp else 'red'
+    if sp not in [0.0, 1.0]:
+        alpha = 0.3
+        color = 'grey'
     ax.plot(alphas, best_performance, label=lbl, linestyle='-', marker='o', color=color,
             linewidth=2, markersize=5, alpha=alpha)
     ax.errorbar(alphas, best_performance, yerr=stderr, ecolor=color, mfc=color,
