@@ -17,8 +17,8 @@ class EightStateOffPolicyRandomFeat(BaseTask, Chain):
         self.behavior_dist = self.load_behavior_dist()
         self.state_values = self.load_state_values()
         self.num_policies = EightStateOffPolicyRandomFeat.num_of_policies()
-        self.ABTD_si_zero = 1
-        self.ABTD_si_max = 2
+        self.ABTD_xi_zero = 1
+        self.ABTD_xi_max = 2
 
     @staticmethod
     def num_of_policies():
