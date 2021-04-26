@@ -137,7 +137,8 @@ z = rho * (gamma * lmbda * z + x)
 w += alpha * delta * z
 ```
 
-### Gradient-TD family
+### Gradient-TD algorithms
+<a name='gtd'></a>
 #### GTD/TDC
 
 **Paper** [Off-Policy Temporal-Difference Learning with Function Approximation](
@@ -152,6 +153,7 @@ w += alpha * (delta * z - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
 v += alpha_v * (delta * z - np.dot(x, v) * x)
 ```
 
+<a name='gtd2'></a>
 #### GTD2
 
 **Paper** [Off-Policy Temporal-Difference Learning with Function Approximation](
@@ -166,6 +168,7 @@ w += alpha * (np.dot(x, v) * x - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
 v += alpha_v * (delta * z - np.dot(x, v) * x)
 ```
 
+<a name='htd'></a>
 #### HTD
 
 **Paper** [Investigating Practical Linear Temporal Difference Learning](
@@ -180,6 +183,7 @@ w += alpha * ((delta * z) + (x - gamma * x_p) * np.dot((z - z_b), v))
 v += alpha_v * ((delta * z) - (x - gamma * x_p) * np.dot(v, z_b))
 ```
 
+<a name='pgtd2'></a>
 #### Proximal GTD2
 
 **Paper** [Proximal Gradient Temporal Difference Learning: Stable Reinforcement Learning with Polynomial Sample Complexity](
@@ -196,6 +200,7 @@ w += alpha * (np.dot(x, v_mid) * x - gamma * (1 - lmbda) * np.dot(z, v_mid) * x_
 v += alpha_v * (delta_mid * z - np.dot(x, v_mid) * x)
 ```
 
+<a name='tdrc'></a>
 #### TDRC
 
 **Paper** [Gradient Temporal-Difference Learning with Regularized Corrections](
@@ -209,7 +214,9 @@ w += alpha * (delta * z - gamma * (1 - lmbda) * np.dot(z, v) * x_p)
 v += alpha_v * (delta * z - np.dot(x, v) * x) - alpha_v * tdrc_beta * v
 ```
 
-### Emphatic-TD family
+### Emphatic-TD algorithms
+
+<a name='etd'></a>
 #### Emphatic TD
 
 **Paper** [An Emphatic Approach to the Problem of Off-policy Temporal-Difference Learning](
@@ -225,6 +232,7 @@ z = rho * (x * m + gamma * lmbda * z)
 w += alpha * delta * z
 ```
 
+<a name='etdb'></a>
 #### Emphatic TDβ
 
 **Paper** [An Emphatic Approach to the Problem of Off-policy Temporal-Difference Learning](
@@ -242,6 +250,8 @@ w += alpha * delta * z
 
 
 ### Variable-λ algorithms
+
+<a name='tb'></a>
 #### Tree backup/ Tree backup for prediction
 
 **Paper** [Eligibility Traces for Off-Policy Policy Evaluation](
@@ -256,6 +266,7 @@ z = gamma * lmbda * old_pi * z + x
 w = w + alpha * delta * z
 ```
 
+<a name='vtrace'></a>
 #### Vtrace
 
 **Paper** [IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures](
@@ -268,6 +279,7 @@ z = min(1, rho) * (gamma * lmbda * z + x)
 w += alpha * delta * z
 ```
 
+<a name='abtd'></a>
 #### ABQ/ABTD
 
 **Paper** [IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures](
