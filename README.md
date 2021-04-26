@@ -12,7 +12,7 @@ This repository includes the code for the "empirical off-policy" paper.
 
 
 <p align="center">
-    <img src="/Assets/fourRoomGridWorld.gif" />
+    <img src="/Assets/FourRoomGridWorld.gif" />
     <img src="/Assets/chain.gif" />
 </p>
 <p align="center">
