@@ -13,8 +13,8 @@ class BaseTask:
         self.behavior_dist = None
         self.state_values = None
         self.num_policies = None
-        self.ABTD_si_zero = None
-        self.ABTD_si_max = None
+        self.ABTD_xi_zero = None
+        self.ABTD_xi_max = None
 
     def stack_feature_rep(self):
         stacked_feature_rep = np.zeros((self.num_policies, self.feature_rep.shape[1], self.feature_rep.shape[0]))

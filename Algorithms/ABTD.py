@@ -9,9 +9,9 @@ class ABTD(BaseVariableLmbda):
         self.old_nu = 0
         if self.task.num_policies > 1:
             self.old_nu = np.zeros(self.task.num_policies)
-        si_zero = self.task.ABTD_si_zero
-        si_max = self.task.ABTD_si_max
-        self.si = 2 * zeta * si_zero + max(0, 2 * zeta - 1) * (si_max - 2 * si_zero)
+        xi_zero = self.task.ABTD_xi_zero
+        xi_max = self.task.ABTD_xi_max
+        self.xi = 2 * zeta * xi_zero + max(0, 2 * zeta - 1) * (xi_max - 2 * xi_zero)
 
     @staticmethod
     def related_parameters():
@@ -19,7 +19,7 @@ class ABTD(BaseVariableLmbda):
 
     def learn_single_policy(self, s, s_p, r, is_terminal):
         delta, alpha, x, x_p, rho, pi, mu = super().learn_single_policy(s, s_p, r, is_terminal)
-        nu = min(self.si, 1.0 / max(pi, mu))
+        nu = min(self.xi, 1.0 / max(pi, mu))
         self.z = x + self.gamma * self.old_nu * self.old_pi * self.z
         self.w += alpha * delta * self.z
         self.old_nu = nu
@@ -36,9 +36,9 @@ class ABTD(BaseVariableLmbda):
         self.gamma_vec_t = self.gamma_vec_tp
 
     def compute_nu_for_multiple_policies(self, pi, mu):
-        si_vec = np.ones(self.task.num_policies) * self.si
+        xi_vec = np.ones(self.task.num_policies) * self.xi
         max_vec = 1.0 / np.maximum.reduce([pi, mu])
-        return np.minimum.reduce([max_vec, si_vec])
+        return np.minimum.reduce([max_vec, xi_vec])
 
     def reset(self):
         super().reset()
