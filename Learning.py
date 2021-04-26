@@ -46,7 +46,7 @@ def learn(config: Configuration):
                 agent.reset()
                 continue
             agent.state = agent.next_state
-        print(np.mean(rmsve_of_run, axis=0))
+        # print(np.mean(rmsve_of_run, axis=0))
         rmsve[:, :, run] = rmsve_of_run
     rmsve_of_runs = np.transpose(np.mean(rmsve, axis=0))  # Average over all policies.
     save_result(config.save_path, '_RMSVE_mean_over_runs', np.mean(rmsve_of_runs, axis=0), params, config.rerun)
