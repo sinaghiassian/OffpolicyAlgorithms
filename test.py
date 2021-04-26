@@ -15,13 +15,17 @@ if __name__ == "__main__":
 
     frames = []
     env = FourRoomGridWorld()
-    env = Chain()
+    # env = Chain()
     env.reset()
-    for step in range(100):
-        a = np.random.randint(0, 2)
+    actions = [2, 2, 0, 0, 0, 3, 3, 1, 1, 1, 2, 2, 2, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 3, 1, 1, 2, 2, 2, 0, 0, 2, 2, 2, 2,
+               2, 1, 1, 1, 1, 1, 1, 1
+        , 2, 2, 2, 3, 1, 1, 3, 3, 3, 3, 3, 0, 3, 3, 1, 3, 3, 3, 3]
+    actions = actions * 1
+    for step in range(len(actions)):
+        a = actions[step]
         next_state, r, is_terminal, info = env.step(a)
         state = next_state
         frames.append(env.render(mode=render_mode))
         if is_terminal:
             env.reset()
-    utils.generate_gif(frames, 'Assets/chain.gif', size=(30, 180, 3),duration=1/10)
+    utils.generate_gif(frames, 'Assets/FourRoomGridWorld_1.gif', size=(180, 180, 3), duration=1 / 20)
