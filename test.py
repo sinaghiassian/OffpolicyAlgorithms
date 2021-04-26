@@ -28,4 +28,4 @@ if __name__ == "__main__":
         frames.append(env.render(mode=render_mode))
         if is_terminal:
             env.reset()
-    utils.generate_gif(frames, 'Assets/FourRoomGridWorld_1.gif', size=(180, 180, 3), duration=1 / 20)
+    utils.generate_gif(frames, 'Assets/FourRoomGridWorld.gif', size=(180, 180, 3), duration=1 / 20)
