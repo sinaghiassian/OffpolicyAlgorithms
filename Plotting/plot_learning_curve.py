@@ -18,7 +18,9 @@ def load_data(alg, exp, best_params, postfix=''):
     return mean_lc, stderr_lc
 
 
-def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time=False):
+def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time=False, is_smoothed=False,
+              smoothing_window=1):
+    zoomed_in = True if is_smoothed else False
     alpha = 1.0
     if PLOT_RERUN_AND_ORIG:
         alpha = 1.0 if second_time else 0.5
@@ -27,6 +29,9 @@ def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time
     # if alg == 'TD':
     #     color = 'grey'
     #     alpha = 0.7
+    if is_smoothed:
+        mean_lc = np.convolve(mean_lc, np.ones(smoothing_window)/smoothing_window, mode='valid')
+        mean_stderr = np.convolve(mean_stderr, np.ones(smoothing_window)/smoothing_window, mode='valid')
     ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=color, alpha=alpha)
     ax.fill_between(np.arange(mean_lc.shape[0]), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2,
                     color=color, alpha=0.1*alpha)
@@ -37,11 +42,15 @@ def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time
     ax.spines['right'].set_visible(False)
     ax.set_xlim(exp_attrs.x_lim)
     ax.set_ylim(exp_attrs.y_lim)
+    if zoomed_in:
+        ax.set_ylim([0.0, 0.4])
+    else:
+        ax.yaxis.set_ticks(exp_attrs.y_axis_ticks)
     ax.xaxis.set_ticks(exp_attrs.x_axis_ticks)
     ax.set_xticklabels(exp_attrs.x_tick_labels, fontsize=25)
-    ax.yaxis.set_ticks(exp_attrs.y_axis_ticks)
     ax.tick_params(axis='y', which='major', labelsize=exp_attrs.size_of_labels)
-
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
 
 def get_ls_rmsve(alg, exp, sp):
     res_path = os.path.join(os.getcwd(), 'Results', exp, alg)
@@ -62,6 +71,8 @@ def plot_ls_solution(ax, ls_rmsve, alg, sp):
 
 
 def plot_learning_curve(**kwargs):
+    is_smoothed = True if 'is_smoothed' in kwargs else False
+    smoothing_window = kwargs['smoothing_window'] if 'smoothing_window' in kwargs else 1
     for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in kwargs['auc_or_final']:
@@ -77,11 +88,13 @@ def plot_learning_curve(**kwargs):
                         prefix = RERUN_POSTFIX if RERUN else ''
                         current_params = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
                         mean_lc, mean_stderr = load_data(alg, exp, current_params, prefix)
-                        plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs)
+                        plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs, second_time=False,
+                                  is_smoothed=is_smoothed, smoothing_window=smoothing_window)
                         if PLOT_RERUN_AND_ORIG:
                             prefix = RERUN_POSTFIX
                             mean_lc, mean_stderr = load_data(alg, exp, current_params, prefix)
-                            plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs, True)
+                            plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs, second_time=True,
+                                      is_smoothed=is_smoothed, smoothing_window=smoothing_window)
                         if not os.path.exists(save_dir):
                             os.makedirs(save_dir, exist_ok=True)
                         pylab.gca().set_rasterized(True)
