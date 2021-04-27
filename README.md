@@ -294,7 +294,7 @@ xi_zero = 1
 xi_max = 2
 xi = 2 * zeta * xi_zero + max(0, 2 * zeta - 1) * (xi_max - 2 * xi_zero)
 ```
-`xi_zero` and `xi_max` are specifically computed here for the in the Collision problem. 
+`xi_zero` and `xi_max` are specifically computed here for the Collision problem. 
 To see how these are computed for the task see the original paper referenced above.
 
 ```python
