@@ -282,15 +282,25 @@ w += alpha * delta * z
 <a name='abtd'></a>
 #### ABQ/ABTD
 
-**Paper** [IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures](
+**Paper** [https://arxiv.org/pdf/1702.03006.pdf](
 https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&=&context=cs_faculty_pubs&=&sei-redir=1&referer=https%253A%252F%252Fscholar.google.com%252Fscholar%253Fhl%253Den%2526as_sdt%253D0%25252C5%2526q%253Dtree%252Bbackup%252Balgorithm%252Bdoina%252Bprecup%2526btnG%253D#search=%22tree%20backup%20algorithm%20doina%20precup%22)<br>
-**Authors** Lasse Espeholt,  Hubert Soyer,  Remi Munos,  Karen Simonyan, Volodymyr Mnih, Tom Ward, Yotam Doron, Vlad Firoiu, Tim Harley, Iain Dunning, Shane Legg, Koray Kavukcuoglu <br>
+**Authors** A. Rupam Mahmood, Huizhen Yu, Richard S. Sutton <br>
 
 The algorithm pseudo-code described below is the prediction variant of the original Tree backup algorithm proposed by 
 Mahmood, Sutton, and Yu (2017). The prediction variant of the algorithm used here is first derived in the current paper.
+This algorithm first needs to compute the following:
 ```python
+xi_zero = 1
+xi_max = 2
+xi = 2 * zeta * xi_zero + max(0, 2 * zeta - 1) * (xi_max - 2 * xi_zero)
+```
+`xi_zero` and `xi_max` are specifically computed here for the in the Collision problem. 
+To see how these are computed for the task see the original paper referenced above.
+
+```python
+nu = min(xi, 1.0 / max(pi, mu))
 delta = rho * (r + gamma * np.dot(w, x_p) - np.dot(w, x))
-nu = min(si, 1.0 / max(pi, mu))
+nu = min(xi, 1.0 / max(pi, mu))
 z = x + gamma * old_nu * old_pi * z
 w += alpha * delta * z
 ```
