@@ -77,52 +77,50 @@ from the past affects the current update.
 
 #### Algorithms variables
 <a name='var_w'></a>
-- **w**: is the main weight vector being learned<sup>1</sup>. ```init: w=0```.
+- **w**: is the main weight vector being learned. ```init: w=0```.
 <a name='var_v'></a>
-- **v**: is the secondary weight vector learned by Gradient-TD algorithms<sup>1</sup>.  ```init: v=0```.
+- **v**: is the secondary weight vector learned by Gradient-TD algorithms.  ```init: v=0```.
 <a name='var_z'></a>
-- **z**: is the eligibility trace vector<sup>1</sup>.  ```init: z=0```.
+- **z**: is the eligibility trace vector.  ```init: z=0```.
 <a name='var_zb'></a>
-- **z<sub>b</sub>**: is the extra eligibility trace vector used by [**HTD**](#htd)<sup>1</sup>.  ```init: z_b=0```.
+- **z<sub>b</sub>**: is the extra eligibility trace vector used by [**HTD**](#htd).  ```init: z_b=0```.
 <a name='var_delta'></a>
 - delta (𝛿): is the td-error, which in the full bootstrapping case, is equal to the reward plus the value of the next 
-  state minus the value of the current state<sup>2</sup>.
+  state minus the value of the current state.
 <a name='var_s'></a>
 - s: is the current state (scalar).
 <a name='var_x'></a>
-- **x**: is the feature vector of the current state<sup>2</sup>.
+- **x**: is the feature vector of the current state.
 <a name='var_s_p'></a>
 - s_p: is the next state (scalar).
 <a name='var_x_p'></a>
-- **x_p**: is the feature vector of the next state<sup>2</sup>. 
+- **x_p**: is the feature vector of the next state. 
 <a name='var_r'></a>
-- r: is the reward<sup>2</sup>.
+- r: is the reward.
 <a name='var_rho'></a>
 - rho (ρ): is the importance sampling ratio, which is equal to the probability of taking an action under the target policy
-  divided by the probability of taking the same action under the behavior policy<sup>2</sup>.
+  divided by the probability of taking the same action under the behavior policy.
 <a name='var_oldrho'></a>
-- old_rho (oldρ): is the importance sampling ratio at the previous time step<sup>2</sup>.
+- old_rho (oldρ): is the importance sampling ratio at the previous time step.
 <a name='var_pi'></a>
-- pi (π): is the probability of taking an action under the target policy at the current time step<sup>2</sup>.
+- pi (π): is the probability of taking an action under the target policy at the current time step.
 <a name='var_oldpi'></a>
 - old_pi (oldπ): is the probability of taking an action under the target policy in the previous time step. The variable
-  π itself is the probability of taking action under the target policy at the current time step<sup>2</sup>.
+  π itself is the probability of taking action under the target policy at the current time step.
 <a name='var_F'></a>
-- F : is the follow-on trace used by Emphatic-TD algorithms ???link??? <sup>2</sup>.
+- F : is the follow-on trace used by Emphatic-TD algorithms ???link??? .
 <a name='var_m'></a>
-- m : is the emphasis used by Emphatic-TD algorithms ???link??? <sup>2</sup>.
+- m : is the emphasis used by Emphatic-TD algorithms ???link??? .
 <a name='var_nu'></a>
 - nu (ν): Variable used by the ABQ/ABTD algorithm. ??more explanation??
 <a name='var_si'></a>
 - xi (ψ): Variable used by the ABQ/ABTD algorithm. ??more explanation??
 <a name='var_mu'></a>
-- mu (μ): is the probability of taking action under the behavior policy at the current time step<sup>2</sup>.
+- mu (μ): is the probability of taking action under the behavior policy at the current time step.
 <a name='var_oldmu'></a>
-- old_mu (oldμ): is the probability of taking an action under the target policy at the previous time step<sup>2</sup>.
+- old_mu (oldμ): is the probability of taking an action under the target policy at the previous time step.
 - gamma (γ): is the discount factor parameter.
 
-> <sub>1: a matrix in the case of multiple target policies.</sub> </br>
-> <sub>2: numpy array in the case that multiple target policies are learned.</sub>
 
 <a name='td'></a>
 ### Off-policy TD
