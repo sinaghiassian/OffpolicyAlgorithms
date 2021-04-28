@@ -19,7 +19,7 @@ default_params = ImmutableDict(
         # 'environment': 'FourRoomGridWorld',
         # 'exp': '1HVFourRoom',
 
-        'save_value_function': True,
+        'save_value_function': False,
         'sub_sample': 1,
         'num_of_runs': 50,
         'num_steps': 20000,

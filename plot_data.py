@@ -12,27 +12,27 @@ from Plotting.plot_waterfall import plot_waterfall_scatter
 from process_data import process_data
 
 
-func_to_run = 'collision_sensitivity_curves_for_many_lambdas'
+func_to_run = 'process_data'
 exps = ['FirstChain']
 
 # region process data
 if func_to_run == 'process_data':
-    exps = ['FirstChain']
-    # algs = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD']
-    algs = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB']
+    exps = ['FirstFourRoom']
+    algs = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD']
     auc_or_final = ['auc', 'final']
-    # sp_list = [0.0, 0.1, 0.2, 0.3, 0.5, 0.75, 0.875, 0.9375, 0.96875, 0.984375, 1.0]
-    sp_list = [0.1, 0.2, 0.3]
+    sp_list = [0.1, 0.2, 0.3, 0.5, 0.75, 0.875, 0.9375, 0.96875, 0.984375]
+    # sp_list = [0.1, 0.2, 0.3]
     process_data(exps=exps, algs=algs, auc_or_final=auc_or_final, sp_list=sp_list)
 # endregion
 
 # region learning curves
 if func_to_run == 'collision_learning_curves_for_all_extra_params_full_bootstrapping':
-    algs = ['GTD2', 'PGTD2', 'LSTD']
+    algs = ['PGTD2', 'GTD', 'LSTD']
     sp_list = [0.0]
     fig_size = (10, 4)
     auc_or_final = ['auc']
-    tp_list = [0.015625, 0.0625, 0.25, 1.0, 4.0, 16.0, 64.0, 256.0]
+    # tp_list = [0.015625, 0.0625, 0.25, 1.0, 4.0, 16.0, 64.0, 256.0]
+    tp_list = [0.25]
     plot_all_learning_curves_for_third(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size,
                                        auc_or_final=auc_or_final, tp_list=tp_list)
 if func_to_run == 'collision_learning_curve_for_two_lambdas':
