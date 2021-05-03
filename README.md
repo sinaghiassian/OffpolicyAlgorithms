@@ -75,16 +75,6 @@ like the following:
 python3 Learning.py --algorithm TD --task EightStateOffPolicyRandomFeat --alpha 0.01
 ```
 
-<a name="learning.py"></a>
-### Learning.py
-```sh
-$ learning.py -p1 p1
-```
-
-<a name="job_builder"></a>
-### Job Builder
-
-
 
 
 <a name='algorithms'></a>
