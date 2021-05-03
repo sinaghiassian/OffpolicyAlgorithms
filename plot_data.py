@@ -17,7 +17,7 @@ exps = ['FirstChain']
 
 # region process data
 if func_to_run == 'process_data':
-    exps = ['FirstFourRoom']
+    exps = ['1HVFourRoom']
     algs = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD']
     auc_or_final = ['auc', 'final']
     sp_list = [0.1, 0.2, 0.3, 0.5, 0.75, 0.875, 0.9375, 0.96875, 0.984375]

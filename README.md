@@ -20,6 +20,7 @@ This repository includes the code for the "empirical off-policy" paper.
 </p>
 
 ## Table of Contents
+- **[Specification of dependencies](#specifications)**
 - **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
 - **[Algorithms](#algorithms)**
     - **[Algorithm Glossary](#glossary)**
@@ -32,7 +33,17 @@ This repository includes the code for the "empirical off-policy" paper.
 - **[Tasks](#tasks)** : [Collision](#collision), [Hallway proximity](#hallway_proximity), 
   [High variance hallway proximity](#highvar_hallway_proximity)
 
-
+<a name='specifications'></a>
+## Specification of dependencies
+This code requires python 3.5 or above. Packages that are required for running the code are all in the `requirements.txt`
+file. To install these dependencies, run the following command if your pip is set to `python3.x`:
+```text
+pip install requirements.txt
+```
+otherwise, run:
+```text
+pip3 install requirements.txt
+```
 
 <a name='how-to-run'></a>
 ## How to Run the Code
@@ -309,13 +320,43 @@ w += alpha * delta * z
 At the heart of an environment is an MDP.
 The MDP defines the states, actions, rewards, transition probability matrix, and the discount factor.
 
-<a name="four_room_grid_world"></a>
+<a name="chain_env"></a>
+### Chain Environment and the Collision Task
+An MDP with eight states is at the center of the environment.
+The agent starts in one of the four leftmost states equiprobably.
+One action in available in these states: forward. Two actions are available in the four rightmost states: 
+forward and turn. By taking the forward action, the agent transitions one state to the right and by taking the turn 
+action, it moves away from the wall and transitions to one of the four leftmost states equiprobably. Rewards are all 
+zero except for taking forward in state 8 for which a +1 is emitted. Termination function returns (discount factor) 
+0.9 for all transitions except for taking turn in any state or taking forward in state 8, for which a zero is returned.
 
+```python
+env = Chain()
+env.reset() # returns to one of the four leftmost states with equal probability.
+for step in range(1, 1000):
+    action = np.random.randint(0, 2) #  right=0, turn=1
+    sp, r, is_wall = env.step(action=action)
+    if is_wall:
+        env.reset()
+```
+
+We applied eleven algorithms to the Collision task: Off-policy TD(λ), GTD(λ), GTD2(λ), HTD(λ), Proximal GTD2(λ), TDRC(λ)
+, ETD(λ), ETD(λ,β), Tree Backup(λ), Vtrace(λ), ABTD(ζ). The target policy was π(forward|·) = 1.0. The behavior policy 
+was b(forward|·) = 1.0 for the four leftmost states and b(forward|·) = 0.5, b(retreat|·) = 0.5 for the four rightmost 
+states. Each algorithm was applied to the task with a range of parameters. We refer to an algorithm with a specific 
+parameter setting as an instance of that algorithm. Each algorithm instance was applied to the Collision task for 
+20,000 time steps, which we call a run. We repeated the 20,000 time steps for fifty runs. All instances of all 
+algorithms experienced the same fifty trajectories.
+
+linear function approximation is used to approximate the true value function. Each state was represented by a six 
+dimensional binary feature vector. The feature representation of each state had exactly three zeros and three ones. 
+The locations of the zeros and ones were selected randomly. This was repeated once at the beginning of each run, 
+meaning that the representation for each run is most probably different from other runs. At the beginning of each run 
+we set **w**<sub>0</sub> = **0** and thus the error would be the same for all algorithms at the beginning of the runs.
+
+<a name="four_room_grid_world"></a>
 ### Four Room Grid World
 
-<a name="four_room_grid_world"></a>
-
-### Chain
 
 <a name='tasks'></a>
 ## Tasks
