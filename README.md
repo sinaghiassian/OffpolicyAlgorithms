@@ -20,7 +20,7 @@ This repository includes the code for the "empirical off-policy" paper.
 </p>
 
 ## Table of Contents
-- **[Specification of dependencies](#specifications)**
+- **[Specification of Dependencies](#specifications)**
 - **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
 - **[Algorithms](#algorithms)**
     - **[Algorithm Glossary](#glossary)**
@@ -34,7 +34,7 @@ This repository includes the code for the "empirical off-policy" paper.
   [High variance hallway proximity](#highvar_hallway_proximity)
 
 <a name='specifications'></a>
-## Specification of dependencies
+## Specification of Dependencies
 This code requires python 3.5 or above. Packages that are required for running the code are all in the `requirements.txt`
 file. To install these dependencies, run the following command if your pip is set to `python3.x`:
 ```text
@@ -50,7 +50,16 @@ pip3 install requirements.txt
 The code can be run in two different ways.
 One way is through `learning.py` that can be used to run small experiments on a local computer.
 The other way is through the files inside the Job directory. 
-We explain each of these approaches below.
+We explain each of these approaches below by means of an example.
+
+### Running on Your Local Machine
+Let's take the following example: applying Off-policy TD(λ) to the Collision task.
+There are multiple ways for doing this.
+The first way is to open a terminal and go into the root directory of the code and run `Learning.py` with proper parameters:
+```
+python3 Learning.py --algorithm TD --task EightStateOffPolicyRandomFeat --num_of_runs 50 --num_steps --environment Chain
+--save_value_function Ture --alpha 0.01 --lmbda 0.9
+```
 
 
 <a name="learning.py"></a>
