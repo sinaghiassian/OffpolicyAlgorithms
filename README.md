@@ -60,7 +60,20 @@ The first way is to open a terminal and go into the root directory of the code a
 python3 Learning.py --algorithm TD --task EightStateOffPolicyRandomFeat --num_of_runs 50 --num_steps --environment Chain
 --save_value_function Ture --alpha 0.01 --lmbda 0.9
 ```
-
+In case any of the parameters are not specified, a default value will be used.
+The default value is set in the `Job` directory, inside the `JobBuilder.py` file.
+This means, the code, can alternatively be run, by setting all the necessary values that an algorithm needs at the top of the `JobBuilder.py` file.
+Note that not all parameters specified in the `default_params` dict are required for all algorithms. For example, the `tdrc_beta` parameter is only
+required to be set for the TDRC(λ) algorithms.
+Once the variables inside the `default_params` dictionary, the code can be run:
+```
+python3 Learning.py
+```
+Or one can choose to specify some parameters in the `default_params` dictionary and specify the rest as command line argumets 
+like the following:
+```
+python3 Learning.py --algorithm TD --task EightStateOffPolicyRandomFeat --alpha 0.01
+```
 
 <a name="learning.py"></a>
 ### Learning.py
