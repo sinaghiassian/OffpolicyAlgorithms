@@ -75,7 +75,54 @@ like the following:
 python3 Learning.py --algorithm TD --task EightStateOffPolicyRandomFeat --alpha 0.01
 ```
 
-
+### Running on Servers with Slurm Workload Managers
+When parameter sweeps are necessary, the code can be run on supercomputers. 
+The current code supports running on servers that use slurm workload managers such as compute canada.
+For exampole, to apply the TD algorithm to the Collision (EightStateOffPolicyRandomFeat) task, with various parameters,
+first you need to create a json file that specifies all the parameters that you would like to run, for example:
+```json
+{
+  "agent": "TD",
+  "environment": "Chain",
+  "task": "EightStateOffPolicyRandomFeat",
+  "number_of_runs": 50,
+  "number_of_steps": 20000,
+  "sub_sample": 1,
+  "meta_parameters": {
+    "alpha": [
+      0.000003814, 0.000007629, 0.000015258, 0.000030517, 0.000061035, 0.000122070, 0.000244140, 0.000488281,
+      0.000976562, 0.001953125, 0.00390625, 0.0078125, 0.015625, 0.03125, 0.0625, 0.125, 0.25, 0.5, 1.0
+    ],
+    "lmbda": [
+      0.1, 0.2, 0.3
+    ]
+  }
+}
+```
+and then run `main.py` using python:
+```
+python3 main.py -f <path_to_the_json_file> -s <kind_of_submission>
+```
+where `kind_of_submission` refers to one of the two ways you can submit your code:
+1) You can request an individual cpu for each of the algorithm instances, where an algorithm instance refers to an 
+algorithm with specific parameters. To request an individual cpu, run the following command:
+```
+python3 main.py -f <path_to_the_json_file> -s cpu
+```   
+2) You can request a node, that we assume includes 40 cpus. If you request a node, the jobs you submit will run in 
+parallel 40 at a time, and once one job is finished, the next one in line will start running.
+This process continues until either all jobs are finished running, or you run out of the time you requested for that node.
+```
+python3 main.py -f <path_to_the_json_file> -s node
+```
+If `path_to_the_json_file` is a directory, then the code will walk into all the subdirectories, and submits jobs for
+all the parameters in the json files that it finds inside those directories sequentially.
+If `path_to_the_json_file` is a file, then the code will submit jobs for all the parameters that it finds inside that 
+single json file.
+Note that you can create a new directory for each experiment that you would like to run, and create directories for each
+of the algorithms you would like to run in that experiment.
+For example, we created a directory called `FirstChain` inside the `Experiments` directory and created one directory
+per algorithm inside the `FirstChain` directory for each of the algorithms and specified a json file in that directory.
 
 <a name='algorithms'></a>
 ## Algorithms
