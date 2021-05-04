@@ -119,6 +119,7 @@ When running each algorithm instance on a single cpu, you need to specify the fo
 where `#SBATCH --account=xxx` requires the account you are using in place of `xxx`,
 `#SBATCH --time=00:15:58` requires the time you want to request for each individual cpu,
 and `#SBATCH --mem=xG` requires the amount of memory in place of x.
+
 2) You can request a node, that we assume includes 40 cpus. If you request a node, the jobs you submit will run in 
 parallel 40 at a time, and once one job is finished, the next one in line will start running.
 This process continues until either all jobs are finished running, or you run out of the time you requested for that node.
