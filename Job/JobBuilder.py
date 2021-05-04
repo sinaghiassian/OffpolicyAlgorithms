@@ -37,7 +37,6 @@ default_params = ImmutableDict(
 
 class JobBuilder:
     def __init__(self, json_path, server_name):
-        self.possible_server_names = ['NIAGARA', 'Niagara', 'niagara', 'CEDAR', 'Cedar', 'cedar']
         self._path = json_path
         self.server_name = server_name
         with open(self._path) as f:
@@ -126,13 +125,13 @@ class JobBuilder:
         return text
 
     def to_shell(self):
-        if self.server_name.upper() == 'NIAGARA':
+        if self.server_name.upper() == 'NODE':
             with open('Job/SubmitJobsTemplates.SL', 'r') as f:
                 text = f.read()
                 for k, v in self._batch_params.items():
                     text = text.replace(f'__{k}__', v)
             return text
-        elif self.server_name.upper() == 'CEDAR':
+        elif self.server_name.upper() == 'CPU':
             with open('Job/SubmitJobsTemplatesCedar.SL', 'r') as f:
                 text = f.read()
                 alg = self._batch_params['ALGORITHM']
@@ -143,13 +142,10 @@ class JobBuilder:
             return text
 
     def run_batch(self):
-        if self.server_name not in self.possible_server_names:
-            print('Code for running on this server does not exist. Please use either Cedar or Niagara.')
-            raise NotImplementedError
-        elif self.server_name.upper() == 'NIAGARA':
-            print('Submitting the ' + self.agent + ' algorithm jobs on Niagara...')
-        elif self.server_name.upper() == 'CEDAR':
-            print('Submitting the ' + self.agent + ' algorithm jobs on Cedar...')
+        if self.server_name.upper() == 'NODE':
+            print('Submitting the ' + self.agent + ' algorithm jobs on nodes...')
+        elif self.server_name.upper() == 'CPU':
+            print('Submitting the ' + self.agent + ' algorithm jobs on individual cpus...')
             with open('Create_Configs.sh', 'wt') as f:
                 f.write(self.create_dat_file())
             time.sleep(1)
@@ -160,7 +156,7 @@ class JobBuilder:
         os.system('sbatch Submit_Jobs.SL')
         time.sleep(1)
         os.remove('Submit_Jobs.SL')
-        if self.server_name.upper() == 'CEDAR':
+        if self.server_name.upper() == 'CPU':
             os.remove('Create_Configs.sh')
             # alg = self._batch_params['ALGORITHM']
             # os.remove(f'exports_{alg}.dat')
