@@ -107,22 +107,52 @@ where `kind_of_submission` refers to one of the two ways you can submit your cod
 1) You can request an individual cpu for each of the algorithm instances, where an algorithm instance refers to an 
 algorithm with specific parameters. To request an individual cpu, run the following command:
 ```
-python3 main.py -f <path_to_the_json_file> -s cpu
-```   
+python3 main.py -f <path_to_the_json_file_or_dir> -s cpu
+```
+When running each algorithm instance on a single cpu, you need to specify the following parameters inside 
+`Job/SubmitJobsTemplatesCedar.SL`:
+```shell
+#SBATCH --account=xxx
+#SBATCH --time=00:15:58
+#SBATCH --mem=3G
+```
+where `#SBATCH --account=xxx` requires the account you are using in place of `xxx`,
+`#SBATCH --time=00:15:58` requires the time you want to request for each individual cpu,
+and `#SBATCH --mem=xG` requires the amount of memory in place of x.
 2) You can request a node, that we assume includes 40 cpus. If you request a node, the jobs you submit will run in 
 parallel 40 at a time, and once one job is finished, the next one in line will start running.
 This process continues until either all jobs are finished running, or you run out of the time you requested for that node.
 ```
-python3 main.py -f <path_to_the_json_file> -s node
+python3 main.py -f <path_to_the_json_file_or_dir> -s node
 ```
-If `path_to_the_json_file` is a directory, then the code will walk into all the subdirectories, and submits jobs for
+When running the jobs on nodes, you need to specify the following parameters inside `Job/SubmitJobsTemplates.SL`:
+```shell
+#SBATCH --account=xxx
+#SBATCH --time=11:58:59
+#SBATCH --nodes=x
+#SBATCH --ntasks-per-node=40
+```
+where `#SBATCH --account=xxx` requires the account you are using in place of `xxx`,
+`#SBATCH --time=11:58:59` requires the time you want to request for each individual node, each of which includes 40 cpus in this case,
+and `#SBATCH --nodes=x` requires the number of nodes you would like to request in place of x.
+If you request more than one node, your jobs will be spread across nodes, 40 on each node, and once each job finishes, 
+the next job in the queue will start running.
+`#SBATCH --ntasks-per-node=xx` is the number of jobs you would like to run concurrently on a single node. In this case,
+for example, we set it to 40.
+
+If `path_to_the_json_file_or_dir` is a directory, then the code will walk into all the subdirectories, and submits jobs for
 all the parameters in the json files that it finds inside those directories sequentially.
-If `path_to_the_json_file` is a file, then the code will submit jobs for all the parameters that it finds inside that 
+If `path_to_the_json_file_or_dir` is a file, then the code will submit jobs for all the parameters that it finds inside that 
 single json file.
 Note that you can create a new directory for each experiment that you would like to run, and create directories for each
 of the algorithms you would like to run in that experiment.
 For example, we created a directory called `FirstChain` inside the `Experiments` directory and created one directory
 per algorithm inside the `FirstChain` directory for each of the algorithms and specified a json file in that directory.
+It is worth noting that whatever parameter that is not specified in the json file will be read from the `default_params`
+dictionary inside the `Job` directory inside the `JobBuilder.py` file.
+
+
+
 
 <a name='algorithms'></a>
 ## Algorithms
