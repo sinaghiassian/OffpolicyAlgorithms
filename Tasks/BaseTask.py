@@ -23,16 +23,17 @@ class BaseTask:
             stacked_feature_rep[:, :, i] = stacked_x
         return stacked_feature_rep
 
-    @abstractmethod
     def get_active_policies(self, s):
+        ...
+
+    def get_terminal_policies(self, s):
+        ...
+
+    def generate_behavior_dist(self, total_steps):
         ...
 
     @staticmethod
     def num_of_policies():
-        ...
-
-    @abstractmethod
-    def get_terminal_policies(self, s):
         ...
 
     @abstractmethod
@@ -70,10 +71,6 @@ class BaseTask:
     @abstractmethod
     def load_state_values(self):
         return self.state_values
-
-    @abstractmethod
-    def generate_behavior_dist(self, total_steps):
-        ...
 
     def __str__(self):
         return f'task:{type(self).__name__}'
