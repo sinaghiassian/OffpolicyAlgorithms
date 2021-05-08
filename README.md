@@ -412,13 +412,19 @@ The MDP defines the states, actions, rewards, transition probability matrix, and
 
 <a name="chain_env"></a>
 ### Chain Environment and the Collision Task
-An MDP with eight states is at the center of the environment.
-The agent starts in one of the four leftmost states equiprobably.
-One action in available in these states: forward. Two actions are available in the four rightmost states: 
+<br>
+<p align="center">
+    <img src="/Assets/eight_state_collision.jpg" />
+</p>
+<br>
+An MDP with eight states is at the heart of the task.
+The agent starts in one of the four leftmost states with equal probability.
+One action in available in the four leftmost states: forward. Two actions are available in the four rightmost states: 
 forward and turn. By taking the forward action, the agent transitions one state to the right and by taking the turn 
 action, it moves away from the wall and transitions to one of the four leftmost states equiprobably. Rewards are all 
-zero except for taking forward in state 8 for which a +1 is emitted. Termination function returns (discount factor) 
-0.9 for all transitions except for taking turn in any state or taking forward in state 8, for which a zero is returned.
+zero except for taking forward in state 8 for which a +1 is emitted. Termination function (discount factor) returns
+0.9 for all transitions except for taking turn in any state or taking forward in state 8, for which the termination
+function returns zero.
 
 ```python
 env = Chain()
@@ -438,7 +444,7 @@ parameter setting as an instance of that algorithm. Each algorithm instance was 
 20,000 time steps, which we call a run. We repeated the 20,000 time steps for fifty runs. All instances of all 
 algorithms experienced the same fifty trajectories.
 
-linear function approximation is used to approximate the true value function. Each state was represented by a six 
+Linear function approximation was used to approximate the true value function. Each state was represented by a six 
 dimensional binary feature vector. The feature representation of each state had exactly three zeros and three ones. 
 The locations of the zeros and ones were selected randomly. This was repeated once at the beginning of each run, 
 meaning that the representation for each run is most probably different from other runs. At the beginning of each run 
