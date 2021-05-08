@@ -450,6 +450,51 @@ The locations of the zeros and ones were selected randomly. This was repeated on
 meaning that the representation for each run is most probably different from other runs. At the beginning of each run 
 we set **w**<sub>0</sub> = **0** and thus the error would be the same for all algorithms at the beginning of the runs.
 
+#### Feature representation
+The feature representation for the collision task is an array of size `8, 6, 50`, where 8 corresponds to the number of 
+states, 6 correponds to the number of features for each state, and 50 corresponds to the number of runs.
+The feature representations used for the set of results presented here and in the paper is saved in:
+```
+Resources/EightStateCollision/feature_rep.npy
+```
+Note that the feature representaiton for each run is different in the Collision task.
+For example, the feature representation for the first run is:
+```
+array([[0., 0., 1., 0., 1., 1.],
+       [1., 1., 1., 0., 0., 0.],
+       [0., 1., 1., 0., 0., 1.],
+       [1., 0., 1., 1., 0., 0.],
+       [1., 1., 0., 0., 1., 0.],
+       [0., 1., 1., 1., 0., 0.],
+       [1., 1., 0., 0., 0., 1.],
+       [1., 0., 1., 0., 0., 1.]])
+```
+
+#### State distribution induced by the behavior policy
+To compute an approximation of the mean squared value error at each time step, weighting induced by the behavior policy
+was approximated by following the behavior policy for 20,000,000 time step and computing the fraction of time spent in
+each state. The resulting distribution is saved in:
+```
+Resources/EightStateCollision/d_mu.npy
+```
+`d_mu.npy` is a one dimensional numpy array of size `8`:
+```
+array([0.05715078, 0.1142799 , 0.17142456, 0.22856842, 0.22856842, 0.11428067, 0.05715311, 0.02857415])
+```
+
+#### True state values
+To compute an approximation of the mean squared value error at each time step, we need the true state values.
+Luckily, for the Collision task, these values are easy to compute.
+We computed these true values by following the target policy from each state to the wall once.
+The resulting values are saved in:
+```
+Resources/EightStateCollision/state_values.npy
+```
+`state_values.npy` is a one dimensional numpy array of size `8`:
+```
+array([0.4782969, 0.531441, 0.59049, 0.6561, 0.729, 0.81, 0.9, 1])
+```
+
 <a name="four_room_grid_world"></a>
 ### Four Room Grid World
 
