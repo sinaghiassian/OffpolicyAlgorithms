@@ -414,7 +414,7 @@ The MDP defines the states, actions, rewards, transition probability matrix, and
 ### Chain Environment and the Collision Task
 <br>
 <p align="center">
-    <img width="500" src="/Assets/eight_state_collision.jpg" />
+    <img width="400" src="/Assets/eight_state_collision.jpg" />
 </p>
 <br>
 An MDP with eight states is at the heart of the task.
