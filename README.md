@@ -430,7 +430,7 @@ function returns zero.
 env = Chain()
 env.reset() # returns to one of the four leftmost states with equal probability.
 for step in range(1, 1000):
-    action = np.random.randint(0, 2) #  right=0, turn=1
+    action = np.random.randint(0, 2) #  forward=0, turn=1
     sp, r, is_wall = env.step(action=action)
     if is_wall:
         env.reset()
