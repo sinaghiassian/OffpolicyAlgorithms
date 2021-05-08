@@ -57,7 +57,7 @@ Let's take the following example: applying Off-policy TD(λ) to the Collision ta
 There are multiple ways for doing this.
 The first way is to open a terminal and go into the root directory of the code and run `Learning.py` with proper parameters:
 ```
-python3 Learning.py --algorithm TD --task EightStateOffPolicyRandomFeat --num_of_runs 50 --num_steps --environment Chain
+python3 Learning.py --algorithm TD --task EightStateCollision --num_of_runs 50 --num_steps --environment Chain
 --save_value_function Ture --alpha 0.01 --lmbda 0.9
 ```
 In case any of the parameters are not specified, a default value will be used.
@@ -72,19 +72,19 @@ python3 Learning.py
 Or one can choose to specify some parameters in the `default_params` dictionary and specify the rest as command line argumets 
 like the following:
 ```
-python3 Learning.py --algorithm TD --task EightStateOffPolicyRandomFeat --alpha 0.01
+python3 Learning.py --algorithm TD --task EightStateCollision --alpha 0.01
 ```
 
 ### Running on Servers with Slurm Workload Managers
 When parameter sweeps are necessary, the code can be run on supercomputers. 
 The current code supports running on servers that use slurm workload managers such as compute canada.
-For exampole, to apply the TD algorithm to the Collision (EightStateOffPolicyRandomFeat) task, with various parameters,
+For exampole, to apply the TD algorithm to the Collision (EightStateCollision) task, with various parameters,
 first you need to create a json file that specifies all the parameters that you would like to run, for example:
 ```json
 {
   "agent": "TD",
   "environment": "Chain",
-  "task": "EightStateOffPolicyRandomFeat",
+  "task": "EightStateCollision",
   "number_of_runs": 50,
   "number_of_steps": 20000,
   "sub_sample": 1,

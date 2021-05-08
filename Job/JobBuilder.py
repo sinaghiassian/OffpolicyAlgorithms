@@ -7,7 +7,7 @@ import time
 default_params = ImmutableDict(
     {
         'agent': 'TD',
-        'task': 'EightStateOffPolicyRandomFeat',
+        'task': 'EightStateCollision',
         'environment': 'Chain',
         'exp': 'FirstChain',
         # 'agent': 'LSETD',

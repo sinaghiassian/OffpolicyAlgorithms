@@ -30,7 +30,7 @@ RUNS = [0, 10, 15, 20, 30, 45]
 # RUNS = list(range(50))
 EXPS = ['FirstChain']  # FirstChain or FirstFourRoom or 1HVFourRoom
 ALGS = ['TD']
-TASK = 'EightStateOffPolicyRandomFeat'
+TASK = 'EightStateCollision'
 
 
 def plot_value_function(ax, value_function, step=0, run=0, is_last_step=False):

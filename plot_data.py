@@ -202,7 +202,7 @@ if func_to_run == 'collision_emphatics_sensitivity_minimal_bootstrap':
 # region Misc
 if func_to_run == 'state_dist':
     fig_size = (6, 4)
-    tasks = ['EightStateOffPolicyRandomFeat', 'LearnEightPoliciesTileCodingFeat',
+    tasks = ['EightStateCollision', 'LearnEightPoliciesTileCodingFeat',
              'HighVarianceLearnEightPoliciesTileCodingFeat']
     for task in tasks:
         plot_distribution(task=task, fig_size=fig_size)

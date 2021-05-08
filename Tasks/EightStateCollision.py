@@ -4,7 +4,7 @@ from Environments.Chain import Chain
 from Tasks.BaseTask import BaseTask
 
 
-class EightStateOffPolicyRandomFeat(BaseTask, Chain):
+class EightStateCollision(BaseTask, Chain):
 
     def __init__(self, **kwargs):
         BaseTask.__init__(self, **kwargs)
@@ -16,7 +16,7 @@ class EightStateOffPolicyRandomFeat(BaseTask, Chain):
         self.GAMMA = 0.9
         self.behavior_dist = self.load_behavior_dist()
         self.state_values = self.load_state_values()
-        self.num_policies = EightStateOffPolicyRandomFeat.num_of_policies()
+        self.num_policies = EightStateCollision.num_of_policies()
         self.ABTD_xi_zero = 1
         self.ABTD_xi_max = 2
 
