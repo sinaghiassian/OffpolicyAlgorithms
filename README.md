@@ -494,12 +494,3 @@ Resources/EightStateCollision/state_values.npy
 ```
 array([0.4782969, 0.531441, 0.59049, 0.6561, 0.729, 0.81, 0.9, 1])
 ```
-
-<a name="four_room_grid_world"></a>
-### Four Room Grid World
-
-
-<a name='tasks'></a>
-## Tasks
-A task, or a problem, uses an environment along with a target and behavior policy.
-With this definition, multiple tasks could be defined on one environment.
