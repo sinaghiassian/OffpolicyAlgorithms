@@ -503,3 +503,7 @@ The following table shows all the parameters that we tested in the experiments:
 <p align="center">
     <img width="700" src="/Assets/parameters.png" />
 </p>
+
+We now explain how each figure in the paper can be reproduced.
+All the figures of the paper can be reproduced using the `plot_data.py` file.
+
