@@ -21,7 +21,6 @@ This repository includes the code for the "empirical off-policy" paper.
 
 ## Table of Contents
 - **[Specification of Dependencies](#specifications)**
-- **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
 - **[Algorithms](#algorithms)**
     - **[Algorithm Glossary](#glossary)**
     - **TD**: [Off-policy TD](#td)
@@ -30,8 +29,7 @@ This repository includes the code for the "empirical off-policy" paper.
     - **Variable-λ family**    : [TB](#tb), [Vtrace](#vtrace), [ABTD](#abtd)
     - **Least squared family** : [LSTD](#lstd), [LSETD](#lsetd)
 - **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
-- **[Tasks](#tasks)** : [Collision](#collision), [Hallway proximity](#hallway_proximity), 
-  [High variance hallway proximity](#highvar_hallway_proximity)
+- **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
 
 <a name='specifications'></a>
 ## Specification of Dependencies
@@ -44,113 +42,6 @@ otherwise, run:
 ```text
 pip3 install requirements.txt
 ```
-
-<a name='how-to-run'></a>
-## How to Run the Code
-The code can be run in two different ways.
-One way is through `learning.py` that can be used to run small experiments on a local computer.
-The other way is through the files inside the Job directory. 
-We explain each of these approaches below by means of an example.
-
-### Running on Your Local Machine
-Let's take the following example: applying Off-policy TD(λ) to the Collision task.
-There are multiple ways for doing this.
-The first way is to open a terminal and go into the root directory of the code and run `Learning.py` with proper parameters:
-```
-python3 Learning.py --algorithm TD --task EightStateCollision --num_of_runs 50 --num_steps --environment Chain
---save_value_function Ture --alpha 0.01 --lmbda 0.9
-```
-In case any of the parameters are not specified, a default value will be used.
-The default value is set in the `Job` directory, inside the `JobBuilder.py` file.
-This means, the code, can alternatively be run, by setting all the necessary values that an algorithm needs at the top of the `JobBuilder.py` file.
-Note that not all parameters specified in the `default_params` dict are required for all algorithms. For example, the `tdrc_beta` parameter is only
-required to be set for the TDRC(λ) algorithms.
-Once the variables inside the `default_params` dictionary, the code can be run:
-```
-python3 Learning.py
-```
-Or one can choose to specify some parameters in the `default_params` dictionary and specify the rest as command line argumets 
-like the following:
-```
-python3 Learning.py --algorithm TD --task EightStateCollision --alpha 0.01
-```
-
-### Running on Servers with Slurm Workload Managers
-When parameter sweeps are necessary, the code can be run on supercomputers. 
-The current code supports running on servers that use slurm workload managers such as compute canada.
-For exampole, to apply the TD algorithm to the Collision (EightStateCollision) task, with various parameters,
-first you need to create a json file that specifies all the parameters that you would like to run, for example:
-```json
-{
-  "agent": "TD",
-  "environment": "Chain",
-  "task": "EightStateCollision",
-  "number_of_runs": 50,
-  "number_of_steps": 20000,
-  "sub_sample": 1,
-  "meta_parameters": {
-    "alpha": [
-      0.000003814, 0.000007629, 0.000015258, 0.000030517, 0.000061035, 0.000122070, 0.000244140, 0.000488281,
-      0.000976562, 0.001953125, 0.00390625, 0.0078125, 0.015625, 0.03125, 0.0625, 0.125, 0.25, 0.5, 1.0
-    ],
-    "lmbda": [
-      0.1, 0.2, 0.3
-    ]
-  }
-}
-```
-and then run `main.py` using python:
-```
-python3 main.py -f <path_to_the_json_file> -s <kind_of_submission>
-```
-where `kind_of_submission` refers to one of the two ways you can submit your code:
-1) You can request an individual cpu for each of the algorithm instances, where an algorithm instance refers to an 
-algorithm with specific parameters. To request an individual cpu, run the following command:
-```
-python3 main.py -f <path_to_the_json_file_or_dir> -s cpu
-```
-When running each algorithm instance on a single cpu, you need to specify the following parameters inside 
-`Job/SubmitJobsTemplatesCedar.SL`:
-```shell
-#SBATCH --account=xxx
-#SBATCH --time=00:15:58
-#SBATCH --mem=3G
-```
-where `#SBATCH --account=xxx` requires the account you are using in place of `xxx`,
-`#SBATCH --time=00:15:58` requires the time you want to request for each individual cpu,
-and `#SBATCH --mem=xG` requires the amount of memory in place of x.
-
-2) You can request a node, that we assume includes 40 cpus. If you request a node, the jobs you submit will run in 
-parallel 40 at a time, and once one job is finished, the next one in line will start running.
-This process continues until either all jobs are finished running, or you run out of the time you requested for that node.
-```
-python3 main.py -f <path_to_the_json_file_or_dir> -s node
-```
-When running the jobs on nodes, you need to specify the following parameters inside `Job/SubmitJobsTemplates.SL`:
-```shell
-#SBATCH --account=xxx
-#SBATCH --time=11:58:59
-#SBATCH --nodes=x
-#SBATCH --ntasks-per-node=40
-```
-where `#SBATCH --account=xxx` requires the account you are using in place of `xxx`,
-`#SBATCH --time=11:58:59` requires the time you want to request for each individual node, each of which includes 40 cpus in this case,
-and `#SBATCH --nodes=x` requires the number of nodes you would like to request in place of x.
-If you request more than one node, your jobs will be spread across nodes, 40 on each node, and once each job finishes, 
-the next job in the queue will start running.
-`#SBATCH --ntasks-per-node=xx` is the number of jobs you would like to run concurrently on a single node. In this case,
-for example, we set it to 40.
-
-If `path_to_the_json_file_or_dir` is a directory, then the code will walk into all the subdirectories, and submits jobs for
-all the parameters in the json files that it finds inside those directories sequentially.
-If `path_to_the_json_file_or_dir` is a file, then the code will submit jobs for all the parameters that it finds inside that 
-single json file.
-Note that you can create a new directory for each experiment that you would like to run, and create directories for each
-of the algorithms you would like to run in that experiment.
-For example, we created a directory called `FirstChain` inside the `Experiments` directory and created one directory
-per algorithm inside the `FirstChain` directory for each of the algorithms and specified a json file in that directory.
-It is worth noting that whatever parameter that is not specified in the json file will be read from the `default_params`
-dictionary inside the `Job` directory inside the `JobBuilder.py` file.
 
 
 
@@ -494,3 +385,114 @@ Resources/EightStateCollision/state_values.npy
 ```
 array([0.4782969, 0.531441, 0.59049, 0.6561, 0.729, 0.81, 0.9, 1])
 ```
+
+
+
+<a name='how-to-run'></a>
+## How to Run the Code
+The code can be run in two different ways.
+One way is through `learning.py` that can be used to run small experiments on a local computer.
+The other way is through the files inside the Job directory. 
+We explain each of these approaches below by means of an example.
+
+### Running on Your Local Machine
+Let's take the following example: applying Off-policy TD(λ) to the Collision task.
+There are multiple ways for doing this.
+The first way is to open a terminal and go into the root directory of the code and run `Learning.py` with proper parameters:
+```
+python3 Learning.py --algorithm TD --task EightStateCollision --num_of_runs 50 --num_steps --environment Chain
+--save_value_function Ture --alpha 0.01 --lmbda 0.9
+```
+In case any of the parameters are not specified, a default value will be used.
+The default value is set in the `Job` directory, inside the `JobBuilder.py` file.
+This means, the code, can alternatively be run, by setting all the necessary values that an algorithm needs at the top of the `JobBuilder.py` file.
+Note that not all parameters specified in the `default_params` dict are required for all algorithms. For example, the `tdrc_beta` parameter is only
+required to be set for the TDRC(λ) algorithms.
+Once the variables inside the `default_params` dictionary, the code can be run:
+```
+python3 Learning.py
+```
+Or one can choose to specify some parameters in the `default_params` dictionary and specify the rest as command line argumets 
+like the following:
+```
+python3 Learning.py --algorithm TD --task EightStateCollision --alpha 0.01
+```
+
+### Running on Servers with Slurm Workload Managers
+When parameter sweeps are necessary, the code can be run on supercomputers. 
+The current code supports running on servers that use slurm workload managers such as compute canada.
+For exampole, to apply the TD algorithm to the Collision (EightStateCollision) task, with various parameters,
+first you need to create a json file that specifies all the parameters that you would like to run, for example:
+```json
+{
+  "agent": "TD",
+  "environment": "Chain",
+  "task": "EightStateCollision",
+  "number_of_runs": 50,
+  "number_of_steps": 20000,
+  "sub_sample": 1,
+  "meta_parameters": {
+    "alpha": [
+      0.000003814, 0.000007629, 0.000015258, 0.000030517, 0.000061035, 0.000122070, 0.000244140, 0.000488281,
+      0.000976562, 0.001953125, 0.00390625, 0.0078125, 0.015625, 0.03125, 0.0625, 0.125, 0.25, 0.5, 1.0
+    ],
+    "lmbda": [
+      0.1, 0.2, 0.3
+    ]
+  }
+}
+```
+and then run `main.py` using python:
+```
+python3 main.py -f <path_to_the_json_file> -s <kind_of_submission>
+```
+where `kind_of_submission` refers to one of the two ways you can submit your code:
+1) You can request an individual cpu for each of the algorithm instances, where an algorithm instance refers to an 
+algorithm with specific parameters. To request an individual cpu, run the following command:
+```
+python3 main.py -f <path_to_the_json_file_or_dir> -s cpu
+```
+When running each algorithm instance on a single cpu, you need to specify the following parameters inside 
+`Job/SubmitJobsTemplatesCedar.SL`:
+```shell
+#SBATCH --account=xxx
+#SBATCH --time=00:15:58
+#SBATCH --mem=3G
+```
+where `#SBATCH --account=xxx` requires the account you are using in place of `xxx`,
+`#SBATCH --time=00:15:58` requires the time you want to request for each individual cpu,
+and `#SBATCH --mem=xG` requires the amount of memory in place of x.
+
+2) You can request a node, that we assume includes 40 cpus. If you request a node, the jobs you submit will run in 
+parallel 40 at a time, and once one job is finished, the next one in line will start running.
+This process continues until either all jobs are finished running, or you run out of the time you requested for that node.
+```
+python3 main.py -f <path_to_the_json_file_or_dir> -s node
+```
+When running the jobs on nodes, you need to specify the following parameters inside `Job/SubmitJobsTemplates.SL`:
+```shell
+#SBATCH --account=xxx
+#SBATCH --time=11:58:59
+#SBATCH --nodes=x
+#SBATCH --ntasks-per-node=40
+```
+where `#SBATCH --account=xxx` requires the account you are using in place of `xxx`,
+`#SBATCH --time=11:58:59` requires the time you want to request for each individual node, each of which includes 40 cpus in this case,
+and `#SBATCH --nodes=x` requires the number of nodes you would like to request in place of x.
+If you request more than one node, your jobs will be spread across nodes, 40 on each node, and once each job finishes, 
+the next job in the queue will start running.
+`#SBATCH --ntasks-per-node=xx` is the number of jobs you would like to run concurrently on a single node. In this case,
+for example, we set it to 40.
+
+If `path_to_the_json_file_or_dir` is a directory, then the code will walk into all the subdirectories, and submits jobs for
+all the parameters in the json files that it finds inside those directories sequentially.
+If `path_to_the_json_file_or_dir` is a file, then the code will submit jobs for all the parameters that it finds inside that 
+single json file.
+Note that you can create a new directory for each experiment that you would like to run, and create directories for each
+of the algorithms you would like to run in that experiment.
+For example, we created a directory called `FirstChain` inside the `Experiments` directory and created one directory
+per algorithm inside the `FirstChain` directory for each of the algorithms and specified a json file in that directory.
+It is worth noting that whatever parameter that is not specified in the json file will be read from the `default_params`
+dictionary inside the `Job` directory inside the `JobBuilder.py` file.
+
+
