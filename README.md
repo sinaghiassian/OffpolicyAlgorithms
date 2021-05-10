@@ -30,6 +30,7 @@ This repository includes the code for the "empirical off-policy" paper.
     - **Least squared family** : [LSTD](#lstd), [LSETD](#lsetd)
 - **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
 - **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
+- **[Plotting the results](#Plot-results)**
 
 <a name='specifications'></a>
 ## Specification of Dependencies
@@ -496,3 +497,9 @@ It is worth noting that whatever parameter that is not specified in the json fil
 dictionary inside the `Job` directory inside the `JobBuilder.py` file.
 
 
+<a name='Plot-results'></a>
+## Plotting the results
+The following table shows all the parameters that we tested in the experiments:
+<p align="center">
+    <img width="700" src="/Assets/parameters.png" />
+</p>
