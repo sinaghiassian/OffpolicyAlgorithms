@@ -507,3 +507,25 @@ The following table shows all the parameters that we tested in the experiments:
 We now explain how each figure in the paper can be reproduced.
 All the figures of the paper can be reproduced using the `plot_data.py` file.
 
+1) **Processing the data**: This script manipulates data in a way that it is ready to be plotted over step sizes and also such
+that the data is ready to be plotted as learning curves averaged over runs.
+   The `process_data` script also re-runs the algorithms with their best parameters to eliminate possible maximization 
+   bias, as explained in the paper.
+   This is a time consuming step. If you do not like to do this step, simply set:
+    ```python
+    PLOT_RERUN = False
+    ```
+    in `Plotting/plot_params.py` and the code will ignore the re-running steps.
+    If you would like to eliminate the maximization bias, set:
+    ```python
+    PLOT_RERUN = True
+    ```
+   Finally, go to `plot_data.py` and set `func_to_run = 'process_data'`, and run the `plot_data.py` script.
+
+2) **Plotting the learned value functions**: Go to `plot_data`, and set `func_to_run = 'plot_value_functions'` to plot
+the learned value functions for some of the runs, and set `func_to_run = plot_all_final_value_functions` to plot the 
+value function learned by the last time step of all of the runs in one plot.
+<p align="center">
+    <img width="700" src="/Assets/value_functions.png" />
+</p>
+<br>
