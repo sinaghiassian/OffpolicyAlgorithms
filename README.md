@@ -526,6 +526,6 @@ that the data is ready to be plotted as learning curves averaged over runs.
 the learned value functions for some of the runs, and set `func_to_run = plot_all_final_value_functions` to plot the 
 value function learned by the last time step of all of the runs in one plot.
 <p align="center">
-    <img width="700" src="/Assets/value_functions.png" />
+    <img src="/Assets/value_functions.png" />
 </p>
 <br>
