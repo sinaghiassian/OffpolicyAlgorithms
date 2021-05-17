@@ -9,10 +9,11 @@ from Plotting.plot_sensitivity import plot_sensitivity_curve
 from Plotting.plot_sensitivity_for_two_lambdas import plot_sensitivity_for_lambdas
 from Plotting.plot_specific_learning_curves import plot_specific_learning_curves
 from Plotting.plot_waterfall import plot_waterfall_scatter
+from Plotting.process_state_value_function import plot_all_final_value_functions, plot_value_functions
 from process_data import process_data
 
 
-func_to_run = 'process_data'
+func_to_run = 'plot_value_functions'
 exps = ['FirstChain']
 
 # region process data
@@ -81,7 +82,7 @@ if func_to_run == 'collision_best_learning_curves_some_algs_no_bootstrap':
     auc_or_final = ['auc']
     plot_learning_curve(exps=exps, alg_groups=alg_groups, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final,
                         is_smoothed=True, smoothing_window=500)
-if func_to_run == 'collision_best_learning_curves_full_bootstrap_rerun_and_original':  # also need to set RERUN = False
+if func_to_run == 'collision_best_learning_curves_full_bootstrap_rerun_and_original':  # also need to set PLOT_RERUN = False
     # and PLOT_RERUN_AND_ORIG = True in plot_params. Also some changes are necessary in the plot_learning_curve function
     # like setting the colors and stuff for the re-run and original plots.
     sp_list = [0.0]
@@ -200,6 +201,10 @@ if func_to_run == 'collision_emphatics_sensitivity_minimal_bootstrap':
 # endregion
 
 # region Misc
+if func_to_run == 'plot_value_functions':
+    plot_value_functions()
+if func_to_run == 'plot_all_final_value_functions':
+    plot_all_final_value_functions()
 if func_to_run == 'state_dist':
     fig_size = (6, 4)
     tasks = ['EightStateCollision', 'LearnEightPoliciesTileCodingFeat',
