@@ -3,7 +3,7 @@ import numpy as np
 import os
 import pylab
 from Plotting.plot_params import ALG_GROUPS, ALG_COLORS, EXP_ATTRS, EXPS, AUC_AND_FINAL, LMBDA_AND_ZETA, \
-    PLOT_RERUN_AND_ORIG, RERUN, RERUN_POSTFIX
+    PLOT_RERUN_AND_ORIG, PLOT_RERUN, RERUN_POSTFIX
 from Plotting.plot_utils import load_best_rerun_params_dict
 from utils import create_name_for_save_load
 
@@ -85,7 +85,7 @@ def plot_learning_curve(**kwargs):
                             ls_rmsve = get_ls_rmsve(alg, exp, sp)
                             plot_ls_solution(ax, ls_rmsve, alg, sp)
                             continue
-                        prefix = RERUN_POSTFIX if RERUN else ''
+                        prefix = RERUN_POSTFIX if PLOT_RERUN else ''
                         current_params = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
                         mean_lc, mean_stderr = load_data(alg, exp, current_params, prefix)
                         plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs, second_time=False,
@@ -100,7 +100,7 @@ def plot_learning_curve(**kwargs):
                         pylab.gca().set_rasterized(True)
                     if PLOT_RERUN_AND_ORIG:
                         prefix = '_rerun_and_original'
-                    elif RERUN:
+                    elif PLOT_RERUN:
                         prefix = RERUN_POSTFIX
                     else:
                         prefix = ''
