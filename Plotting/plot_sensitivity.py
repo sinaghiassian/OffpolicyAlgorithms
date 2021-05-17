@@ -2,7 +2,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-from Plotting.plot_params import EXPS, ALG_GROUPS, ALG_COLORS, EXP_ATTRS, AUC_AND_FINAL, LMBDA_AND_ZETA, RERUN, \
+from Plotting.plot_params import EXPS, ALG_GROUPS, ALG_COLORS, EXP_ATTRS, AUC_AND_FINAL, LMBDA_AND_ZETA, PLOT_RERUN, \
     PLOT_RERUN_AND_ORIG, RERUN_POSTFIX
 from Plotting.plot_utils import replace_large_nan_inf, make_res_path, load_best_rerun_params_dict, get_alphas
 from utils import create_name_for_save_load
@@ -66,7 +66,7 @@ def plot_sensitivity_curve(**kwargs):
                     for alg in alg_names:
                         if alg in ['LSTD', 'LSETD']:
                             continue
-                        postfix = RERUN_POSTFIX if RERUN else ''
+                        postfix = RERUN_POSTFIX if PLOT_RERUN else ''
                         best_params = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
                         alphas = get_alphas(alg, exp)
                         best_performance, stderr = load_best_performance_over_alpha(
@@ -81,7 +81,7 @@ def plot_sensitivity_curve(**kwargs):
                         os.makedirs(save_dir, exist_ok=True)
                     if PLOT_RERUN_AND_ORIG:
                         prefix = '_rerun_and_original'
-                    elif RERUN:
+                    elif PLOT_RERUN:
                         prefix = RERUN_POSTFIX
                     else:
                         prefix = ''

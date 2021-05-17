@@ -3,7 +3,7 @@ import numpy as np
 import os
 import pylab
 from Plotting.plot_params import ALG_GROUPS, ALG_COLORS, EXP_ATTRS, EXPS, AUC_AND_FINAL, LMBDA_AND_ZETA, \
-    PLOT_RERUN_AND_ORIG, RERUN, RERUN_POSTFIX, ALGS, ALL_ALGS
+    PLOT_RERUN_AND_ORIG, PLOT_RERUN, RERUN_POSTFIX, ALGS, ALL_ALGS
 from Plotting.plot_utils import load_best_rerun_params_dict, make_params
 from utils import create_name_for_save_load
 

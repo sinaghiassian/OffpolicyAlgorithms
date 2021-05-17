@@ -2,9 +2,9 @@ from Plotting.plot_utils import FirstChainAttr, FirstFourRoomAttr, HVFirstFourRo
 from Registry.AlgRegistry import alg_dict
 
 
-RERUN = True
+PLOT_RERUN = True
 PLOT_RERUN_AND_ORIG = False
-if RERUN and PLOT_RERUN_AND_ORIG:
+if PLOT_RERUN and PLOT_RERUN_AND_ORIG:
     PLOT_RERUN_AND_ORIG = False
 RERUN_POSTFIX = '_rerun'
 DEBUG_MODE = True

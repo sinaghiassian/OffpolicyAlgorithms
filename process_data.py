@@ -4,7 +4,7 @@ import os
 import numpy as np
 
 from Learning import learn
-from Plotting.plot_params import EXP_ATTRS
+from Plotting.plot_params import EXP_ATTRS, PLOT_RERUN, PLOT_RERUN_AND_ORIG
 from Plotting.plot_utils import make_params, make_current_params, load_and_replace_large_nan_inf, \
     load_best_perf_json, load_best_rerun_params, make_res_path
 from utils import create_name_for_save_load, Configuration
@@ -95,7 +95,9 @@ def process_data(**kwargs):
                     print(f"\nStarted re-running {exp}, {alg} lmbda_or_zeta: {sp}, {auc_or_final} ...")
                     save_perf_over_alpha(alg, exp, auc_or_final, sp)
                     best_params = find_best_perf(alg, exp, auc_or_final, sp)
-                    save_best_perf_in_json(alg, exp, best_params, auc_or_final, sp)
-                    run_learning_with_best_perf(alg, exp, auc_or_final, sp)
-                    save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=True)
-                    print(f"Finished re-running {exp}, {alg} {best_params}")
+                    if not PLOT_RERUN or not PLOT_RERUN_AND_ORIG:
+                        save_best_perf_in_json(alg, exp, best_params, auc_or_final, sp)
+                        run_learning_with_best_perf(alg, exp, auc_or_final, sp)
+                        save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=True)
+                        print(f"Finished re-running {exp}, {alg} {best_params}")
+                    print(f"Finished processing {exp}, {alg} {best_params}")

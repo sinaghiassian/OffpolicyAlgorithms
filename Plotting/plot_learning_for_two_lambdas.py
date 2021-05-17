@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pylab
-from Plotting.plot_params import ALG_GROUPS, EXP_ATTRS, EXPS, AUC_AND_FINAL, LMBDA_AND_ZETA, RERUN, RERUN_POSTFIX, \
+from Plotting.plot_params import ALG_GROUPS, EXP_ATTRS, EXPS, AUC_AND_FINAL, LMBDA_AND_ZETA, PLOT_RERUN, RERUN_POSTFIX, \
     PLOT_RERUN_AND_ORIG
 from Plotting.plot_utils import load_best_rerun_params_dict
 from utils import create_name_for_save_load
@@ -57,7 +57,7 @@ def plot_learning_curve_for_lambdas(**kwargs):
                     fig, ax = plt.subplots(figsize=kwargs['fig_size'])
                     save_dir = os.path.join('pdf_plots', 'learning_curves_for_lambdas', auc_or_final)
                     for sp in kwargs['sp_list']:
-                        prefix = RERUN_POSTFIX if RERUN else ''
+                        prefix = RERUN_POSTFIX if PLOT_RERUN else ''
                         current_params = load_best_rerun_params_dict(alg, exp, auc_or_final, sp)
                         print(alg, current_params)
                         mean_lc, mean_stderr = load_data(alg, exp, current_params, prefix)
@@ -71,7 +71,7 @@ def plot_learning_curve_for_lambdas(**kwargs):
                         pylab.gca().set_rasterized(True)
                     if PLOT_RERUN_AND_ORIG:
                         prefix = '_rerun_and_original'
-                    elif RERUN:
+                    elif PLOT_RERUN:
                         prefix = RERUN_POSTFIX
                     else:
                         prefix = ''
