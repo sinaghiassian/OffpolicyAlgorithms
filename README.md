@@ -534,7 +534,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
 3) **Plotting the learning curves with specific parameter values**: 
    Go to `plot_data`, and set  `func_to_run = 'specific_learning_curves_full_bootstrap'`, and run the `plot_data.py` 
    script.
-   <br>
+   <br></br>
    <p align="center">
    <img width="450" src="/Assets/specific_learning_curves.png" />
    </p>
@@ -542,6 +542,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    
 4) **Plotting the parameter studies for step size for all algorithms**: 
    Go to `plot_data`, and set  `func_to_run = 'collision_sensitivity_curves_for_many_lambdas'`, and run the script.
+   <br></br>
    <p align="center">
    <img src="/Assets/sensitivity_curves_of_all_algs.png" />
    </p>
@@ -549,6 +550,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    
 5) **Plotting the parameter sensitivity study of Emphatic-TD algorithms**: 
    Go to `plot_data`, and set  `func_to_run = 'collision_emphatics_sensitivity_full_bootstrap'`, and run the script.
+   <br></br>
    <p align="center">
    <img width="350" src="/Assets/Emphatics_sensitivity.png" />
    </p>
@@ -556,6 +558,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    
 6) **Plotting the parameter sensitivity study of Gradient-TD algorithms**: 
    Go to `plot_data`, and set  `func_to_run = 'collision_gradients_sensitivity_full_bootstrap'`, and run the script.
+   <br></br>
    <p align="center">
    <img src="/Assets/Gradients_sensitivity.png" />
    </p>
