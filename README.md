@@ -101,9 +101,9 @@ from the past affects the current update.
 - old_pi (oldπ): is the probability of taking an action under the target policy in the previous time step. The variable
   π itself is the probability of taking action under the target policy at the current time step.
 <a name='var_F'></a>
-- F : is the follow-on trace used by Emphatic-TD algorithms ???link??? .
+- F : is the follow-on trace used by [Emphatic-TD](#etd) algorithms.
 <a name='var_m'></a>
-- m : is the emphasis used by Emphatic-TD algorithms ???link??? .
+- m : is the emphasis used by [Emphatic-TD](#etd) algorithms.
 <a name='var_nu'></a>
 - nu (ν): Variable used by the ABQ/ABTD algorithm. ??more explanation??
 <a name='var_si'></a>
