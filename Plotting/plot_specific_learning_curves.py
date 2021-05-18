@@ -93,7 +93,13 @@ def plot_specific_learning_curves(**kwargs):
                 plot_ls_solution(ax, ls_rmsve, alg, sp)
                 continue
             print(alg, exp, sp)
-            current_params = specific_params[alg]
+            if alg == 'PGTD22':
+                alg = 'PGTD2'
+                current_params = specific_params[alg]
+                current_params['eta'] = 1.0
+                current_params['alpha'] = 0.03125
+            else:
+                current_params = specific_params[alg]
             print(current_params)
             mean_lc, mean_stderr = load_data(alg, exp, current_params, prefix)
             plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs)
