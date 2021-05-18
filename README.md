@@ -22,12 +22,11 @@ This repository includes the code for the "empirical off-policy" paper.
 ## Table of Contents
 - **[Specification of Dependencies](#specifications)**
 - **[Algorithms](#algorithms)**
-    - **[Algorithm Glossary](#glossary)**
     - **TD**: [Off-policy TD](#td)
     - **Gradient-TD family**   : [GTD](#gtd) , [GTD2](#gtd2), [HTD](#htd), [PGTD2](#pgdt2), [TDRC](#tdrc)
     - **Emphatic-TD family**   : [Emphatic TD](#etd), [Emphatic TDβ](#etdb)  
     - **Variable-λ family**    : [TB](#tb), [Vtrace](#vtrace), [ABTD](#abtd)
-    - **Least squared family** : [LSTD](#lstd), [LSETD](#lsetd)
+    - **[Algorithm Glossary](#glossary)**
 - **[Environments](#environment)** :  [Chain](#chain), [Four Room Grid World](#four_room_grid_world)
 - **[How to run the code](#how-to-run)**: [Learning.py](#learning.py), [Job Buidler](#job_builder)
 - **[Plotting the results](#Plot-results)**
@@ -51,68 +50,6 @@ pip3 install requirements.txt
 ## Algorithms
 Algorithms are used to find a weight vector, [**w**](#var_w), such that the dot product of [**w**](#var_w) and the feature vector, 
 approximates the value function. 
-
-<a name='glossary'></a>
-### Algorithm Glossary
-Here, we briefly explain all the symbols and variables names that we use in our implementation.
-
-#### meta-parameters
-- Common parameters of all algorithms:
-  - **alpha (α)**: is the step size that defines how much the weight vector [**w**](#var_w) is updated at each time step.
-  - **lambda (λ)**: is the bootstrapping parameter.
-- Common parameters of Gradient-TD algorithms:    
-  - **alpha_v (α<sub>v</sub>)**: is the second step size that defines how much the second weight vector [**v**](#var_v) is 
-    updated at each time step.
-- **beta (β)**: is the parameter used by the [**ETDβ**](#etdb) algorithm that defines how much the product of importance sampling ratios
-from the past affects the current update.
-- **tdrc_beta (tdrc<sub>β</sub>)**: is the regularization parameter of the [**TDRC**](#tdrc) algorithms. This parameter is often set to 1.  
-- **zeta (ζ)**: is only used in the [**ABTD**](#abtd) algorithm. It is similar to the bootstrapping parameter of other algorithms.
-
-#### Algorithms variables
-<a name='var_w'></a>
-- **w**: is the main weight vector being learned. ```init: w=0```.
-<a name='var_v'></a>
-- **v**: is the secondary weight vector learned by Gradient-TD algorithms.  ```init: v=0```.
-<a name='var_z'></a>
-- **z**: is the eligibility trace vector.  ```init: z=0```.
-<a name='var_zb'></a>
-- **z<sub>b</sub>**: is the extra eligibility trace vector used by [**HTD**](#htd).  ```init: z_b=0```.
-<a name='var_delta'></a>
-- delta (𝛿): is the td-error, which in the full bootstrapping case, is equal to the reward plus the value of the next 
-  state minus the value of the current state.
-<a name='var_s'></a>
-- s: is the current state (scalar).
-<a name='var_x'></a>
-- **x**: is the feature vector of the current state.
-<a name='var_s_p'></a>
-- s_p: is the next state (scalar).
-<a name='var_x_p'></a>
-- **x_p**: is the feature vector of the next state. 
-<a name='var_r'></a>
-- r: is the reward.
-<a name='var_rho'></a>
-- rho (ρ): is the importance sampling ratio, which is equal to the probability of taking an action under the target policy
-  divided by the probability of taking the same action under the behavior policy.
-<a name='var_oldrho'></a>
-- old_rho (oldρ): is the importance sampling ratio at the previous time step.
-<a name='var_pi'></a>
-- pi (π): is the probability of taking an action under the target policy at the current time step.
-<a name='var_oldpi'></a>
-- old_pi (oldπ): is the probability of taking an action under the target policy in the previous time step. The variable
-  π itself is the probability of taking action under the target policy at the current time step.
-<a name='var_F'></a>
-- F : is the follow-on trace used by [Emphatic-TD](#etd) algorithms.
-<a name='var_m'></a>
-- m : is the emphasis used by [Emphatic-TD](#etd) algorithms.
-<a name='var_nu'></a>
-- nu (ν): Variable used by the ABQ/ABTD algorithm. Please refer to the [original paper](https://arxiv.org/pdf/1702.03006) for explanation.
-<a name='var_si'></a>
-- xi (ψ): Variable used by the ABQ/ABTD algorithm. Please refer to the [original paper](https://arxiv.org/pdf/1702.03006) for explanation.
-<a name='var_mu'></a>
-- mu (μ): is the probability of taking action under the behavior policy at the current time step.
-<a name='var_oldmu'></a>
-- old_mu (oldμ): is the probability of taking an action under the target policy at the previous time step.
-- gamma (γ): is the discount factor parameter.
 
 
 <a name='td'></a>
@@ -295,6 +232,68 @@ nu = min(xi, 1.0 / max(pi, mu))
 z = x + gamma * old_nu * old_pi * z
 w += alpha * delta * z
 ```
+
+<a name='glossary'></a>
+### Algorithm Glossary
+Here, we briefly explain all the symbols and variables names that we use in our implementation.
+
+#### meta-parameters
+- Common parameters of all algorithms:
+  - **alpha (α)**: is the step size that defines how much the weight vector [**w**](#var_w) is updated at each time step.
+  - **lambda (λ)**: is the bootstrapping parameter.
+- Common parameters of Gradient-TD algorithms:    
+  - **alpha_v (α<sub>v</sub>)**: is the second step size that defines how much the second weight vector [**v**](#var_v) is 
+    updated at each time step.
+- **beta (β)**: is the parameter used by the [**ETDβ**](#etdb) algorithm that defines how much the product of importance sampling ratios
+from the past affects the current update.
+- **tdrc_beta (tdrc<sub>β</sub>)**: is the regularization parameter of the [**TDRC**](#tdrc) algorithms. This parameter is often set to 1.  
+- **zeta (ζ)**: is only used in the [**ABTD**](#abtd) algorithm. It is similar to the bootstrapping parameter of other algorithms.
+
+#### Algorithms variables
+<a name='var_w'></a>
+- **w**: is the main weight vector being learned. ```init: w=0```.
+<a name='var_v'></a>
+- **v**: is the secondary weight vector learned by Gradient-TD algorithms.  ```init: v=0```.
+<a name='var_z'></a>
+- **z**: is the eligibility trace vector.  ```init: z=0```.
+<a name='var_zb'></a>
+- **z<sub>b</sub>**: is the extra eligibility trace vector used by [**HTD**](#htd).  ```init: z_b=0```.
+<a name='var_delta'></a>
+- delta (𝛿): is the td-error, which in the full bootstrapping case, is equal to the reward plus the value of the next 
+  state minus the value of the current state.
+<a name='var_s'></a>
+- s: is the current state (scalar).
+<a name='var_x'></a>
+- **x**: is the feature vector of the current state.
+<a name='var_s_p'></a>
+- s_p: is the next state (scalar).
+<a name='var_x_p'></a>
+- **x_p**: is the feature vector of the next state. 
+<a name='var_r'></a>
+- r: is the reward.
+<a name='var_rho'></a>
+- rho (ρ): is the importance sampling ratio, which is equal to the probability of taking an action under the target policy
+  divided by the probability of taking the same action under the behavior policy.
+<a name='var_oldrho'></a>
+- old_rho (oldρ): is the importance sampling ratio at the previous time step.
+<a name='var_pi'></a>
+- pi (π): is the probability of taking an action under the target policy at the current time step.
+<a name='var_oldpi'></a>
+- old_pi (oldπ): is the probability of taking an action under the target policy in the previous time step. The variable
+  π itself is the probability of taking action under the target policy at the current time step.
+<a name='var_F'></a>
+- F : is the follow-on trace used by [Emphatic-TD](#etd) algorithms.
+<a name='var_m'></a>
+- m : is the emphasis used by [Emphatic-TD](#etd) algorithms.
+<a name='var_nu'></a>
+- nu (ν): Variable used by the ABQ/ABTD algorithm. Please refer to the [original paper](https://arxiv.org/pdf/1702.03006) for explanation.
+<a name='var_si'></a>
+- xi (ψ): Variable used by the ABQ/ABTD algorithm. Please refer to the [original paper](https://arxiv.org/pdf/1702.03006) for explanation.
+<a name='var_mu'></a>
+- mu (μ): is the probability of taking action under the behavior policy at the current time step.
+<a name='var_oldmu'></a>
+- old_mu (oldμ): is the probability of taking an action under the target policy at the previous time step.
+- gamma (γ): is the discount factor parameter.
 
 
 <a name='environment'></a>
