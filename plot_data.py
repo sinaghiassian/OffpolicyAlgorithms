@@ -96,7 +96,7 @@ if func_to_run == 'specific_learning_curves_full_bootstrap':
     sp = 0.0
     if 'FirstChain' in exps:
         exp = 'FirstChain'
-        algs = ['LSTD', 'LSETD', 'ETD', 'TD', 'GTD', 'TDRC', 'PGTD2']
+        algs = ['LSTD', 'LSETD', 'ETD', 'TD', 'GTD', 'TDRC', 'PGTD2', 'PGTD22']
         specific_params = {
             'TD': {'alpha': 0.25, 'lmbda': sp},
             'ETD': {'alpha': 0.00390625, 'lmbda': sp},
