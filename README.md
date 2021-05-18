@@ -507,8 +507,8 @@ The following table shows all the parameters that we tested in the experiments:
 We now explain how each figure in the paper can be reproduced.
 All the figures of the paper can be reproduced using the `plot_data.py` file.
 
-1) **Processing the data**: This script manipulates data in a way that it is ready to be plotted over step sizes and also such
-that the data is ready to be plotted as learning curves averaged over runs.
+1) **Processing the data**: This script manipulates data in a way that it is ready to be plotted over step sizes and also such 
+   that the data is ready to be plotted as learning curves averaged over runs.
    The `process_data` script also re-runs the algorithms with their best parameters to eliminate possible maximization 
    bias, as explained in the paper.
    This is a time consuming step. If you do not like to do this step, simply set:
@@ -522,10 +522,40 @@ that the data is ready to be plotted as learning curves averaged over runs.
     ```
    Finally, go to `plot_data.py` and set `func_to_run = 'process_data'`, and run the `plot_data.py` script.
 
-2) **Plotting the learned value functions**: Go to `plot_data`, and set `func_to_run = 'plot_value_functions'` to plot
-the learned value functions for some of the runs, and set `func_to_run = plot_all_final_value_functions` to plot the 
-value function learned by the last time step of all of the runs in one plot.
-<p align="center">
-    <img src="/Assets/value_functions.png" />
-</p>
-<br>
+2) **Plotting the learned value functions**: 
+   Go to `plot_data`, and set `func_to_run = 'plot_value_functions'` to plot 
+   the learned value functions for some of the runs, and set `func_to_run = plot_all_final_value_functions` to plot the 
+   value function learned by the last time step of all of the runs in one plot.
+   <p align="center">
+   <img src="/Assets/value_functions.png" />
+   </p>
+   <br>
+
+3) **Plotting the learning curves with specific parameter values**: 
+   Go to `plot_data`, and set  `func_to_run = 'specific_learning_curves_full_bootstrap'`, and run the `plot_data.py` 
+   script.
+   <p align="center">
+   <img src="/Assets/specific_learning_curves.png" />
+   </p>
+   <br>
+   
+4) **Plotting the parameter studies for step size for all algorithms**: 
+   Go to `plot_data`, and set  `func_to_run = 'collision_sensitivity_curves_for_many_lambdas'`, and run the script.
+   <p align="center">
+   <img src="/Assets/sensitivity_curves_of_all_algs.png" />
+   </p>
+   <br>
+   
+5) **Plotting the parameter sensitivity study of Emphatic-TD algorithms**: 
+   Go to `plot_data`, and set  `func_to_run = 'collision_emphatics_sensitivity_full_bootstrap'`, and run the script.
+   <p align="center">
+   <img src="/Assets/Emphatics_sensitivity.png" />
+   </p>
+   <br>
+   
+6) **Plotting the parameter sensitivity study of Gradient-TD algorithms**: 
+   Go to `plot_data`, and set  `func_to_run = 'collision_gradients_sensitivity_full_bootstrap'`, and run the script.
+   <p align="center">
+   <img src="/Assets/Gradients_sensitivity.png" />
+   </p>
+   <br>
