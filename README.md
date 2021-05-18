@@ -107,7 +107,7 @@ from the past affects the current update.
 <a name='var_nu'></a>
 - nu (ν): Variable used by the ABQ/ABTD algorithm. Please refer to the [original paper](https://arxiv.org/pdf/1702.03006) for explanation.
 <a name='var_si'></a>
-- xi (ψ): Variable used by the ABQ/ABTD algorithm. Please refer to the [original paper]((https://arxiv.org/pdf/1702.03006)) for explanation.
+- xi (ψ): Variable used by the ABQ/ABTD algorithm. Please refer to the [original paper](https://arxiv.org/pdf/1702.03006) for explanation.
 <a name='var_mu'></a>
 - mu (μ): is the probability of taking action under the behavior policy at the current time step.
 <a name='var_oldmu'></a>
