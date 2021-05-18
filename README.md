@@ -239,15 +239,15 @@ Here, we briefly explain all the symbols and variables names that we use in our 
 
 #### meta-parameters
 - Common parameters of all algorithms:
-  - **alpha (α)**: is the step size that defines how much the weight vector [**w**](#var_w) is updated at each time step.
-  - **lambda (λ)**: is the bootstrapping parameter.
+  - alpha (α): is the step size that defines how much the weight vector [**w**](#var_w) is updated at each time step.
+  - lambda (λ): is the bootstrapping parameter.
 - Common parameters of Gradient-TD algorithms:    
-  - **alpha_v (α<sub>v</sub>)**: is the second step size that defines how much the second weight vector [**v**](#var_v) is 
+  - alpha_v (α<sub>v</sub>): is the second step size that defines how much the second weight vector [**v**](#var_v) is 
     updated at each time step.
-- **beta (β)**: is the parameter used by the [**ETDβ**](#etdb) algorithm that defines how much the product of importance sampling ratios
+- beta (β): is the parameter used by the [**ETDβ**](#etdb) algorithm that defines how much the product of importance sampling ratios
 from the past affects the current update.
-- **tdrc_beta (tdrc<sub>β</sub>)**: is the regularization parameter of the [**TDRC**](#tdrc) algorithms. This parameter is often set to 1.  
-- **zeta (ζ)**: is only used in the [**ABTD**](#abtd) algorithm. It is similar to the bootstrapping parameter of other algorithms.
+- tdrc_beta (tdrc<sub>β</sub>): is the regularization parameter of the [**TDRC**](#tdrc) algorithms. This parameter is often set to 1.  
+- zeta (ζ): is only used in the [**ABTD**](#abtd) algorithm. It is similar to the bootstrapping parameter of other algorithms.
 
 #### Algorithms variables
 <a name='var_w'></a>
