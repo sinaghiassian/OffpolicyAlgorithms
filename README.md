@@ -105,9 +105,9 @@ from the past affects the current update.
 <a name='var_m'></a>
 - m : is the emphasis used by [Emphatic-TD](#etd) algorithms.
 <a name='var_nu'></a>
-- nu (ν): Variable used by the ABQ/ABTD algorithm. ??more explanation??
+- nu (ν): Variable used by the ABQ/ABTD algorithm. Please refer to the [original paper](https://arxiv.org/pdf/1702.03006) for explanation.
 <a name='var_si'></a>
-- xi (ψ): Variable used by the ABQ/ABTD algorithm. ??more explanation??
+- xi (ψ): Variable used by the ABQ/ABTD algorithm. Please refer to the [original paper]((https://arxiv.org/pdf/1702.03006)) for explanation.
 <a name='var_mu'></a>
 - mu (μ): is the probability of taking action under the behavior policy at the current time step.
 <a name='var_oldmu'></a>
@@ -258,10 +258,10 @@ w = w + alpha * delta * z
 ```
 
 <a name='vtrace'></a>
-#### Vtrace
+#### Vtrace (simplified)
 
-**Paper** [IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures](
-https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&=&context=cs_faculty_pubs&=&sei-redir=1&referer=https%253A%252F%252Fscholar.google.com%252Fscholar%253Fhl%253Den%2526as_sdt%253D0%25252C5%2526q%253Dtree%252Bbackup%252Balgorithm%252Bdoina%252Bprecup%2526btnG%253D#search=%22tree%20backup%20algorithm%20doina%20precup%22)<br>
+**Paper** [IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures]
+(http://proceedings.mlr.press/v80/espeholt18a/espeholt18a.pdf)<br>
 **Authors** Lasse Espeholt,  Hubert Soyer,  Remi Munos,  Karen Simonyan, Volodymyr Mnih, Tom Ward, Yotam Doron, Vlad Firoiu, Tim Harley, Iain Dunning, Shane Legg, Koray Kavukcuoglu <br>
 
 ```python
@@ -273,8 +273,8 @@ w += alpha * delta * z
 <a name='abtd'></a>
 #### ABQ/ABTD
 
-**Paper** [https://arxiv.org/pdf/1702.03006.pdf](
-https://scholarworks.umass.edu/cgi/viewcontent.cgi?article=1079&=&context=cs_faculty_pubs&=&sei-redir=1&referer=https%253A%252F%252Fscholar.google.com%252Fscholar%253Fhl%253Den%2526as_sdt%253D0%25252C5%2526q%253Dtree%252Bbackup%252Balgorithm%252Bdoina%252Bprecup%2526btnG%253D#search=%22tree%20backup%20algorithm%20doina%20precup%22)<br>
+**Paper** [Multi-step Off-policy Learning Without Importance Sampling Ratios](
+https://arxiv.org/pdf/1702.03006)<br>
 **Authors** A. Rupam Mahmood, Huizhen Yu, Richard S. Sutton <br>
 
 The algorithm pseudo-code described below is the prediction variant of the original Tree backup algorithm proposed by 
