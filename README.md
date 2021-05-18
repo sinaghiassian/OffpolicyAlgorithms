@@ -534,8 +534,9 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
 3) **Plotting the learning curves with specific parameter values**: 
    Go to `plot_data`, and set  `func_to_run = 'specific_learning_curves_full_bootstrap'`, and run the `plot_data.py` 
    script.
+   <br>
    <p align="center">
-   <img src="/Assets/specific_learning_curves.png" />
+   <img width="450" src="/Assets/specific_learning_curves.png" />
    </p>
    <br>
    
@@ -549,7 +550,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
 5) **Plotting the parameter sensitivity study of Emphatic-TD algorithms**: 
    Go to `plot_data`, and set  `func_to_run = 'collision_emphatics_sensitivity_full_bootstrap'`, and run the script.
    <p align="center">
-   <img src="/Assets/Emphatics_sensitivity.png" />
+   <img width="350" src="/Assets/Emphatics_sensitivity.png" />
    </p>
    <br>
    
