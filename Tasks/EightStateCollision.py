@@ -9,6 +9,8 @@ class EightStateCollision(BaseTask, Chain):
     def __init__(self, **kwargs):
         BaseTask.__init__(self, **kwargs)
         Chain.__init__(self)
+        self._resource_root_path = kwargs.get('resource_root_path', 'Resources')
+
         self.N = kwargs.get('n', 8)
         self.feature_rep = self.load_feature_rep()
         self.num_features = self.feature_rep.shape[1]
@@ -25,7 +27,7 @@ class EightStateCollision(BaseTask, Chain):
         return 1
 
     def load_feature_rep(self):
-        return np.load(f'Resources/{self.__class__.__name__}/feature_rep.npy')[:, :, self.run_number]
+        return np.load(f'{self._resource_root_path}/{self.__class__.__name__}/feature_rep.npy')[:, :, self.run_number]
 
     def create_feature_rep(self):
         num_ones = 3
@@ -39,11 +41,11 @@ class EightStateCollision(BaseTask, Chain):
         return self.feature_rep[s, :]
 
     def load_behavior_dist(self):
-        self.behavior_dist = np.load(f'Resources/{self.__class__.__name__}/d_mu.npy')
+        self.behavior_dist = np.load(f'{self._resource_root_path}/{self.__class__.__name__}/d_mu.npy')
         return self.behavior_dist
 
     def load_state_values(self):
-        self.state_values = np.load(f'Resources/{self.__class__.__name__}/state_values.npy')
+        self.state_values = np.load(f'{self._resource_root_path}/{self.__class__.__name__}/state_values.npy')
         return self.state_values
 
     def select_behavior_action(self, s):
