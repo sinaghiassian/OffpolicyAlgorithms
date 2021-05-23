@@ -1,5 +1,6 @@
 import unittest
 from Tasks.EightStateCollision import EightStateCollision
+from Environments.Chain import Chain
 
 
 class TestEightStateCollision(unittest.TestCase):
