@@ -55,7 +55,7 @@ def plot_value_function(ax, value_function, step=0, run=0, is_last_step=False):
         color = 'red'
         ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color=color)
     else:
-        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color=color)
+        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha)
     ax.set_yticklabels([])
     ax.set_xticklabels([])
     # ax.legend()
