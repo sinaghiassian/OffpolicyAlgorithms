@@ -13,7 +13,7 @@ from Plotting.process_state_value_function import plot_all_final_value_functions
 from process_data import process_data
 
 
-func_to_run = 'specific_learning_curves_full_bootstrap'
+func_to_run = 'plot_all_final_value_functions'
 exps = ['FirstChain']
 
 # region process data
