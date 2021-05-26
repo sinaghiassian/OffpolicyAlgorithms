@@ -29,7 +29,7 @@ STEPS = [199, 999, 1999, 19999]
 RUNS = [0, 10, 15, 20, 30, 45]
 # RUNS = list(range(50))
 EXPS = ['FirstChain']  # FirstChain or FirstFourRoom or 1HVFourRoom
-ALGS = ['TD']
+ALGS = ['LSTD']
 TASK = 'EightStateCollision'
 
 
@@ -43,19 +43,19 @@ def plot_value_function(ax, value_function, step=0, run=0, is_last_step=False):
     line_style = '-'
     line_width = 4
     alpha = 1.0
-    color = 'red'
+    color = 'black'
     if not step:
         line_style = '--'
-        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color='black')
-    elif not step and is_last_step:
+        color = 'black'
+    if not step and is_last_step:
         line_style = '-'
-    elif is_last_step:
+    if is_last_step:
         line_width = 2
         alpha = 0.2
         color = 'red'
         ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color=color)
     else:
-        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha)
+        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color=color)
     ax.set_yticklabels([])
     ax.set_xticklabels([])
     # ax.legend()

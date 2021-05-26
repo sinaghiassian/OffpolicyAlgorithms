@@ -6,7 +6,7 @@ import time
 
 default_params = ImmutableDict(
     {
-        'agent': 'TD',
+        'agent': 'LSTD',
         'task': 'EightStateCollision',
         'environment': 'Chain',
         'exp': 'FirstChain',
@@ -19,7 +19,7 @@ default_params = ImmutableDict(
         # 'environment': 'FourRoomGridWorld',
         # 'exp': '1HVFourRoom',
 
-        'save_value_function': False,
+        'save_value_function': True,
         'sub_sample': 1,
         'num_of_runs': 50,
         'num_steps': 20000,
@@ -28,7 +28,7 @@ default_params = ImmutableDict(
             'eta': 16.0,
             'beta': 0.9,
             'zeta': 0.1,
-            'lmbda': 0.9,
+            'lmbda': 1.0,
             'tdrc_beta': 1.0
         }
     }
