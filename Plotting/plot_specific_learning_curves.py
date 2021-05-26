@@ -18,12 +18,16 @@ def load_data(alg, exp, best_params, postfix=''):
     return mean_lc, stderr_lc
 
 
-def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time=False):
+def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time=False, flag=False):
     alpha = 1.0
     if PLOT_RERUN_AND_ORIG:
         alpha = 1.0 if second_time else 0.5
     lbl = (alg + r'$\alpha=$ ' + str(best_params['alpha']))
     color = ALG_COLORS[alg]
+    if alg == 'TDRC':
+        alpha = 0.6
+    if flag:
+        color = 'green'
     ax.plot(np.arange(mean_lc.shape[0]), mean_lc, label=lbl, linewidth=1.0, color=color, alpha=alpha)
     ax.fill_between(np.arange(mean_lc.shape[0]), mean_lc - mean_stderr / 2, mean_lc + mean_stderr / 2,
                     color=color, alpha=0.1*alpha)
@@ -88,12 +92,14 @@ def plot_specific_learning_curves(**kwargs):
         save_dir = os.path.join('pdf_plots', 'specific_learning_curves', auc_or_final)
         fig, ax = plt.subplots(figsize=(10, 4))
         for alg in kwargs['algs']:
+            flag = False
             if alg in ['LSTD', 'LSETD']:
                 ls_rmsve = get_ls_rmsve(alg, exp, sp)
                 plot_ls_solution(ax, ls_rmsve, alg, sp)
                 continue
             print(alg, exp, sp)
             if alg == 'PGTD22':
+                flag = True
                 alg = 'PGTD2'
                 current_params = specific_params[alg]
                 current_params['eta'] = 1.0
@@ -102,7 +108,7 @@ def plot_specific_learning_curves(**kwargs):
                 current_params = specific_params[alg]
             print(current_params)
             mean_lc, mean_stderr = load_data(alg, exp, current_params, prefix)
-            plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs)
+            plot_data(ax, alg, mean_lc, mean_stderr, current_params, exp_attrs, False, flag)
         if not os.path.exists(save_dir):
             os.makedirs(save_dir, exist_ok=True)
         pylab.gca().set_rasterized(True)

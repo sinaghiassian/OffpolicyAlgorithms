@@ -47,7 +47,7 @@ def plot_sensitivity(ax, alg, alphas, sp, best_performance, stderr, exp_attrs, s
     ax.set_ylim(exp_attrs.y_lim)
     ax.yaxis.set_ticks(exp_attrs.y_axis_ticks)
     ax.tick_params(axis='y', which='major', labelsize=exp_attrs.size_of_labels)
-    # ax.xaxis.set_ticks(exp_attrs.x_axis_ticks_log)
+    ax.xaxis.set_ticks(exp_attrs.x_axis_ticks_log)
     # ax.set_xticklabels(exp_attrs.x_axis_tick_labels_log, fontsize=25)
     # plt.xticks(fontsize=25)
     ax.set_yticklabels([])

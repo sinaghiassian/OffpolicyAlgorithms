@@ -13,7 +13,7 @@ from Plotting.process_state_value_function import plot_all_final_value_functions
 from process_data import process_data
 
 
-func_to_run = 'plot_value_functions'
+func_to_run = 'specific_learning_curves_full_bootstrap'
 exps = ['FirstChain']
 
 # region process data
@@ -96,13 +96,12 @@ if func_to_run == 'specific_learning_curves_full_bootstrap':
     sp = 0.0
     if 'FirstChain' in exps:
         exp = 'FirstChain'
-        algs = ['LSTD', 'LSETD', 'ETD', 'TD', 'GTD', 'TDRC', 'PGTD2', 'PGTD22']
+        algs = ['ETD', 'TD', 'GTD', 'TDRC', 'PGTD2']
         specific_params = {
-            'TD': {'alpha': 0.25, 'lmbda': sp},
+            'TD': {'alpha': 0.0625, 'lmbda': sp},
             'ETD': {'alpha': 0.00390625, 'lmbda': sp},
-            'ETDLB': {'alpha': 0.000488281, 'lmbda': sp, 'beta': 0.2},
-            'TDRC': {'alpha': 0.0625, 'lmbda': sp, 'eta': 1.0, 'tdrc_beta': 1.0},
-            'GTD': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0},
+            'TDRC': {'alpha': 0.25, 'lmbda': sp, 'eta': 1.0, 'tdrc_beta': 0.01},
+            'GTD': {'alpha': 0.000976562, 'lmbda': sp, 'eta': 16.0},
             'PGTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0}
         }
         plot_specific_learning_curves(exp=exp, algs=algs, sp=sp, fig_size=fig_size, auc_or_final=auc_or_final,

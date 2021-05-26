@@ -141,7 +141,7 @@ class FirstChainAttr:
         self.y_axis_ticks = [0.1, 0.3, 0.5, 0.7]
         self.x_axis_ticks = [0.0, 5000, 10000, 15000, 20000]
         self.x_tick_labels = [0, '5', '10', '15', '20']
-        self.x_axis_ticks_log = [pow(2, -16), pow(2, -13), pow(2, -10), pow(2, -7), pow(2, -4), pow(2, -1)]
+        self.x_axis_ticks_log = [pow(2, -18), pow(2, -14), pow(2, -10), pow(2, -6), pow(2, -2)]
         self.x_axis_tick_labels_log = [-16, -13, -10, -7, -4, -1]
         self.over_limit_replacement = 2.0
         self.over_limit_waterfall = 0.79
