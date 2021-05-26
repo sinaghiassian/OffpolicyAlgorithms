@@ -43,19 +43,19 @@ def plot_value_function(ax, value_function, step=0, run=0, is_last_step=False):
     line_style = '-'
     line_width = 4
     alpha = 1.0
-    color = 'black'
+    color = 'red'
     if not step:
         line_style = '--'
-        color = 'black'
-    if not step and is_last_step:
+        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color='black')
+    elif not step and is_last_step:
         line_style = '-'
-    if is_last_step:
+    elif is_last_step:
         line_width = 2
         alpha = 0.2
         color = 'red'
         ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color=color)
     else:
-        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color=color)
+        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha)
     ax.set_yticklabels([])
     ax.set_xticklabels([])
     # ax.legend()
@@ -70,7 +70,7 @@ def plot_value_functions():
         for alg in ALGS:
             value_processor = ValueFunctionProcessor(exp, alg)
             for run in RUNS:
-                fig, ax = plt.subplots(figsize=(6, 3))
+                fig, ax = plt.subplots(figsize=(8, 3))
                 plot_value_function(ax, true_value_function)
                 for step in STEPS:
                     value_function = value_processor.get_value_function_by_step_and_run(step, run)
