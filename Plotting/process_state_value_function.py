@@ -24,12 +24,12 @@ class ValueFunctionProcessor:
 
 
 # STEPS = [199, 999, 1999, 3999, 9999, 19999]
-STEPS = [199, 999, 1999, 19999]
+STEPS = [199, 1999, 19999]
 # STEPS = [19999]
 RUNS = [0, 10, 15, 20, 30, 45]
 # RUNS = list(range(50))
 EXPS = ['FirstChain']  # FirstChain or FirstFourRoom or 1HVFourRoom
-ALGS = ['LSTD']
+ALGS = ['TD']
 TASK = 'EightStateCollision'
 
 
@@ -43,13 +43,13 @@ def plot_value_function(ax, value_function, step=0, run=0, is_last_step=False):
     line_style = '-'
     line_width = 4
     alpha = 1.0
-    color = 'black'
+    color='black'
     if not step:
         line_style = '--'
-        color = 'black'
-    if not step and is_last_step:
+        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color=color)
+    elif not step and is_last_step:
         line_style = '-'
-    if is_last_step:
+    elif is_last_step:
         line_width = 2
         alpha = 0.2
         color = 'red'
@@ -71,10 +71,10 @@ def plot_value_functions():
             value_processor = ValueFunctionProcessor(exp, alg)
             for run in RUNS:
                 fig, ax = plt.subplots(figsize=(8, 3))
-                plot_value_function(ax, true_value_function)
                 for step in STEPS:
                     value_function = value_processor.get_value_function_by_step_and_run(step, run)
                     plot_value_function(ax, value_function, step, run)
+                plot_value_function(ax, true_value_function)
                 fig.savefig(os.path.join(save_dir, f"{run}_value_function_{alg}_{exp}.pdf"),
                             format='pdf', dpi=200, bbox_inches='tight')
             plt.show()
@@ -89,10 +89,10 @@ def plot_all_final_value_functions():
         for alg in ALGS:
             value_processor = ValueFunctionProcessor(exp, alg)
             fig, ax = plt.subplots(figsize=(8, 3))
-            plot_value_function(ax, true_value_function)
             for run in range(50):
                 value_function = value_processor.get_value_function_for_last_step(run)
                 plot_value_function(ax, value_function, is_last_step=True)
+            plot_value_function(ax, true_value_function)
             fig.savefig(os.path.join(save_dir, f"value_function_{alg}_{exp}.pdf"),
                         format='pdf', dpi=200, bbox_inches='tight')
             plt.show()
