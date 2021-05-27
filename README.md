@@ -14,13 +14,9 @@ This repository includes the code for the following paper: "An Empirical Compari
 <br>
 
 
-[comment]: <> (<p align="center">)
-
-[comment]: <> (    <img src="/Assets/FourRoomGridWorld.gif" />)
-
-[comment]: <> (    <img src="/Assets/chain.gif" />)
-
-[comment]: <> (</p>)
+<p align="center">
+    <img src="/Assets/chain.gif" />
+</p>
 <p align="center">
     <img src="/Assets/plots.png" />
 </p>
