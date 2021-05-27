@@ -8,10 +8,11 @@
 <div align="center">
   :steam_locomotive::train::train::train::train::train:
 </div>
-<h2 align=center>Off-policy Prediction Learning Algorithms</h2>
+<h2 align=center>An Empirical Comparison of Off-policy Prediction Learning Algorithms on the Collision Task</h2>
 
-This repository includes the code for the following paper: "An Empirical Comparison of Off-policy Prediction Learning Algorithms on the Collision Task".
-<br>
+[comment]: <> (This repository includes the code for the following paper: "An Empirical Comparison of Off-policy Prediction Learning Algorithms on the Collision Task".)
+
+[comment]: <> (<br>)
 
 
 <p align="center">
