@@ -1,20 +1,26 @@
-<p align="center">
-    <img width="100" src="/Assets/rlai.png" />
-</p>
-<br>
+[comment]: <> (<p align="center">)
+
+[comment]: <> (    <img width="100" src="/Assets/rlai.png" />)
+
+[comment]: <> (</p>)
+
+[comment]: <> (<br>)
 <div align="center">
   :steam_locomotive::train::train::train::train::train:
 </div>
 <h2 align=center>Off-policy Prediction Learning Algorithms</h2>
 
-This repository includes the code for the "empirical off-policy" paper.
+This repository includes the code for the following paper: "An Empirical Comparison of Off-policy Prediction Learning Algorithms on the Collision Task".
 <br>
 
 
-<p align="center">
-    <img src="/Assets/FourRoomGridWorld.gif" />
-    <img src="/Assets/chain.gif" />
-</p>
+[comment]: <> (<p align="center">)
+
+[comment]: <> (    <img src="/Assets/FourRoomGridWorld.gif" />)
+
+[comment]: <> (    <img src="/Assets/chain.gif" />)
+
+[comment]: <> (</p>)
 <p align="center">
     <img src="/Assets/plots.png" />
 </p>
