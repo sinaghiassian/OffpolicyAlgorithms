@@ -13,7 +13,7 @@ from Plotting.process_state_value_function import plot_all_final_value_functions
 from process_data import process_data
 
 
-func_to_run = 'plot_all_final_value_functions'
+func_to_run = 'collision_gradients_sensitivity_full_bootstrap'
 exps = ['FirstChain']
 
 # region process data
@@ -98,9 +98,9 @@ if func_to_run == 'specific_learning_curves_full_bootstrap':
         exp = 'FirstChain'
         algs = ['ETD', 'TD', 'GTD', 'TDRC', 'PGTD2']
         specific_params = {
-            'TD': {'alpha': 0.0625, 'lmbda': sp},
+            'TD': {'alpha': 0.03125, 'lmbda': sp},
             'ETD': {'alpha': 0.00390625, 'lmbda': sp},
-            'TDRC': {'alpha': 0.25, 'lmbda': sp, 'eta': 1.0, 'tdrc_beta': 0.01},
+            'TDRC': {'alpha': 0.0625, 'lmbda': sp, 'eta': 4.0, 'tdrc_beta': 0.01},
             'GTD': {'alpha': 0.000976562, 'lmbda': sp, 'eta': 16.0},
             'PGTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0}
         }
@@ -175,7 +175,7 @@ if func_to_run == 'collision_best_sensitivity_curves_full_bootstrapping' or 'col
                                auc_or_final=auc_or_final)
 if func_to_run == 'collision_gradients_sensitivity_full_bootstrap':
     sp_list = [0.0]
-    fig_size = (8, 4)
+    fig_size = (11, 4)
     algs = ['GTD', 'GTD2', 'PGTD2', 'HTD']
     auc_or_final = ['auc']
     plot_all_sensitivities_per_alg_gradients(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size,
@@ -189,7 +189,7 @@ if func_to_run == 'collision_gradients_sensitivity_full_bootstrap_all_eta':
                                                      auc_or_final=auc_or_final)
 if func_to_run == 'collision_emphatics_sensitivity_full_bootstrap':
     sp_list = [0.0]
-    fig_size = (6, 4)
+    fig_size = (11, 5)
     auc_or_final = ['auc']
     plot_all_sensitivities_per_alg_emphatics(exps=exps, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
 if func_to_run == 'collision_emphatics_sensitivity_minimal_bootstrap':
