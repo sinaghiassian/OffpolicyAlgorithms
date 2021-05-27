@@ -1,18 +1,9 @@
-[comment]: <> (<p align="center">)
 
-[comment]: <> (    <img width="100" src="/Assets/rlai.png" />)
-
-[comment]: <> (</p>)
-
-[comment]: <> (<br>)
 <div align="center">
   :steam_locomotive::train::train::train::train::train:
 </div>
 <h2 align=center>An Empirical Comparison of Off-policy Prediction Learning Algorithms on the Collision Task</h2>
 
-[comment]: <> (This repository includes the code for the following paper: "An Empirical Comparison of Off-policy Prediction Learning Algorithms on the Collision Task".)
-
-[comment]: <> (<br>)
 
 
 <p align="center">
