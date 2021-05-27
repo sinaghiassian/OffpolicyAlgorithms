@@ -299,7 +299,7 @@ The MDP defines the states, actions, rewards, transition probability matrix, and
 ### Chain Environment and the Collision Task
 <br>
 <p align="center">
-    <img width="500" src="/Assets/eight_state_collision.png" />
+    <img width="800" src="/Assets/eight_state_collision.png" />
 </p>
 <br>
 An MDP with eight states is at the heart of the task.
@@ -545,7 +545,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    Go to `plot_data`, and set  `func_to_run = 'collision_emphatics_sensitivity_full_bootstrap'`, and run the script.
    <br></br>
    <p align="center">
-   <img width="350" src="/Assets/Emphatics_sensitivity.png" />
+   <img width="550" src="/Assets/Emphatics_sensitivity.png" />
    </p>
    <br>
    
@@ -553,6 +553,6 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    Go to `plot_data`, and set  `func_to_run = 'collision_gradients_sensitivity_full_bootstrap'`, and run the script.
    <br></br>
    <p align="center">
-   <img src="/Assets/Gradients_sensitivity.png" />
+   <img width="850" src="/Assets/Gradients_sensitivity.png" />
    </p>
    <br>
