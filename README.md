@@ -494,7 +494,7 @@ dictionary inside the `Job` directory inside the `JobBuilder.py` file.
 ## Plotting the results
 The following table shows all the parameters that we tested in the experiments:
 <p align="center">
-    <img width="700" src="/Assets/parameters" />
+    <img width="700" src="/Assets/parameters.png" />
 </p>
 
 We now explain how each figure in the paper can be reproduced.
@@ -520,7 +520,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    the learned value functions for some of the runs, and set `func_to_run = plot_all_final_value_functions` to plot the 
    value function learned by the last time step of all of the runs in one plot.
    <p align="center">
-   <img src="/Assets/value_functions" />
+   <img src="/Assets/value_functions.png" />
    </p>
    <br>
 
@@ -529,7 +529,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    script.
    <br></br>
    <p align="center">
-   <img width="450" src="/Assets/specific_learning_curves" />
+   <img width="450" src="/Assets/specific_learning_curves.png" />
    </p>
    <br>
    
@@ -537,7 +537,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    Go to `plot_data`, and set  `func_to_run = 'collision_sensitivity_curves_for_many_lambdas'`, and run the script.
    <br></br>
    <p align="center">
-   <img src="/Assets/sensitivity_curves_of_all_algs" />
+   <img src="/Assets/sensitivity_curves_of_all_algs.png" />
    </p>
    <br>
    
@@ -545,7 +545,7 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    Go to `plot_data`, and set  `func_to_run = 'collision_emphatics_sensitivity_full_bootstrap'`, and run the script.
    <br></br>
    <p align="center">
-   <img width="350" src="/Assets/Emphatics_sensitivity" />
+   <img width="350" src="/Assets/Emphatics_sensitivity.png" />
    </p>
    <br>
    
@@ -553,6 +553,6 @@ All the figures of the paper can be reproduced using the `plot_data.py` file.
    Go to `plot_data`, and set  `func_to_run = 'collision_gradients_sensitivity_full_bootstrap'`, and run the script.
    <br></br>
    <p align="center">
-   <img src="/Assets/Gradients_sensitivity" />
+   <img src="/Assets/Gradients_sensitivity.png" />
    </p>
    <br>
