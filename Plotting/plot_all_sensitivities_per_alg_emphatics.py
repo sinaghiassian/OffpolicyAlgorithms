@@ -52,8 +52,8 @@ def plot_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr, exp_attr
     ax.yaxis.set_ticks(exp_attrs.y_axis_ticks)
     ax.tick_params(axis='y', which='major', labelsize=exp_attrs.size_of_labels)
     ax.xaxis.set_ticks(exp_attrs.x_axis_ticks_log)
-    ax.set_xticklabels(exp_attrs.x_axis_tick_labels_log, fontsize=25)
-    plt.xticks(fontsize=25)
+    # ax.set_xticklabels(exp_attrs.x_axis_tick_labels_log, fontsize=25)
+    # plt.xticks(fontsize=25)
     ax.set_yticklabels([])
     ax.set_xticklabels([])
 
@@ -70,7 +70,7 @@ def plot_all_sensitivities_per_alg_emphatics(**kwargs):
     global plot_alpha
     for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
-        for auc_or_final in AUC_AND_FINAL:
+        for auc_or_final in kwargs['auc_or_final']:
             for sp in kwargs['sp_list']:
                 plot_alpha = 1.0
                 alg = 'ETD'
