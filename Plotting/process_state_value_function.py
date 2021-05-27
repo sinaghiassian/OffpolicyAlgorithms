@@ -43,13 +43,12 @@ def plot_value_function(ax, value_function, step=0, run=0, is_last_step=False):
     line_style = '-'
     line_width = 4
     alpha = 1.0
-    color='black'
+    color = 'blue'
     if not step:
         line_style = '--'
-        ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha, color=color)
-    elif not step and is_last_step:
+    if not step and is_last_step:
         line_style = '-'
-    elif is_last_step:
+    if is_last_step:
         line_width = 2
         alpha = 0.2
         color = 'red'
