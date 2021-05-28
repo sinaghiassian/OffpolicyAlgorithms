@@ -157,9 +157,9 @@ w += alpha * delta * z
 <a name='etdb'></a>
 #### Emphatic TDβ
 
-**Paper** [An Emphatic Approach to the Problem of Off-policy Temporal-Difference Learning](
-https://jmlr.org/papers/volume17/14-488/14-488.pdf)<br>
-**Authors** Richard S. Sutton, A. Rupam Mahmood, Martha White<br>
+**Paper** [Generalized Emphatic Temporal Difference Learning: Bias-Variance Analysis](
+https://ojs.aaai.org/index.php/AAAI/article/view/10227/10086)<br>
+**Authors** Assaf Hallak, Aviv Tamar, Remi Munos, Shie Mannor<br>
 
 ```python
 delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
