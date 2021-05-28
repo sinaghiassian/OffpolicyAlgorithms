@@ -1,7 +1,7 @@
 #!/bin/bash
 # SLURM submission script for submitting multiple serial jobs on Niagara
 #
-#SBATCH --account=def-sutton
+#SBATCH --account=xxx
 #SBATCH --time=11:58:59
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=40
