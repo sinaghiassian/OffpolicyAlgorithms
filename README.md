@@ -157,9 +157,9 @@ w += alpha * delta * z
 <a name='etdb'></a>
 #### Emphatic TDβ
 
-**Paper** [An Emphatic Approach to the Problem of Off-policy Temporal-Difference Learning](
-https://jmlr.org/papers/volume17/14-488/14-488.pdf)<br>
-**Authors** Richard S. Sutton, A. Rupam Mahmood, Martha White<br>
+**Paper** [Generalized Emphatic Temporal Difference Learning: Bias-Variance Analysis](
+https://ojs.aaai.org/index.php/AAAI/article/view/10227/10086)<br>
+**Authors** Assaf Hallak, Aviv Tamar, Remi Munos, Shie Mannor<br>
 
 ```python
 delta = r + gamma * np.dot(w, x_p) - np.dot(w, x)
@@ -498,7 +498,8 @@ The following table shows all the parameters that we tested in the experiments:
 </p>
 
 We now explain how each figure in the paper can be reproduced.
-All the figures of the paper can be reproduced using the `plot_data.py` file.
+All the figures of the paper can be reproduced using the `plot_data.py` file, once you run the Learning.py script with all the needed parameters.
+If you do not have the results available, the `plot_data.py` script will return an error.
 
 1) **Processing the data**: This script manipulates data in a way that it is ready to be plotted over step sizes and also such 
    that the data is ready to be plotted as learning curves averaged over runs.
