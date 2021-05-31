@@ -10,8 +10,8 @@ class TestTD(unittest.TestCase):
     def setUp(self) -> None:
         params = {
             'resource_root_path': '../../Resources',
-            'alpha': 0.000003814,
-            'lmbda': 0.125,
+            'alpha': 0.001953125,
+            'lmbda': 0.9,
         }
         self.env = Chain()
         self.task = EightStateCollision(**params)
@@ -43,4 +43,4 @@ class TestTD(unittest.TestCase):
                 self.alg.reset()
                 continue
             self.alg.state = self.alg.next_state
-        self.assertEqual(rmsve_of_run.sum(), 13738.01078332455)
+        self.assertEqual(rmsve_of_run[0, -1], 0.08319473)
