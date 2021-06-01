@@ -5,7 +5,7 @@ from Environments.Chain import Chain
 
 class TestEightStateCollision(unittest.TestCase):
     def setUp(self) -> None:
-        params = {'resource_root_path': '../../Resources'}
+        #params = {'resource_root_path': '../../Resources'}
         self.experiment = EightStateCollision(**params)
         self.experiment.reset()
 

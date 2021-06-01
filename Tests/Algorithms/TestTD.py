@@ -9,7 +9,7 @@ from Tasks.EightStateCollision import EightStateCollision
 class TestTD(unittest.TestCase):
     def setUp(self) -> None:
         params = {
-            'resource_root_path': '../../Resources',
+            #'resource_root_path': '../../Resources',
             'alpha': 0.001953125,
             'lmbda': 0.9,
         }
