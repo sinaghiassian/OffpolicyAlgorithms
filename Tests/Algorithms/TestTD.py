@@ -43,4 +43,4 @@ class TestTD(unittest.TestCase):
                 self.alg.reset()
                 continue
             self.alg.state = self.alg.next_state
-        self.assertEqual(rmsve_of_run[0, -1], 0.08319472840990755)
+        self.assertTrue(abs(0.08319472840990755 - rmsve_of_run[0, -1]) <= 0.0000001)
