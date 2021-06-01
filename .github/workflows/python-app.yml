@@ -26,6 +26,10 @@ jobs:
         pip install -r requirements.txt;
     - name: Test with pytest
       run: |
+<<<<<<< HEAD
         python -m unittest discover -s Tests\Environments
         python -m unittest discover -s Tests\Tasks
         python -m unittest discover -s Tests\Algorithms
+=======
+        python -m unittest
+>>>>>>> 2403a6c33d0839901f297f3904dd7d940ed1543f
