@@ -29,10 +29,10 @@ class TestTD(unittest.TestCase):
         self.assertEqual(self.alg.z.sum(), 0)
 
     def test_learn_single_policy_rmsve_after_num_steps(self):
-        self.alg.state = self.env.reset()
         rmsve_of_run = np.zeros((self.task.num_policies, self.task.num_steps))
         np.random.seed(0)
 
+        self.alg.state = self.env.reset()
         for step in range(self.task.num_steps):
             rmsve_of_run[:, step], error = self.alg.compute_rmsve()
             self.alg.action = self.alg.choose_behavior_action()
@@ -43,4 +43,4 @@ class TestTD(unittest.TestCase):
                 self.alg.reset()
                 continue
             self.alg.state = self.alg.next_state
-        self.assertEqual(rmsve_of_run[0, -1], 0.08319473)
+        self.assertEqual(rmsve_of_run[0, -1], 0.08319472840990755)
