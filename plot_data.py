@@ -13,19 +13,24 @@ from Plotting.process_state_value_function import plot_all_final_value_functions
 from process_data import process_data
 
 
-func_to_run = 'collision_gradients_sensitivity_full_bootstrap'
-exps = ['FirstChain']
+func_to_run = 'four_rooms_emphatics_sensitivity_full_bootstrap'
+if 'collision' in func_to_run:
+    exps = ['FirstChain']  # FirstChain OR FirstFourRoom OR 1HVFourRoom
+elif 'hv' in func_to_run:
+    exps = ['1HVFourRoom']
+else:
+    exps = ['FirstFourRoom']
 
 # region process data
 if func_to_run == 'process_data':
-    exps = ['1HVFourRoom']
+    exps = ['FirstChain', 'FirstFourRoom', '1HVFourRoom']
     algs = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD']
     auc_or_final = ['auc', 'final']
-    sp_list = [0.1, 0.2, 0.3, 0.5, 0.75, 0.875, 0.9375, 0.96875, 0.984375]
-    # sp_list = [0.1, 0.2, 0.3]
+    sp_list = [1.0]
     process_data(exps=exps, algs=algs, auc_or_final=auc_or_final, sp_list=sp_list)
 # endregion
 
+# region Collision figures
 # region learning curves
 if func_to_run == 'collision_learning_curves_for_all_extra_params_full_bootstrapping':
     algs = ['PGTD2', 'GTD', 'LSTD']
@@ -90,7 +95,7 @@ if func_to_run == 'collision_best_learning_curves_full_bootstrap_rerun_and_origi
     alg_groups = {'all_algs': ['GTD']}
     auc_or_final = ['final']
     plot_learning_curve(exps=exps, alg_groups=alg_groups, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
-if func_to_run == 'specific_learning_curves_full_bootstrap':
+if func_to_run == 'collision_specific_learning_curves_full_bootstrap':
     auc_or_final = ['auc']
     fig_size = (10, 4)
     sp = 0.0
@@ -213,6 +218,43 @@ if func_to_run == 'state_dist':
 if func_to_run == 'high_variance_and_normal_dist_comparison':
     fig_size = (6, 4)
     plot_dist_for_two_four_room_tasks(fig_size=fig_size)
+# endregion
+# endregion
+
+# region Four rooms figures
+
+# region sensitivity curves
+if func_to_run == 'four_rooms_sensitivity_curves_for_many_lambdas':
+    sp_list = [0.0, 0.1, 0.2, 0.3, 0.5, 0.75, 0.875, 0.9375, 0.96875, 0.984375, 1.0]
+    fig_size = (10, 4)
+    algs = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD']
+    auc_or_final = ['auc']
+    plot_sensitivity_for_lambdas(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size,
+                                 auc_or_final=auc_or_final)
+if func_to_run == 'four_rooms_emphatics_sensitivity_full_bootstrap':
+    sp_list = [0.0]
+    fig_size = (11, 5)
+    auc_or_final = ['auc']
+    plot_all_sensitivities_per_alg_emphatics(exps=exps, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
+# endregion
+
+# endregion
+
+# region High variance four rooms figures
+
+# region sensitivity curves
+if func_to_run == 'hv_four_rooms_sensitivity_curves_for_many_lambdas':
+    sp_list = [0.0, 0.1, 0.2, 0.3, 0.5, 0.75, 0.875, 0.9375, 0.96875, 0.984375]
+    fig_size = (10, 4)
+    algs = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD']
+    # algs = ['TB', 'Vtrace', 'ABTD']
+    auc_or_final = ['auc']
+    plot_sensitivity_for_lambdas(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size,
+                                 auc_or_final=auc_or_final)
+# end region
+
+# endregion
+
 # endregion
 
 # from Plotting.process_state_value_function import plot_value_functions, plot_all_final_value_functions
