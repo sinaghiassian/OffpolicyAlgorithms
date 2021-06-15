@@ -1,9 +1,3 @@
-<p align="center">
-    <img src="/Assets/chain.gif" />
-</p>
-<p align="center">
-    <img src="/Assets/plots.png" />
-</p>
 
 <p align="center">
     <img width="100" src="/Assets/rlai.png" />
