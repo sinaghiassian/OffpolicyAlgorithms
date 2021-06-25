@@ -74,7 +74,7 @@ def plot_ls_solution(ax, ls_rmsve, alg, sp):
 
 def plot_learning_curve(**kwargs):
     is_smoothed = True if 'is_smoothed' in kwargs else False
-    smoothing_window = kwargs['smoothing_window'] if 'smoothing_window' in kwargs else 1
+    smoothing_window = kwargs.get('smoothing_window', 1)
     for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in kwargs['auc_or_final']:
