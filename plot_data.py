@@ -1,5 +1,6 @@
 from Plotting.plot_all_sensitivities_per_alg_gradients import plot_all_sensitivities_per_alg_gradients
 from Plotting.plot_all_sensitivities_per_alg_gradients_all_eta import plot_all_sensitivities_per_alg_gradients_all_eta
+from Plotting.plot_best_learning_curve_over_all_params import plot_learning_curve_best_overall_params
 from Plotting.plot_dist import plot_distribution, plot_dist_for_two_four_room_tasks
 from Plotting.plot_all_sensitivities_per_alg_emphatics import plot_all_sensitivities_per_alg_emphatics
 from Plotting.plot_learning_curve import plot_learning_curve
@@ -12,8 +13,7 @@ from Plotting.plot_waterfall import plot_waterfall_scatter
 from Plotting.process_state_value_function import plot_all_final_value_functions, plot_value_functions
 from process_data import process_data
 
-
-func_to_run = 'four_rooms_specific_learning_curves_full_bootstrap'
+func_to_run = 'hv_four_rooms_specific_learning_curves_full_bootstrap'
 if 'collision' in func_to_run:
     exps = ['FirstChain']  # FirstChain OR FirstFourRoom OR 1HVFourRoom
 elif 'hv' in func_to_run:
@@ -30,8 +30,13 @@ if func_to_run == 'process_data':
     process_data(exps=exps, algs=algs, auc_or_final=auc_or_final, sp_list=sp_list)
 # endregion
 
+
 # ====================
 # ====================
+
+# ====================
+# ====================
+
 
 # region Collision figures
 # region learning curves
@@ -141,7 +146,6 @@ if func_to_run == 'collision_best_learning_curves_full_bootstrap_rerun_and_origi
     auc_or_final = ['final']
     plot_learning_curve(exps=exps, alg_groups=alg_groups, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
 # endregion
-
 # region sensitivity curves
 if func_to_run == 'collision_sensitivity_curves_for_many_lambdas':
     sp_list = [0.0, 0.1, 0.2, 0.3, 0.5, 0.75, 0.875, 0.9375, 0.96875, 0.984375, 1.0]
@@ -207,70 +211,52 @@ if func_to_run == 'collision_sensitivity_curves_for_two_lambdas':
                                  auc_or_final=auc_or_final)
 # endregion
 
-# region Misc
-if func_to_run == 'plot_value_functions':
-    plot_value_functions()
-if func_to_run == 'plot_all_final_value_functions':
-    plot_all_final_value_functions()
-if func_to_run == 'state_dist':
-    fig_size = (6, 4)
-    tasks = ['EightStateCollision', 'LearnEightPoliciesTileCodingFeat',
-             'HighVarianceLearnEightPoliciesTileCodingFeat']
-    for task in tasks:
-        plot_distribution(task=task, fig_size=fig_size)
-if func_to_run == 'high_variance_and_normal_dist_comparison':
-    fig_size = (6, 4)
-    plot_dist_for_two_four_room_tasks(fig_size=fig_size)
 # endregion
-# endregion
+
 
 # ====================
 # ====================
 
-# region Four rooms figures
+
+# region FOUR ROOMS FIGURES
 # region learning curves
 if func_to_run == 'four_rooms_specific_learning_curves_full_bootstrap':
     auc_or_final = ['auc']
     fig_size = (10, 4)
     sp = 0.0
-    if 'FirstChain' in exps:
-        exp = 'FirstChain'
-        algs = ['ETD', 'TD', 'GTD', 'TDRC', 'PGTD2']
-        specific_params = {
-            'TD': {'alpha': 0.03125, 'lmbda': sp},
-            'ETD': {'alpha': 0.00390625, 'lmbda': sp},
-            'TDRC': {'alpha': 0.0625, 'lmbda': sp, 'eta': 4.0, 'tdrc_beta': 0.01},
-            'GTD': {'alpha': 0.000976562, 'lmbda': sp, 'eta': 16.0},
-            'PGTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0}
-        }
-        plot_specific_learning_curves(exp=exp, algs=algs, sp=sp, fig_size=fig_size, auc_or_final=auc_or_final,
-                                      specific_params=specific_params)
-    if 'FirstFourRoom' in exps:
-        exp = 'FirstFourRoom'
-        algs = ['LSTD', 'LSETD', 'ETD', 'TD', 'GTD2', 'TDRC', 'PGTD2']
-        specific_params = {
-            'TD': {'alpha': 0.25, 'lmbda': sp},
-            'ETD': {'alpha': 0.00390625, 'lmbda': sp},
-            'ETDLB': {'alpha': 0.000488281, 'lmbda': sp, 'beta': 0.2},
-            'TDRC': {'alpha': 0.0625, 'lmbda': sp, 'eta': 1.0, 'tdrc_beta': 1.0},
-            'GTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0},
-            'PGTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0}
-        }
-        plot_specific_learning_curves(exp=exp, algs=algs, sp=sp, fig_size=fig_size, auc_or_final=auc_or_final,
-                                      specific_params=specific_params)
-
-    if '1HVFourRoom' in exps:
-        exp = '1HVFourRoom'
-        algs = ['LSTD', 'LSETD', 'ETDLB', 'TD', 'GTD', 'TDRC', 'PGTD2']
-        specific_params = {
-            'TD': {'alpha': 0.25, 'lmbda': sp},
-            'ETDLB': {'alpha': 0.000488281, 'lmbda': sp, 'beta': 0.2},
-            'TDRC': {'alpha': 0.0625, 'lmbda': sp, 'eta': 1.0, 'tdrc_beta': 1.0},
-            'GTD': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0},
-            'PGTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0}
-        }
-        plot_specific_learning_curves(exp=exp, algs=algs, sp=sp, fig_size=fig_size, auc_or_final=auc_or_final,
-                                      specific_params=specific_params)
+    exp = 'FirstFourRoom'
+    algs = ['ETD', 'TD', 'GTD2', 'TDRC', 'PGTD2']
+    specific_params = {
+        'TD': {'alpha': 0.0625, 'lmbda': 0.0},
+        'ETD': {'alpha': 0.000488281, 'lmbda': sp},
+        'ETDLB': {'alpha': 0.000488281, 'lmbda': sp, 'beta': 0.2},
+        'TDRC': {'alpha': 0.125, 'lmbda': sp, 'eta': 4.0, 'tdrc_beta': 1.0},
+        'GTD2': {'alpha': 0.001953125, 'lmbda': sp, 'eta': 16.0},
+        'PGTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0}
+    }
+    plot_specific_learning_curves(exp=exp, algs=algs, sp=sp, fig_size=fig_size, auc_or_final=auc_or_final,
+                                  specific_params=specific_params)
+if func_to_run == 'four_rooms_best_learning_curves_full_bootstrap':
+    sp_list = [0.0]
+    fig_size = (10, 4)
+    alg_groups = {'main_algs': ['TD', 'GTD', 'ETD', 'LSTD', 'LSETD'],
+                  'gradients': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC', 'LSTD'],
+                  'emphatics': ['ETD', 'ETDLB', 'LSETD'],
+                  'fast_algs': ['TD', 'TB', 'Vtrace', 'ABTD', 'LSTD'],
+                  'all_algs': ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD',
+                               'LSTD', 'LSETD']}
+    auc_or_final = ['auc']
+    plot_learning_curve(exps=exps, alg_groups=alg_groups, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
+if func_to_run == 'four_rooms_best_overall_params_learning_curves':
+    fig_size = (10, 4)
+    alg_groups = {'main_algs': ['TD', 'GTD', 'ETD', 'LSTD', 'LSETD'],
+                  'gradients': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC', 'LSTD'],
+                  'emphatics': ['ETD', 'ETDLB', 'LSETD'],
+                  'fast_algs': ['TD', 'TB', 'Vtrace', 'ABTD', 'LSTD'],
+                  'all_algs': ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD',
+                               'LSTD', 'LSETD']}
+    auc_or_final = ['auc']
+    plot_learning_curve_best_overall_params(exps=exps, alg_groups=alg_groups, fig_size=fig_size, auc_or_final=auc_or_final)
 # endregion
 
 # region sensitivity curves
@@ -279,8 +265,9 @@ if func_to_run == 'four_rooms_sensitivity_curves_for_many_lambdas':
     fig_size = (10, 4)
     algs = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD']
     auc_or_final = ['auc']
-    plot_sensitivity_for_lambdas(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size,
-                                 auc_or_final=auc_or_final)
+    plot_min_performance = False
+    plot_sensitivity_for_lambdas(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final,
+                                 plot_min_performance=plot_min_performance)
 if func_to_run == 'four_rooms_emphatics_sensitivity_full_bootstrap':
     sp_list = [0.0]
     fig_size = (11, 5)
@@ -338,54 +325,50 @@ if func_to_run == 'four_rooms_sensitivity_curves_for_two_lambdas':
 # endregion
 # endregion
 
+
 # ====================
 # ====================
 
-# region High variance four rooms figures
+
+# region HIGH VARIANCE FOUR ROOMS FIGURES
 # region learning curves
 if func_to_run == 'hv_four_rooms_specific_learning_curves_full_bootstrap':
     auc_or_final = ['auc']
     fig_size = (10, 4)
     sp = 0.0
-    if 'FirstChain' in exps:
-        exp = 'FirstChain'
-        algs = ['ETD', 'TD', 'GTD', 'TDRC', 'PGTD2']
-        specific_params = {
-            'TD': {'alpha': 0.03125, 'lmbda': sp},
-            'ETD': {'alpha': 0.00390625, 'lmbda': sp},
-            'TDRC': {'alpha': 0.0625, 'lmbda': sp, 'eta': 4.0, 'tdrc_beta': 0.01},
-            'GTD': {'alpha': 0.000976562, 'lmbda': sp, 'eta': 16.0},
-            'PGTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0}
-        }
-        plot_specific_learning_curves(exp=exp, algs=algs, sp=sp, fig_size=fig_size, auc_or_final=auc_or_final,
-                                      specific_params=specific_params)
-    if 'FirstFourRoom' in exps:
-        exp = 'FirstFourRoom'
-        algs = ['LSTD', 'LSETD', 'ETD', 'TD', 'GTD2', 'TDRC', 'PGTD2']
-        specific_params = {
-            'TD': {'alpha': 0.25, 'lmbda': sp},
-            'ETD': {'alpha': 0.00390625, 'lmbda': sp},
-            'ETDLB': {'alpha': 0.000488281, 'lmbda': sp, 'beta': 0.2},
-            'TDRC': {'alpha': 0.0625, 'lmbda': sp, 'eta': 1.0, 'tdrc_beta': 1.0},
-            'GTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0},
-            'PGTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0}
-        }
-        plot_specific_learning_curves(exp=exp, algs=algs, sp=sp, fig_size=fig_size, auc_or_final=auc_or_final,
-                                      specific_params=specific_params)
-
-    if '1HVFourRoom' in exps:
-        exp = '1HVFourRoom'
-        algs = ['LSTD', 'LSETD', 'ETDLB', 'TD', 'GTD', 'TDRC', 'PGTD2']
-        specific_params = {
-            'TD': {'alpha': 0.25, 'lmbda': sp},
-            'ETDLB': {'alpha': 0.000488281, 'lmbda': sp, 'beta': 0.2},
-            'TDRC': {'alpha': 0.0625, 'lmbda': sp, 'eta': 1.0, 'tdrc_beta': 1.0},
-            'GTD': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0},
-            'PGTD2': {'alpha': 0.0078125, 'lmbda': sp, 'eta': 16.0}
-        }
-        plot_specific_learning_curves(exp=exp, algs=algs, sp=sp, fig_size=fig_size, auc_or_final=auc_or_final,
-                                      specific_params=specific_params)
+    exp = '1HVFourRoom'
+    algs = ['ETD', 'TD', 'GTD', 'TB']
+    specific_params = {
+        'TD': {'alpha': 0.0078125, 'lmbda': sp},
+        'ETD': {'alpha': 0.000244140, 'lmbda': sp},
+        'GTD': {'alpha': 0.000488281, 'lmbda': sp, 'eta': 16.0},
+        'TB': {'alpha': 0.03125, 'lmbda': 1.0}
+    }
+    plot_specific_learning_curves(exp=exp, algs=algs, sp=sp, fig_size=fig_size, auc_or_final=auc_or_final,
+                                  specific_params=specific_params)
+if func_to_run == 'hv_four_rooms_best_learning_curves_full_bootstrap':
+    sp_list = [0.0]
+    fig_size = (10, 4)
+    alg_groups = {'main_algs': ['TD', 'GTD', 'ETD', 'LSTD', 'LSETD'],
+                  'gradients': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC', 'LSTD'],
+                  'emphatics': ['ETD', 'ETDLB', 'LSETD'],
+                  'fast_algs': ['TD', 'TB', 'Vtrace', 'ABTD', 'LSTD'],
+                  'all_algs': ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD',
+                               'LSTD', 'LSETD']}
+    auc_or_final = ['auc']
+    plot_learning_curve(exps=exps, alg_groups=alg_groups, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
+if func_to_run == 'hv_four_rooms_best_overall_params_learning_curves':
+    fig_size = (10, 4)
+    alg_groups = {'main_algs': ['TD', 'GTD', 'ETD', 'LSTD', 'LSETD'],
+                  'gradients': ['GTD', 'GTD2', 'HTD', 'PGTD2', 'TDRC', 'LSTD'],
+                  'emphatics': ['ETD', 'ETDLB', 'LSETD'],
+                  'fast_algs': ['TD', 'TB', 'Vtrace', 'ABTD', 'LSTD'],
+                  'all_algs': ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD',
+                               'LSTD', 'LSETD']}
+    auc_or_final = ['auc']
+    plot_learning_curve_best_overall_params(exps=exps, alg_groups=alg_groups, fig_size=fig_size, auc_or_final=auc_or_final)
 # endregion
+
 # region sensitivity curves
 if func_to_run == 'hv_four_rooms_sensitivity_curves_for_many_lambdas':
     sp_list = [0.0, 0.1, 0.2, 0.3, 0.5, 0.75, 0.875, 0.9375, 0.96875, 0.984375, 1.0]
@@ -393,8 +376,9 @@ if func_to_run == 'hv_four_rooms_sensitivity_curves_for_many_lambdas':
     algs = ['TD', 'GTD', 'GTD2', 'PGTD2', 'HTD', 'TDRC', 'ETD', 'ETDLB', 'TB', 'Vtrace', 'ABTD']
     # algs = ['TB', 'Vtrace', 'ABTD']
     auc_or_final = ['auc']
-    plot_sensitivity_for_lambdas(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size,
-                                 auc_or_final=auc_or_final)
+    plot_min_performance = False
+    plot_sensitivity_for_lambdas(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final,
+                                 plot_min_performance=plot_min_performance)
 if func_to_run == 'hv_four_rooms_emphatics_sensitivity_full_bootstrap':
     sp_list = [0.0]
     fig_size = (11, 5)
@@ -453,6 +437,24 @@ if func_to_run == 'hv_four_rooms_sensitivity_curves_for_two_lambdas':
 
 # endregion
 # endregion
+
+
+# region Misc
+if func_to_run == 'plot_value_functions':
+    plot_value_functions()
+if func_to_run == 'plot_all_final_value_functions':
+    plot_all_final_value_functions()
+if func_to_run == 'state_dist':
+    fig_size = (6, 4)
+    tasks = ['EightStateCollision', 'LearnEightPoliciesTileCodingFeat',
+             'HighVarianceLearnEightPoliciesTileCodingFeat']
+    for task in tasks:
+        plot_distribution(task=task, fig_size=fig_size)
+if func_to_run == 'high_variance_and_normal_dist_comparison':
+    fig_size = (6, 4)
+    plot_dist_for_two_four_room_tasks(fig_size=fig_size)
+# endregion
+
 
 # from Plotting.process_state_value_function import plot_value_functions, plot_all_final_value_functions
 # from Tasks.HighVarianceLearnEightPoliciesTileCodingFeat import HighVarianceLearnEightPoliciesTileCodingFeat
