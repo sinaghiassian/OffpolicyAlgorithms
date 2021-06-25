@@ -95,9 +95,7 @@ def process_data(**kwargs):
                     print(f"\nStarted re-running {exp}, {alg} lmbda_or_zeta: {sp}, {auc_or_final} ...")
                     save_perf_over_alpha(alg, exp, auc_or_final, sp)
                     best_params = find_best_perf(alg, exp, auc_or_final, sp)
-                    if not PLOT_RERUN or not PLOT_RERUN_AND_ORIG:
-                        save_best_perf_in_json(alg, exp, best_params, auc_or_final, sp)
-                        run_learning_with_best_perf(alg, exp, auc_or_final, sp)
-                        save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=True)
-                        print(f"Finished re-running {exp}, {alg} {best_params}")
-                    print(f"Finished processing {exp}, {alg} {best_params}")
+                    save_best_perf_in_json(alg, exp, best_params, auc_or_final, sp)
+                    run_learning_with_best_perf(alg, exp, auc_or_final, sp)
+                    save_perf_over_alpha(alg, exp, auc_or_final, sp, rerun=True)
+                    print(f"Finished re-running {exp}, {alg} {best_params}")
