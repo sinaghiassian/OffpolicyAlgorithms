@@ -101,6 +101,8 @@ def plot_extra_alg_sensitivity(ax, alg, exp, alphas, sp, tp, performance, stderr
     plt.xticks(fontsize=25)
     ax.set_yticklabels([])
     ax.set_xticklabels([])
+    ax.spines['left'].set_linewidth(2)
+    ax.spines['bottom'].set_linewidth(2)
 
 
 def plot_all_sensitivities_per_alg_gradients(**kwargs):

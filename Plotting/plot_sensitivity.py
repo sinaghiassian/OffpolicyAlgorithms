@@ -53,6 +53,8 @@ def plot_sensitivity(ax, alg, alphas, best_performance, stderr, exp_attrs, secon
     plt.xticks(fontsize=25)
     ax.set_yticklabels([])
     ax.set_xticklabels([])
+    ax.spines['left'].set_linewidth(2)
+    ax.spines['bottom'].set_linewidth(2)
 
 
 def plot_sensitivity_curve(**kwargs):

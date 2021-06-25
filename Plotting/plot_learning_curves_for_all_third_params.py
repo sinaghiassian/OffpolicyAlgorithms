@@ -39,6 +39,8 @@ def plot_data(ax, alg, mean_lc, mean_stderr, best_params, exp_attrs, second_time
     ax.set_xticklabels(exp_attrs.x_tick_labels, fontsize=25)
     ax.yaxis.set_ticks(exp_attrs.y_axis_ticks)
     ax.tick_params(axis='y', which='major', labelsize=exp_attrs.size_of_labels)
+    ax.spines['left'].set_linewidth(2)
+    ax.spines['bottom'].set_linewidth(2)
 
 
 def get_ls_rmsve(alg, exp, sp):

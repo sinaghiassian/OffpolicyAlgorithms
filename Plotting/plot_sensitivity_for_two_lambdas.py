@@ -52,6 +52,14 @@ def plot_sensitivity(ax, alg, alphas, sp, best_performance, stderr, exp_attrs, s
     # plt.xticks(fontsize=25)
     ax.set_yticklabels([])
     ax.set_xticklabels([])
+    ax.spines['left'].set_linewidth(2)
+    ax.spines['bottom'].set_linewidth(2)
+
+
+def plot_min(ax, min_performance):
+    print(min_performance)
+    ax.plot([pow(2, -3), pow(2, -2)], [min_performance, min_performance], linewidth=0.2, alpha=0.2)
+    # ax.axhline(y=min_performance, xmin=pow(2, -3), xmax=pow(2, -2))
 
 
 def plot_sensitivity_for_lambdas(**kwargs):

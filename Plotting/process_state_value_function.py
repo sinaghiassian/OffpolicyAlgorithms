@@ -57,7 +57,8 @@ def plot_value_function(ax, value_function, step=0, run=0, is_last_step=False):
         ax.plot(value_function, label=label, linewidth=line_width, linestyle=line_style, alpha=alpha)
     ax.set_yticklabels([])
     ax.set_xticklabels([])
-    # ax.legend()
+    ax.spines['left'].set_linewidth(2)
+    ax.spines['bottom'].set_linewidth(2)
 
 
 def plot_value_functions():
