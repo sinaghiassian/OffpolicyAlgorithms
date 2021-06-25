@@ -66,8 +66,9 @@ def plot_sensitivity_for_lambdas(**kwargs):
     for exp in kwargs['exps']:
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in kwargs['auc_or_final']:
-            save_dir = os.path.join('pdf_plots', 'sensitivity_curves_for_lambdas', auc_or_final)
+            save_dir = os.path.join('pdf_plots', 'sensitivity_curves_for_lambdas', exp, auc_or_final)
             for alg in kwargs['algs']:
+                min_performance = 1_000
                 fig, ax = plt.subplots(figsize=kwargs['fig_size'])
                 for sp in kwargs['sp_list']:
                     if alg in ['LSTD', 'LSETD']:
@@ -83,6 +84,10 @@ def plot_sensitivity_for_lambdas(**kwargs):
                         best_performance, stderr = load_best_performance_over_alpha(
                             alg, exp, auc_or_final, best_params, exp_attrs, postfix)
                         plot_sensitivity(ax, alg, alphas, sp, best_performance, stderr, exp_attrs, True)
+                    if min(best_performance) < min_performance:
+                        min_performance = min(best_performance)
+                if kwargs.get('plot_min_performance', False):
+                    plot_min(ax, min_performance)
                 if not os.path.exists(save_dir):
                     os.makedirs(save_dir, exist_ok=True)
                 if PLOT_RERUN_AND_ORIG:
