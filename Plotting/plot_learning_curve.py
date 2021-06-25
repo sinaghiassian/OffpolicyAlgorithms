@@ -79,7 +79,7 @@ def plot_learning_curve(**kwargs):
         exp_attrs = EXP_ATTRS[exp](exp)
         for auc_or_final in kwargs['auc_or_final']:
             for sp in kwargs['sp_list']:
-                save_dir = os.path.join('pdf_plots', 'learning_curves', auc_or_final)
+                save_dir = os.path.join('pdf_plots', 'learning_curves', exp, auc_or_final)
                 for alg_names in kwargs['alg_groups'].values():
                     fig, ax = plt.subplots(figsize=kwargs['fig_size'])
                     for alg in alg_names:
