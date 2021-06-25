@@ -4,7 +4,7 @@ import os
 import numpy as np
 
 from Learning import learn
-from Plotting.plot_params import EXP_ATTRS, PLOT_RERUN, PLOT_RERUN_AND_ORIG
+from Plotting.plot_params import EXP_ATTRS
 from Plotting.plot_utils import make_params, make_current_params, load_and_replace_large_nan_inf, \
     load_best_perf_json, load_best_rerun_params, make_res_path
 from utils import create_name_for_save_load, Configuration
