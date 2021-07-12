@@ -10,7 +10,7 @@ default_params = ImmutableDict(
         # 'task': 'EightStateCollision',
         # 'environment': 'Chain',
         # 'exp': 'FirstChain',
-        'agent': 'Vtrace',
+        'agent': 'HTD',
         'task': 'LearnEightPoliciesTileCodingFeat',
         'environment': 'FourRoomGridWorld',
         'exp': 'FirstFourRoom',
@@ -24,10 +24,10 @@ default_params = ImmutableDict(
         'num_of_runs': 3,
         'num_steps': 20_000,
         'meta_parameters': {
-            'alpha': 0.001953125,
+            'alpha': 0.0001953125,
             'eta': 16.0,
             'beta': 0.9,
-            'zeta': 0.1,
+            'zeta': 0.9,
             'lmbda': 0.9,
             'tdrc_beta': 1.0
         }
