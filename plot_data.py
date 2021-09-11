@@ -247,6 +247,12 @@ if func_to_run == 'four_rooms_best_learning_curves_full_bootstrap':
                                'LSTD', 'LSETD']}
     auc_or_final = ['auc']
     plot_learning_curve(exps=exps, alg_groups=alg_groups, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
+if func_to_run == 'four_rooms_best_learning_curves_full_bootstrap_2':
+    sp_list = [0.0]
+    fig_size = (10, 4)
+    alg_groups = {'main_algs': ['ETD', 'ETDLB', 'LSTD', 'LSETD']}
+    auc_or_final = ['auc']
+    plot_learning_curve(exps=exps, alg_groups=alg_groups, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
 if func_to_run == 'four_rooms_best_overall_params_learning_curves':
     fig_size = (10, 4)
     alg_groups = {'main_algs': ['TD', 'GTD', 'ETD', 'LSTD', 'LSETD'],
@@ -270,12 +276,13 @@ if func_to_run == 'four_rooms_sensitivity_curves_for_many_lambdas':
                                  plot_min_performance=plot_min_performance)
 if func_to_run == 'four_rooms_emphatics_sensitivity_full_bootstrap':
     sp_list = [0.0]
-    fig_size = (11, 5)
+    # fig_size = (11, 5)
+    fig_size = (10, 4)
     auc_or_final = ['auc']
     plot_all_sensitivities_per_alg_emphatics(exps=exps, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
 if func_to_run == 'four_rooms_gradients_sensitivity_full_bootstrap':
     sp_list = [0.0]
-    fig_size = (11, 4)
+    fig_size = (10, 4)
     algs = ['GTD', 'GTD2', 'PGTD2', 'HTD']
     auc_or_final = ['auc']
     plot_all_sensitivities_per_alg_gradients(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size,
@@ -357,6 +364,12 @@ if func_to_run == 'hv_four_rooms_best_learning_curves_full_bootstrap':
                                'LSTD', 'LSETD']}
     auc_or_final = ['auc']
     plot_learning_curve(exps=exps, alg_groups=alg_groups, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
+if func_to_run == 'hv_four_rooms_best_learning_curves_full_bootstrap_2':
+    sp_list = [0.0]
+    fig_size = (10, 4)
+    alg_groups = {'main_algs': ['ETD', 'ETDLB', 'LSTD', 'LSETD']}
+    auc_or_final = ['auc']
+    plot_learning_curve(exps=exps, alg_groups=alg_groups, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
 if func_to_run == 'hv_four_rooms_best_overall_params_learning_curves':
     fig_size = (10, 4)
     alg_groups = {'main_algs': ['TD', 'GTD', 'ETD', 'LSTD', 'LSETD'],
@@ -381,12 +394,13 @@ if func_to_run == 'hv_four_rooms_sensitivity_curves_for_many_lambdas':
                                  plot_min_performance=plot_min_performance)
 if func_to_run == 'hv_four_rooms_emphatics_sensitivity_full_bootstrap':
     sp_list = [0.0]
-    fig_size = (11, 5)
+    # fig_size = (11, 5)
+    fig_size = (10, 4)
     auc_or_final = ['auc']
     plot_all_sensitivities_per_alg_emphatics(exps=exps, sp_list=sp_list, fig_size=fig_size, auc_or_final=auc_or_final)
 if func_to_run == 'hv_four_rooms_gradients_sensitivity_full_bootstrap':
     sp_list = [0.0]
-    fig_size = (11, 4)
+    fig_size = (10, 4)
     algs = ['GTD', 'GTD2', 'PGTD2', 'HTD']
     auc_or_final = ['auc']
     plot_all_sensitivities_per_alg_gradients(exps=exps, algs=algs, sp_list=sp_list, fig_size=fig_size,
@@ -451,7 +465,7 @@ if func_to_run == 'state_dist':
     for task in tasks:
         plot_distribution(task=task, fig_size=fig_size)
 if func_to_run == 'high_variance_and_normal_dist_comparison':
-    fig_size = (6, 4)
+    fig_size = (22, 4)
     plot_dist_for_two_four_room_tasks(fig_size=fig_size)
 # endregion
 
