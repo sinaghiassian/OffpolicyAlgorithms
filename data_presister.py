@@ -32,20 +32,6 @@ def split_dict_of_list_to_dicts(dict_of_list: Dict[str, list]) -> List[Dict[str,
     return result
 
 
-def group_dicts_by_first_key(list_of_dicts: List[Dict[str, float]]) -> Dict[str, List[Dict[str, float]]]:
-    """
-    >>> group_dicts_by_first_key([{'alpha': 1, 'lambda': 4, 'gamma': 6}, {'alpha': 1, 'lambda': 5, 'gamma': 6}, {'alpha': 2, 'lambda': 4, 'gamma': 6}, {'alpha': 2, 'lambda': 5, 'gamma': 6}, {'alpha': 3, 'lambda': 4, 'gamma': 6}, {'alpha': 3, 'lambda': 5, 'gamma': 6}])
-    {1: [{'alpha': 1, 'lambda': 4, 'gamma': 6}, {'alpha': 1, 'lambda': 5, 'gamma': 6}], 2: [{'alpha': 2, 'lambda': 4, 'gamma': 6}, {'alpha': 2, 'lambda': 5, 'gamma': 6}], 3: [{'alpha': 3, 'lambda': 4, 'gamma': 6}, {'alpha': 3, 'lambda': 5, 'gamma': 6}]}
-
-    """
-    first_key = get_first_key_of_dictionary(list_of_dicts[0])
-    final_grouped = defaultdict(list)
-    for inner_dict in list_of_dicts:
-        final_grouped[inner_dict[first_key]].append(inner_dict)
-
-    return dict(final_grouped)
-
-
 def group_dicts_over_first_key(list_of_dicts: List[Dict[str, float]]) -> Dict[Dict[str, float], List[float]]:
     """
     >>> group_dicts_over_first_key([{'alpha': 1, 'lambda': 4, 'gamma': 6}, {'alpha': 1, 'lambda': 5, 'gamma': 6}, {'alpha': 2, 'lambda': 4, 'gamma': 6}, {'alpha': 2, 'lambda': 5, 'gamma': 6}, {'alpha': 3, 'lambda': 4, 'gamma': 6}, {'alpha': 3, 'lambda': 5, 'gamma': 6}])
