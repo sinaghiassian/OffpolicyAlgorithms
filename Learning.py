@@ -1,6 +1,8 @@
 import os
 import numpy as np
 import argparse
+
+from data_presister import DataPersister, ParameterBuilder
 from utils import save_result, Configuration, save_value_function, get_save_value_function_steps
 from Registry.AlgRegistry import alg_dict
 from Registry.EnvRegistry import environment_dict
@@ -10,10 +12,7 @@ from Environments.rendering import ErrorRender
 
 
 def learn(config: Configuration):
-    params = dict()
-    for k, v in config.items():
-        if k in alg_dict[config.algorithm].related_parameters():
-            params[k] = v
+    params = ParameterBuilder().add_algorithm_params(config).build()
 
     if not os.path.exists(config.save_path):
         os.makedirs(config.save_path, exist_ok=True)
@@ -49,15 +48,29 @@ def learn(config: Configuration):
         # print(np.mean(rmsve_of_run, axis=0))
         rmsve[:, :, run] = rmsve_of_run
     rmsve_of_runs = np.transpose(np.mean(rmsve, axis=0))  # Average over all policies.
-    save_result(config.save_path, '_RMSVE_mean_over_runs', np.mean(rmsve_of_runs, axis=0), params, config.rerun)
+
+    # _RMSVE_mean_over_runs
+    DataPersister.save_result(np.mean(rmsve_of_runs, axis=0), '_RMSVE_mean_over_runs', config)
+    DataPersister.save_result(np.std(rmsve_of_runs, axis=0, ddof=1) / np.sqrt(config.num_of_runs), '_RMSVE_stderr_over_runs', config)
+
+    # _RMSVE_stderr_over_runs
+    save_result(config.save_path, '_RMSVE_stderr_over_runs', np.mean(rmsve_of_runs, axis=0), params, config.rerun)
     save_result(config.save_path, '_RMSVE_stderr_over_runs',
                 np.std(rmsve_of_runs, axis=0, ddof=1) / np.sqrt(config.num_of_runs), params, config.rerun)
+
+    # _mean_stderr_final
     final_errors_mean_over_steps = np.mean(rmsve_of_runs[:, config.num_steps - int(0.01 * config.num_steps) - 1:],
                                            axis=1)
+    DataPersister.save_result(np.array([np.mean(final_errors_mean_over_steps), np.std(final_errors_mean_over_steps, ddof=1) /
+                                        np.sqrt(config.num_of_runs)]), '_mean_stderr_final', config)
     save_result(config.save_path, '_mean_stderr_final',
                 np.array([np.mean(final_errors_mean_over_steps), np.std(final_errors_mean_over_steps, ddof=1) /
                           np.sqrt(config.num_of_runs)]), params, config.rerun)
+
+    # _mean_stderr_auc
     auc_mean_over_steps = np.mean(rmsve_of_runs, axis=1)
+    DataPersister.save_result(np.array([np.mean(auc_mean_over_steps),
+                                        np.std(auc_mean_over_steps, ddof=1) / np.sqrt(config.num_of_runs)]), '_mean_stderr_auc', config)
     save_result(config.save_path, '_mean_stderr_auc',
                 np.array([np.mean(auc_mean_over_steps),
                           np.std(auc_mean_over_steps, ddof=1) / np.sqrt(config.num_of_runs)]), params, config.rerun)
@@ -85,5 +98,4 @@ if __name__ == '__main__':
     if args.save_path == '-':
         args.save_path = os.path.join(os.getcwd(), 'Results', default_params['exp'], args.algorithm)
 
-    config = Configuration(vars(args))
-    learn(config=config)
+    learn(config=Configuration(vars(args)))
