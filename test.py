@@ -8,7 +8,7 @@ import pyglet
 from skimage.transform import resize
 import numpy as np
 
-from data_presister import DataPersister
+from data_presister import DataPersister, find_best_performance
 
 # if __name__ == "__main__":
 # render_mode = 'human'
@@ -31,4 +31,7 @@ from data_presister import DataPersister
 #     if is_terminal:
 #         env.reset()
 # utils.generate_gif(frames, 'Assets/FourRoomGridWorld.gif', size=(180, 180, 3), duration=1 / 20)
-DataPersister.save_best_pref_over_first_param(exp_name="FirstChain", alg_name="HTD",auc_or_final="auc")
+
+# DataPersister.save_best_pref_over_first_param(exp_name="FirstChain", alg_name="HTD", auc_or_final="auc")
+
+find_best_performance(exp_name="FirstChain", alg_name="HTD", auc_or_final="auc", second_param=0.2)
