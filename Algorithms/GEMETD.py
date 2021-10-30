@@ -39,11 +39,11 @@ class GEMETD(ETDLB):
         stacked_x_p = self.task.stacked_feature_rep[:, :, s_p]
         # GEM update:
         gem_alpha_vec = self.task.get_active_policies(s) * self.gem_alpha
-        delta_bar = np.ones(self.task.num_policies) + rho * self.gamma_vec_t * np.dot(self.w, x) - np.dot(self.w, x_p)
+        delta_bar = np.ones(self.task.num_policies) + rho * self.gamma_vec_t * np.dot(self.u, x) - np.dot(self.u, x_p)
         self.k += gem_alpha_vec[:, None] * (delta_bar[:, None] - np.sum(x_p * self.k, 1)[:, None]) * stacked_x_p
         self.u += gem_alpha_vec[:, None] * ((stacked_x_p - self.gamma_vec_t[:, None] * rho[:, None] * stacked_x) * np.sum(x_p * self.k, 1)[:, None] - self.gem_eta * self.u)
         # ETD(0) update:
-        m = np.dot(self.u, stacked_x)
+        m = np.dot(self.u, x)
         self.w += (alpha_vec * m * rho * delta)[:, None] * stacked_x
         self.gamma_vec_t = self.gamma_vec_tp
 
