@@ -6,14 +6,14 @@ import time
 
 default_params = ImmutableDict(
     {
-        # 'agent': 'ETDLB',
-        # 'task': 'EightStateCollision',
-        # 'environment': 'Chain',
-        # 'exp': 'FirstChain',
-        'agent': 'HTD',
-        'task': 'LearnEightPoliciesTileCodingFeat',
-        'environment': 'FourRoomGridWorld',
-        'exp': 'FirstFourRoom',
+        'agent': 'GEMETD',
+        'task': 'EightStateCollision',
+        'environment': 'Chain',
+        'exp': 'FirstChain',
+        # 'agent': 'HTD',
+        # 'task': 'LearnEightPoliciesTileCodingFeat',
+        # 'environment': 'FourRoomGridWorld',
+        # 'exp': 'FirstFourRoom',
         # 'agent': 'LSTD',
         # 'task': 'HighVarianceLearnEightPoliciesTileCodingFeat',
         # 'environment': 'FourRoomGridWorld',
@@ -24,12 +24,14 @@ default_params = ImmutableDict(
         'num_of_runs': 3,
         'num_steps': 20_000,
         'meta_parameters': {
-            'alpha': 0.0001953125,
+            'alpha': 0.001953125,
             'eta': 16.0,
             'beta': 0.9,
             'zeta': 0.9,
-            'lmbda': 0.9,
-            'tdrc_beta': 1.0
+            'lmbda': 0.0,
+            'tdrc_beta': 1.0,
+            'gem_alpha': 0.1,
+            'gem_beta': 0.1
         }
     }
 )
@@ -50,6 +52,8 @@ class JobBuilder:
                 'BETA': ' '.join([f'{num:.5f}' for num in self.beta]),
                 'ZETA': ' '.join([f'{num:.5f}' for num in self.zeta]),
                 'TDRCBETA': ' '.join([f'{num:.5f}' for num in self.tdrc_beta]),
+                'GEMALPHA': ' '.join([f'{num:.5f}' for num in self.gem_alpha]),
+                'GEMBETA': ' '.join([f'{num:.5f}' for num in self.gem_beta]),
                 'NUMOFRUNS': f'{self.num_of_runs}',
                 'NUMSTEPS': f'{self.num_steps}',
                 'SUBSAMPLE': f'{self.sub_sample}',
@@ -63,6 +67,16 @@ class JobBuilder:
     def tdrc_beta(self):
         parameters = self._params.get('meta_parameters')
         return np.asarray(parameters.get('tdrc_beta', [default_params['meta_parameters']['tdrc_beta']]))
+
+    @property
+    def gem_alpha(self):
+        parameters = self._params.get('meta_parameters')
+        return np.asarray(parameters.get('gem_alpha', [default_params['meta_parameters']['gem_alpha']]))
+
+    @property
+    def gem_beta(self):
+        parameters = self._params.get('meta_parameters')
+        return np.asarray(parameters.get('gem_beta', [default_params['meta_parameters']['gem_beta']]))
 
     @property
     def alpha(self):

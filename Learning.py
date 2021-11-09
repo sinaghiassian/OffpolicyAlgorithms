@@ -45,7 +45,7 @@ def learn(config: Configuration):
                 agent.reset()
                 continue
             agent.state = agent.next_state
-        # print(np.mean(rmsve_of_run, axis=0))
+        print(np.mean(rmsve_of_run, axis=0))
         rmsve[:, :, run] = rmsve_of_run
     rmsve_of_runs = np.transpose(np.mean(rmsve, axis=0))  # Average over all policies.
 
@@ -84,6 +84,8 @@ if __name__ == '__main__':
     parser.add_argument('--beta', '-b', type=float, default=default_params['meta_parameters']['beta'])
     parser.add_argument('--zeta', '-z', type=float, default=default_params['meta_parameters']['zeta'])
     parser.add_argument('--tdrc_beta', '-tb', type=float, default=default_params['meta_parameters']['tdrc_beta'])
+    parser.add_argument('--gem_alpha', '-ga', type=float, default=default_params['meta_parameters']['gem_alpha'])
+    parser.add_argument('--gem_beta', '-gb', type=float, default=default_params['meta_parameters']['gem_beta'])
     parser.add_argument('--algorithm', '-alg', type=str, default=default_params['agent'])
     parser.add_argument('--task', '-t', type=str, default=default_params['task'])
     parser.add_argument('--num_of_runs', '-nr', type=int, default=default_params['num_of_runs'])

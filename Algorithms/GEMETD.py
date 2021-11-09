@@ -1,9 +1,8 @@
-from Algorithms.ETDLB import ETDLB
 from Algorithms.BaseTD import BaseTD
 import numpy as np
 
 
-class GEMETD(ETDLB):
+class GEMETD(BaseTD):
     """
     An ETD(0) implementation that uses GEM (aka GTD2(0) with x and x_p switched) to estimate emphasis.
     """
@@ -25,17 +24,15 @@ class GEMETD(ETDLB):
     def learn_single_policy(self, s, s_p, r, is_terminal):
         x, x_p = self.get_features(s, s_p, is_terminal)
         rho = self.get_isr(s)
-        # GEM update (regularized GTD2(0) with x and x_p switched):
         delta_bar = 1 + rho * self.gamma * np.dot(self.u, x) - np.dot(self.u, x_p)
         self.k += self.gem_alpha * (delta_bar - np.dot(self.k, x_p)) * x_p
         self.u += self.gem_alpha * ((x_p - self.gamma * rho * x) * np.dot(self.k, x_p) - self.gem_beta * self.u)
-        # ETD(0) update:
         delta = self.get_delta(r, x, x_p)
         m = np.dot(self.u, x)  # Use parametric estimate of expected emphasis.
         self.w += self.alpha * m * rho * delta * x
 
     def learn_multiple_policies(self, s, s_p, r, is_terminal):
-        delta, alpha_vec, x, x_p, *_, rho, stacked_x = BaseTD.learn_multiple_policies(self, s, s_p, r, is_terminal)
+        delta, alpha_vec, x, x_p, *_, rho, stacked_x = super().learn_multiple_policies(s, s_p, r, is_terminal)
         stacked_x_p = self.task.stacked_feature_rep[:, :, s_p]
         # GEM update:
         gem_alpha_vec = self.task.get_active_policies(s) * self.gem_alpha

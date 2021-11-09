@@ -14,6 +14,8 @@ eta=(__ETA__)
 beta=(__BETA__)
 zeta=(__ZETA__)
 tdrc_beta=(__TDRCBETA__)
+gem_alpha=(__GEMALPHA__)
+gem_beta=(__GEMBETA__)
 num_of_runs=__NUMOFRUNS__
 num_steps=__NUMSTEPS__
 sub_sample=__SUBSAMPLE__
@@ -42,7 +44,8 @@ NCORES=$(($SLURM_NNODES * $SLURM_NTASKS_PER_NODE))
 parallel --env OMP_NUM_THREADS,PATH,LD_LIBRARY_PATH --joblog slurm-$SLURM_JOBID.log -j $NCORES -S $HOSTS --wd $PWD \
 python Learning.py ::: -sp ::: ${save_path} ::: -e ::: ${environment} ::: -alg ::: ${algorithm} ::: -t ::: ${task[@]} \
 ::: -a ::: ${alpha[@]} ::: -nr ::: ${num_of_runs} ::: -ns ::: ${num_steps} ::: -et ::: ${eta[@]} \
-::: -l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -tb ::: ${tdrc_beta[@]} ::: -b ::: ${beta[@]} ::: -ss ::: ${sub_sample}
+::: -l ::: ${lmbda[@]} ::: -z ::: ${zeta[@]} ::: -tb ::: ${tdrc_beta[@]} ::: -b ::: ${beta[@]} ::: \
+-ga ::: ${gem_alpha[@]} ::: -gb ::: ${gem_beta[@]} ::: -ss ::: ${sub_sample}
 
 
 echo "Program test finished with exit code $? at: $(date)"
